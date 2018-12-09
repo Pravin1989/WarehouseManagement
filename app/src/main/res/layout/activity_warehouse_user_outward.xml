@@ -16,46 +16,35 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:text="Outward"
-            android:textStyle="bold"
+            android:textAlignment="center"
             android:textSize="30dp"
-            android:textAlignment="center"/>
-
-        <Spinner
-            android:id="@+id/cmbLots"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:entries="@array/lot_arrays"
-            android:prompt="@string/lot_prompt"
-            android:color="#f21919" />
-
-        <EditText
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtOutwardDate"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:id="@+id/btnOutwardDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/txtOutwardDate"
-            android:layout_toEndOf="@+id/txtOutwardDate"
-            android:layout_toRightOf="@+id/txtOutwardDate"
-            android:text="SELECT DATE" />
+            android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:hintTextAppearance="@style/HintText"
-            android:layout_margin="@dimen/activity_horizontal_margin">
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
+
+            <Spinner
+                android:id="@+id/cmbLots"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:color="#f21919"
+                android:entries="@array/lot_arrays"
+                android:prompt="@string/lot_prompt" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtTotalQuantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtTotalQuantity"
                 android:hint="Total Quantity" />
 
         </android.support.design.widget.TextInputLayout>
@@ -63,13 +52,27 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:hintTextAppearance="@style/HintText"
-            android:layout_margin="@dimen/activity_horizontal_margin">
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtOutwardDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Select Outward Date" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
+
+            <android.support.design.widget.TextInputEditText
                 android:id="@+id/txtSingleBagWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Weight/Bag" />
 
         </android.support.design.widget.TextInputLayout>

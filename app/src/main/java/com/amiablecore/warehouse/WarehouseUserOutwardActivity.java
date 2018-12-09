@@ -1,9 +1,12 @@
 package com.amiablecore.warehouse;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,9 +20,10 @@ import java.util.Calendar;
 public class WarehouseUserOutwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     EditText txtOutwardDate, txtTotalQuantity, txtBagWeight;
-    Button btnSave, btnCancel, btnDatePicker;
+    Button btnSave, btnCancel;
     private Spinner cmbLotTypes;
     private int mYear, mMonth, mDay;
+    private static final String TAG = "Warehouse Outward";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +38,9 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         txtTotalQuantity = (EditText) findViewById(R.id.txtTotalQuantity);
         btnSave = (Button) findViewById(R.id.btnSaveOutward);
         btnCancel = (Button) findViewById(R.id.btnOutwardCancel);
-        btnDatePicker = (Button) findViewById(R.id.btnOutwardDate);
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
-        btnDatePicker.setOnClickListener(this);
         addListenerOnSpinnerItemSelection();
-
     }
 
     @Override
@@ -52,15 +53,21 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
             case R.id.btnOutwardCancel:
                 startActivity(new Intent(WarehouseUserOutwardActivity.this, WarehouseUserActivity.class));//Redirect to User Dashboard Page
                 break;
-            case R.id.btnOutwardDate:
-                openDatePicker();
-                break;
         }
     }
 
     public void addListenerOnSpinnerItemSelection() {
         cmbLotTypes = (Spinner) findViewById(R.id.cmbLots);
         cmbLotTypes.setOnItemSelectedListener(this);
+        txtOutwardDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.i(TAG, "Focus Comes In");
+                    openDatePicker();
+                }
+            }
+        });
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

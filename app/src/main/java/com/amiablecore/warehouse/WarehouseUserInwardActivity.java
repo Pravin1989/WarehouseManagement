@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -17,9 +18,10 @@ import java.util.Calendar;
 public class WarehouseUserInwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private EditText txtLotName, txtInwardDate, txtTotalQuantity, txtBagWeight, txtPhysicalAddress;
-    private Button btnAdd, btnCancel, btnDatePicker;
+    private Button btnAdd, btnCancel;
     private Spinner cmbTrader, cmbCommodity, cmbCategory;
     private int mYear, mMonth, mDay;
+    private static final String TAG = "Warehouse Inward";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +38,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         txtPhysicalAddress = (EditText) findViewById(R.id.txtPhysicalAddress);
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnCancel = (Button) findViewById(R.id.btnCancel);
-        btnDatePicker = (Button) findViewById(R.id.btnInwardDate);
         btnAdd.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
-        btnDatePicker.setOnClickListener(this);
         addListenerOnSpinnerItemSelection();
     }
 
@@ -53,9 +53,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             case R.id.btnCancel:
                 startActivity(new Intent(WarehouseUserInwardActivity.this, WarehouseUserActivity.class));//Redirect to User Dashboard Page
                 break;
-            case R.id.btnInwardDate:
-                openDatePicker();
-                break;
         }
     }
 
@@ -66,6 +63,15 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         cmbCommodity.setOnItemSelectedListener(this);
         cmbCategory = (Spinner) findViewById(R.id.cmbCategory);
         cmbCategory.setOnItemSelectedListener(this);
+        txtInwardDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.i(TAG, "Focus Comes In");
+                    openDatePicker();
+                }
+            }
+        });
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
