@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-public class WarehouseCategoryForm extends AppCompatActivity implements View.OnClickListener {
+public class WarehouseCategoryForm extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     EditText txtCategoryName;
     Button btnSaveCategory, btnCategoryCancel;
+    private Spinner cmbCommodity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
 
         btnSaveCategory.setOnClickListener(this);
         btnCategoryCancel.setOnClickListener(this);
+        cmbCommodity = (Spinner) findViewById(R.id.cmbCategoryComodity);
+        cmbCommodity.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -40,6 +45,16 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                 startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
                 break;
         }
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        Toast.makeText(parent.getContext(),
+                "Selected  : " + parent.getItemAtPosition(pos).toString(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
     }
 
     public boolean addCategory() {

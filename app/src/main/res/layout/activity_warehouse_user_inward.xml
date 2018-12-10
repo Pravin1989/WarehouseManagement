@@ -40,13 +40,25 @@
             android:layout_margin="@dimen/activity_horizontal_margin">
 
             <Spinner
-                android:id="@+id/cmbTrader"
+                android:id="@+id/cmbTraderNames"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:color="#f21919"
                 android:entries="@array/trader_arrays"
                 android:prompt="@string/trader_prompt" />
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/lblTraderDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Trader Info"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:visibility="invisible"
+            android:textStyle="bold"
+            />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -86,6 +98,7 @@
                 android:id="@+id/txtTotalQuantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="Total Quantity" />
 
         </android.support.design.widget.TextInputLayout>
@@ -100,6 +113,7 @@
                 android:id="@+id/txtSingleBagWeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
                 android:hint="Weight/Bag" />
 
         </android.support.design.widget.TextInputLayout>
@@ -133,14 +147,12 @@
             android:id="@+id/btnAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="Add" />
 
         <Button
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="Cancel" />
     </LinearLayout>
 </ScrollView>

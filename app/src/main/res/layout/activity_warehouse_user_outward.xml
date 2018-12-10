@@ -45,6 +45,7 @@
                 android:id="@+id/txtTotalQuantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="Total Quantity" />
 
         </android.support.design.widget.TextInputLayout>
@@ -73,6 +74,7 @@
                 android:id="@+id/txtSingleBagWeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
                 android:hint="Weight/Bag" />
 
         </android.support.design.widget.TextInputLayout>
@@ -81,14 +83,12 @@
             android:id="@+id/btnSaveOutward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="Save" />
 
         <Button
             android:id="@+id/btnOutwardCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="Cancel" />
     </LinearLayout>
 </ScrollView>

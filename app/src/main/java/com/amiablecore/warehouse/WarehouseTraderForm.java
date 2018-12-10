@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 public class WarehouseTraderForm extends AppCompatActivity implements View.OnClickListener {
 
-    EditText txtTraderName, txtContactNo, txtTraderEmail;
-    Button btnRegisterTrader, btnTraderCancel, btnTraderSearch;
+    EditText txtTraderName, txtContactNo, txtTraderEmail, txtTraderCity, txtTraderState, txtTraderPinCode;
+    Button btnRegisterTrader, btnTraderCancel;
 
 
     @Override
@@ -23,13 +23,14 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
 
     private void initViews() {
         txtTraderEmail = (EditText) findViewById(R.id.txtEmail);
+        txtTraderCity = (EditText) findViewById(R.id.txtCity);
+        txtTraderState = (EditText) findViewById(R.id.txtState);
+        txtTraderPinCode = (EditText) findViewById(R.id.txtPinCode);
         txtTraderName = (EditText) findViewById(R.id.txtTraderName);
         txtContactNo = (EditText) findViewById(R.id.txtTraderContactNo);
-        btnTraderSearch = findViewById(R.id.btnSearch);
         btnTraderCancel = findViewById(R.id.btnTraderCancel);
         btnRegisterTrader = findViewById(R.id.btnRegTrader);
 
-        btnTraderSearch.setOnClickListener(this);
         btnRegisterTrader.setOnClickListener(this);
         btnTraderCancel.setOnClickListener(this);
     }
@@ -38,10 +39,6 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnSearch:
-                Toast.makeText(getApplicationContext(),
-                        "Search Trader Info...", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.btnRegTrader:
                 Toast.makeText(getApplicationContext(),
                         "Register Trader Info...", Toast.LENGTH_SHORT).show();

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class WarehouseUserForm extends AppCompatActivity implements View.OnClickListener {
 
-    EditText txtUserName, txtPassword;
+    EditText txtUserName, txtPassword, txtLoginId, txtContactNo;
     Button btnLogin, btnCancel;
 
     @Override
@@ -22,6 +22,8 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
 
     private void initViews() {
         txtUserName = (EditText) findViewById(R.id.txtUserName);
+        txtLoginId = (EditText) findViewById(R.id.txtLoginId);
+        txtContactNo = (EditText) findViewById(R.id.txtUserContactNo);
         txtPassword = (EditText) findViewById(R.id.txtUserPassword);
         btnLogin = (Button) findViewById(R.id.btnRegister);
         btnCancel = (Button) findViewById(R.id.btnAdminCancel);

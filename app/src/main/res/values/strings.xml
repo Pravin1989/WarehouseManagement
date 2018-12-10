@@ -8,6 +8,10 @@
     <string name="trader_prompt">Choose Trader</string>
     <string name="commodity_prompt">Choose Commodity</string>
     <string name="category_prompt">Choose Category</string>
+    <string name="logout">Logout</string>
+    <string name="slideshow">Slideshow</string>
+    <string name="gallery">Gallery</string>
+    <string name="imports">Import</string>
     <string-array name="user_arrays">
         <item>Admin</item>
         <item>Warehouse User</item>

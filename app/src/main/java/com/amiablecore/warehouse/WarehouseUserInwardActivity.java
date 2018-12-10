@@ -57,7 +57,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void addListenerOnSpinnerItemSelection() {
-        cmbTrader = (Spinner) findViewById(R.id.cmbTrader);
+        cmbTrader = (Spinner) findViewById(R.id.cmbTraderNames);
         cmbTrader.setOnItemSelectedListener(this);
         cmbCommodity = (Spinner) findViewById(R.id.cmbCommodity);
         cmbCommodity.setOnItemSelectedListener(this);

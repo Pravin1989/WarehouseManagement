@@ -16,21 +16,49 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:text="Add User"
-            android:textStyle="bold"
+            android:textAlignment="center"
             android:textSize="30dp"
-            android:textAlignment="center"/>
+            android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:hintTextAppearance="@style/HintText"
-            android:layout_margin="@dimen/activity_horizontal_margin">
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtUserName"
-                android:hint="User Name" />
+                android:hint="Name" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtUserContactNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contact No"
+                android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtLoginId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Login ID " />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -46,10 +74,10 @@
             app:passwordToggleEnabled="true">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtUserPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:id="@+id/txtUserPassword"
                 android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
@@ -58,14 +86,12 @@
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="Register" />
 
         <Button
             android:id="@+id/btnAdminCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="Cancel" />
     </LinearLayout>
 </ScrollView>
