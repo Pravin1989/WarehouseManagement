@@ -16,3 +16,10 @@ https://www.journaldev.com/9438/android-sqlite-database-example-tutorial
 https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters/23255246
 https://examples.javacodegeeks.com/core-java/security/invalidkeyexception/java-security-invalidkeyexception-how-to-solve-invalidkeyexception/
 https://stackoverflow.com/questions/3862800/invalidkeyexception-illegal-key-size
+//Maven for For Security 
+<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcmail-jdk16</artifactId>
+			<version>1.46</version>
+		</dependency>
+ 
