@@ -53,9 +53,11 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                addUser();
-                Toast.makeText(getApplicationContext(),
-                        "User is added In DB...", Toast.LENGTH_SHORT).show();
+                if(addUser()){
+                    Toast.makeText(getApplicationContext(),
+                            "User is added In DB...", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.btnAdminCancel:
                 startActivity(new Intent(WarehouseUserForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
