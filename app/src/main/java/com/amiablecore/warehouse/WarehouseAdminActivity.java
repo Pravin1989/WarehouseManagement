@@ -14,15 +14,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.utils.Session;
+
 public class WarehouseAdminActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CardView cardWarehouseUser, cardTrader, cardCommodity, cardCategory;
     private DrawerLayout mDrawerLayout;
-    private static final String TAG = "Warehouse Admin";
+    private static final String TAG = "Warehouse Admin : ";
+    private Session session;//global variable
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        session = new Session(getApplicationContext());
+        session.putToSession("userType", MainActivity.getUserType());
+        session.putToSession("wh_id", MainActivity.getWhId());
+        Log.i(TAG, MainActivity.getUserType());
+        Log.i(TAG, MainActivity.getWhId());
         setContentView(R.layout.activity_warehouse_admin);
         initViews();
     }

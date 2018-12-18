@@ -13,17 +13,41 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.utils.StaticConstants;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button btnLogin, btnCancel;
+    private Button btnLogin, btnCancel;
     private Spinner cmbUserTypes;
-    EditText txtUserName, txtPassword;
+    private EditText txtUserName, txtPassword;
     private static final String TAG = "Warehouse Main";
+    private boolean userPresent;
 
-    TextView attemptText;
+    private TextView attemptText;
     int counter = 3;
     boolean itemChanged = false;
     String itemValue;
+
+    public static String getUserType() {
+        return userType;
+    }
+
+    static String userType;
+
+    public static String getWhId() {
+        return whId;
+    }
+
+    static String whId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUserName = (EditText) findViewById(R.id.txtUserName);
         txtPassword = (EditText) findViewById(R.id.txtUserPassword);
-
         btnCancel = (Button) findViewById(R.id.btnCancel);
         attemptText = (TextView) findViewById(R.id.textView2);
         initViews();
@@ -50,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLogin:
-                if (verifyUserCredentials(this.itemValue)) {
+                if (verifyUserCredentials()) {
                     Toast.makeText(getApplicationContext(),
                             "Logged In...", Toast.LENGTH_SHORT).show();
                 } else {
@@ -92,16 +115,88 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cmbUserTypes.setOnItemSelectedListener(this);
     }
 
-    private boolean verifyUserCredentials(String userType) {
-        //The database code will go here to check user is present in DB with its user type
-        if (txtUserName.getText().toString().equals("admin") && txtPassword.getText().toString().equals("admin")) {
-            if (userType.equals("Admin")) {
-                startActivity(new Intent(MainActivity.this, WarehouseAdminActivity.class));
-            } else {
-                startActivity(new Intent(MainActivity.this, WarehouseUserActivity.class));
-            }
-            return true;
+    private boolean verifyUserCredentials() {
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String loginId = txtUserName.getText().toString();
+                    String password = txtPassword.getText().toString();
+
+                    if (cmbUserTypes.getSelectedItem().toString().equals("Admin")) {
+                        userType = StaticConstants.WH_ADMIN;
+                    } else {
+                        userType = StaticConstants.WH_USER;
+                    }
+                    String urlAdress = StaticConstants.BASE_URL + "/login/" + userType;
+                    try {
+                        URL url = new URL(urlAdress);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                        conn.setRequestProperty("Accept", "application/json");
+                        conn.setDoOutput(true);
+                        conn.setDoInput(true);
+                        conn.connect();
+                        JSONObject jsonParam = new JSONObject();
+                        jsonParam.put("loginId", loginId);
+                        jsonParam.put("loginPassword", password);
+
+                        Log.i("JSON", jsonParam.toString());
+                        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                        os.writeBytes(jsonParam.toString());
+
+                        os.flush();
+                        os.close();
+
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.i("Response : ", answer.toString());
+                            JSONObject obj = new JSONObject(answer.toString());
+                            userPresent = (boolean) obj.get("loginIndicator");
+                            Log.i("Login Message : ", obj.get("loggedInMessage").toString());
+                            Log.i("Warehouse ID : ", obj.get("whId").toString());
+                            if (userPresent) {
+                                whId = obj.get("whId").toString();
+                                redirectToDashboard();
+                            }
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return false;
+        return userPresent;
+    }
+
+    private void redirectToDashboard() {
+        if (StaticConstants.WH_ADMIN.equals(userType)) {
+            startActivity(new Intent(MainActivity.this, WarehouseAdminActivity.class));
+        } else {
+            startActivity(new Intent(MainActivity.this, WarehouseUserActivity.class));
+        }
+
     }
 }
