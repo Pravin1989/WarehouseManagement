@@ -1,5 +1,7 @@
 package com.amiablecore.warehouse.utils;
 
+import android.util.Log;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -8,23 +10,38 @@ public class HttpUtils {
 
     private static final String TAG = "HttpUtil";
 
-    static HttpURLConnection connection;
+    public static HttpURLConnection connectionPost, connectionGet;
 
-    public static HttpURLConnection getConnection(String urlAdress) {
+    public static HttpURLConnection getPostConnection(String urlAdress) {
 
         try {
             URL url = new URL(getAbsoluteUrl(urlAdress));
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-            connection.setRequestProperty("Accept", "application/json");
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.connect();
+            Log.i(TAG +" POST ", String.valueOf(urlAdress));
+            connectionPost = (HttpURLConnection) url.openConnection();
+            connectionPost.setRequestMethod("POST");
+            connectionPost.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            connectionPost.setRequestProperty("Accept", "application/json");
+            connectionPost.setDoOutput(true);
+            connectionPost.setDoInput(true);
+            connectionPost.connect();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return connection;
+        return connectionPost;
+    }
+
+    public static HttpURLConnection getGetConnection(String urlAdress) {
+
+        try {
+            URL urlGet = new URL(getAbsoluteUrl(urlAdress));
+            Log.i(TAG +" GET ",getAbsoluteUrl(urlAdress));
+            connectionGet = (HttpURLConnection) urlGet.openConnection();
+            connectionGet.setRequestMethod("GET");
+            connectionGet.setRequestProperty("Accept", "application/json");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return connectionGet;
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

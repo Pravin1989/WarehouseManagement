@@ -6,14 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -37,6 +40,7 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
         session = new Session(getApplicationContext());
         setContentView(R.layout.activity_warehouse_category_form);
         initViews();
+        retrieveCommodities();
     }
 
     private void initViews() {
@@ -82,7 +86,7 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                 public void run() {
                     String urlAdress = "/category/add";
                     try {
-                        HttpURLConnection conn = HttpUtils.getConnection(urlAdress);
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
                         payload.put("categoryName", txtCategoryName.getText().toString());
@@ -130,5 +134,59 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
         return categoryAdded;
+    }
+
+    public void retrieveCommodities() {
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/commodity/retrieveCommodities/" + session.getFromSession("wh_id");
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.i(TAG, answer.toString());
+                            JSONArray obj = new JSONArray(answer.toString());
+                            Log.i(TAG, obj.toString());
+                            String[] comm = new String[obj.length()];
+                            for (int i = 0; i < obj.length(); i++) {
+                                comm[i] = obj.getJSONObject(i).get("commodityName").toString();
+                            }
+                            show(comm);
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void show(String [] list) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_spinner, list);
+        cmbCommodity.setAdapter(adapter);
     }
 }

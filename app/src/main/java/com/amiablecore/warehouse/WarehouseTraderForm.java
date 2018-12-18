@@ -75,7 +75,7 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
                 public void run() {
                     String urlAdress = "/trader/create";
                     try {
-                        HttpURLConnection conn = HttpUtils.getConnection(urlAdress);
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
                         payload.put("traderName", txtTraderName.getText().toString());

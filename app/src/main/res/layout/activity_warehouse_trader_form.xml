@@ -54,10 +54,11 @@
             app:hintTextAppearance="@style/HintText">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtCity"
+                android:id="@+id/txtTraderContactNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="City" />
+                android:hint="Trader Contact No"
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -80,11 +81,10 @@
             app:hintTextAppearance="@style/HintText">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtPinCode"
+                android:id="@+id/txtCity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Pin Code"
-                android:inputType="number" />
+                android:hint="City" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -94,10 +94,10 @@
             app:hintTextAppearance="@style/HintText">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtTraderContactNo"
+                android:id="@+id/txtPinCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Trader Contact No"
+                android:hint="Pin Code"
                 android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 

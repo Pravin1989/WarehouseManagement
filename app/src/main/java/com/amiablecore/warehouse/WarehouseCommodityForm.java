@@ -67,7 +67,7 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
                 public void run() {
                     String urlAdress = "/commodity/add";
                     try {
-                        HttpURLConnection conn = HttpUtils.getConnection(urlAdress);
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
                         payload.put("commodityName", txtCommodityName.getText().toString());

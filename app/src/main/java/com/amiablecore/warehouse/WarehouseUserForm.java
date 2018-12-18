@@ -73,7 +73,7 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
                 public void run() {
                     String urlAdress = "/user/create";
                     try {
-                        HttpURLConnection conn = HttpUtils.getConnection(urlAdress);
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
                         payload.put("name", txtName.getText().toString());
