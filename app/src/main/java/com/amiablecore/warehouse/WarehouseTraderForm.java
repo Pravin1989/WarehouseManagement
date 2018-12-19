@@ -58,7 +58,8 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
             case R.id.btnRegTrader:
                 if (addTrader()) {
                     Toast.makeText(getApplicationContext(),
-                            "Register Trader Info...", Toast.LENGTH_SHORT).show();
+                            "Registered Trader Info...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(WarehouseTraderForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
                 }
                 break;
             case R.id.btnTraderCancel:

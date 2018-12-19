@@ -52,6 +52,7 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
                 if (addCommodity()) {
                     Toast.makeText(getApplicationContext(),
                             "Commodity is added...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
                 }
                 break;
             case R.id.btnCancelCommodity:

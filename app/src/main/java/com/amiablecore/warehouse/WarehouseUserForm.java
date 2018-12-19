@@ -55,7 +55,8 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
             case R.id.btnRegister:
                 if(addUser()){
                     Toast.makeText(getApplicationContext(),
-                            "User is added In DB...", Toast.LENGTH_SHORT).show();
+                            "User is added ...", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(WarehouseUserForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
                 }
 
                 break;
@@ -80,7 +81,7 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
                         payload.put("loginId", txtLoginId.getText().toString());
                         payload.put("password", txtPassword.getText().toString());
                         payload.put("contactNo", txtContactNo.getText().toString());
-                        payload.put("whId", session.getFromSession("wh_id"));
+                        payload.put("whAdminId", session.getFromSession("wh_id"));
 
                         Log.i("JSON", payload.toString());
                         DataOutputStream os = new DataOutputStream(conn.getOutputStream());

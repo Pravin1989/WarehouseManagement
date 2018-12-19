@@ -61,6 +61,7 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                 if (addCategory()) {
                     Toast.makeText(getApplicationContext(),
                             "Category is added...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
                 }
                 break;
             case R.id.btnCancelCategory:
@@ -186,7 +187,8 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
     }
 
     public void show(String [] list) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.activity_spinner, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbCommodity.setAdapter(adapter);
     }
 }
