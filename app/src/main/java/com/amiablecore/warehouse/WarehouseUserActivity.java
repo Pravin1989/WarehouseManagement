@@ -9,18 +9,36 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import com.amiablecore.warehouse.utils.HttpUtils;
+import com.amiablecore.warehouse.utils.Session;
+
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 
 public class WarehouseUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CardView cardInward, cardOutward, cardSyncData;
     private DrawerLayout mDrawerLayout;
+    private Session session;//global variable
+    private static final String TAG = "WarehouseUserActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        session = new Session(getApplicationContext());
+        session.putToSession("userType", MainActivity.getUserType());
+        session.putToSession("wh_id", MainActivity.getWhAdminId());
+        session.putToSession("whUser_id", MainActivity.getWhUserId());
         setContentView(R.layout.activity_warehouse_user_dashboard);
         initViews();
     }

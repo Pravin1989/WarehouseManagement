@@ -85,7 +85,7 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
                         payload.put("contactNo", txtContactNo.getText().toString());
                         payload.put("traderState", txtTraderState.getText().toString());
                         payload.put("traderPinCode", txtTraderPinCode.getText().toString());
-                        payload.put("whId", session.getFromSession("wh_id"));
+                        payload.put("whAdminId", session.getFromSession("wh_id"));
 
                         Log.i("JSON", payload.toString());
                         DataOutputStream os = new DataOutputStream(conn.getOutputStream());

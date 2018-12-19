@@ -41,13 +41,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return userType;
     }
 
-    static String userType;
+    static String userType, whUserId, whAdminId;
 
-    public static String getWhId() {
-        return whId;
+    public static String getWhUserId() {
+        return whUserId;
     }
 
-    static String whId;
+    public static String getWhAdminId() {
+        return whAdminId;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,8 +174,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             userPresent = (boolean) obj.get("loginIndicator");
                             Log.i("Login Message : ", obj.get("loggedInMessage").toString());
                             Log.i("Warehouse ID : ", obj.get("whId").toString());
-                            if (userPresent) {
-                                whId = obj.get("whId").toString();
+                            if (userPresent && StaticConstants.WH_ADMIN.equals(userType)) {
+                                whAdminId = obj.get("whId").toString();
+                                redirectToDashboard();
+                            } else if (userPresent && StaticConstants.WH_USER.equals(userType)) {
+                                whAdminId = obj.get("whId").toString();
+                                whUserId = obj.get("userId").toString();
                                 redirectToDashboard();
                             }
                         }

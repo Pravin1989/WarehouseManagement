@@ -29,9 +29,9 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         session = new Session(getApplicationContext());
         session.putToSession("userType", MainActivity.getUserType());
-        session.putToSession("wh_id", MainActivity.getWhId());
+        session.putToSession("wh_id", MainActivity.getWhAdminId());
         Log.i(TAG, MainActivity.getUserType());
-        Log.i(TAG, MainActivity.getWhId());
+        Log.i(TAG, MainActivity.getWhAdminId());
         setContentView(R.layout.activity_warehouse_admin);
         initViews();
     }
