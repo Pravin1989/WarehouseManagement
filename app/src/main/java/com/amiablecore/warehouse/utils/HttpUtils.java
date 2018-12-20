@@ -16,7 +16,7 @@ public class HttpUtils {
 
         try {
             URL url = new URL(getAbsoluteUrl(urlAdress));
-            Log.i(TAG +" POST ", String.valueOf(urlAdress));
+            Log.i(TAG + " POST ", String.valueOf(urlAdress));
             connectionPost = (HttpURLConnection) url.openConnection();
             connectionPost.setRequestMethod("POST");
             connectionPost.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
@@ -34,7 +34,7 @@ public class HttpUtils {
 
         try {
             URL urlGet = new URL(getAbsoluteUrl(urlAdress));
-            Log.i(TAG +" GET ",getAbsoluteUrl(urlAdress));
+            Log.i(TAG + " GET ", getAbsoluteUrl(urlAdress));
             connectionGet = (HttpURLConnection) urlGet.openConnection();
             connectionGet.setRequestMethod("GET");
             connectionGet.setRequestProperty("Accept", "application/json");

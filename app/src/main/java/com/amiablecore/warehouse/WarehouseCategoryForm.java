@@ -29,7 +29,6 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
 
     EditText txtCategoryName;
     Button btnSaveCategory, btnCategoryCancel;
-    private Spinner cmbCommodity;
     private Session session;//global variable
     private static final String TAG = "WarehouseCategoryForm: ";
     static boolean categoryAdded = false;
@@ -40,7 +39,6 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
         session = new Session(getApplicationContext());
         setContentView(R.layout.activity_warehouse_category_form);
         initViews();
-        retrieveCommodities();
     }
 
     private void initViews() {
@@ -50,8 +48,6 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
 
         btnSaveCategory.setOnClickListener(this);
         btnCategoryCancel.setOnClickListener(this);
-        cmbCommodity = (Spinner) findViewById(R.id.cmbCategoryComodity);
-        cmbCommodity.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -91,7 +87,6 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
 
                         JSONObject payload = new JSONObject();
                         payload.put("categoryName", txtCategoryName.getText().toString());
-                        payload.put("commodityName", cmbCommodity.getSelectedItem().toString());
                         payload.put("whAdminId", session.getFromSession("wh_id"));
 
                         Log.i("JSON", payload.toString());
@@ -135,60 +130,5 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
         return categoryAdded;
-    }
-
-    public void retrieveCommodities() {
-        try {
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String urlAdress = "/commodity/retrieveCommodities/" + session.getFromSession("wh_id");
-                    try {
-                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
-
-                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                        if (conn.getResponseCode() == 200) {
-                            BufferedReader in = null;
-                            StringBuilder answer = new StringBuilder(100000);
-                            try {
-                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            String inputLine;
-                            try {
-                                while ((inputLine = in.readLine()) != null) {
-                                    answer.append(inputLine);
-                                    answer.append("\n");
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Log.i(TAG, answer.toString());
-                            JSONArray obj = new JSONArray(answer.toString());
-                            Log.i(TAG, obj.toString());
-                            String[] comm = new String[obj.length()];
-                            for (int i = 0; i < obj.length(); i++) {
-                                comm[i] = obj.getJSONObject(i).get("commodityName").toString();
-                            }
-                            show(comm);
-                        }
-                        conn.disconnect();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            thread.start();
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void show(String [] list) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        cmbCommodity.setAdapter(adapter);
     }
 }

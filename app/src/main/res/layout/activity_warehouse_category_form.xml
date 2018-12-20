@@ -33,19 +33,6 @@
                 android:hint="Category Name" />
 
         </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:entries="@array/commodity_arrays"
-            android:layout_margin="@dimen/activity_horizontal_margin">
-
-            <Spinner
-                android:id="@+id/cmbCategoryComodity"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:color="#f21919"
-                android:prompt="@string/commodity_prompt" />
-        </android.support.design.widget.TextInputLayout>
         <Button
             android:id="@+id/btnAddCategory"
             android:layout_width="match_parent"

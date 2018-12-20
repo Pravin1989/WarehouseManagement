@@ -203,6 +203,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             startActivity(new Intent(MainActivity.this, WarehouseUserActivity.class));
         }
-
     }
 }
