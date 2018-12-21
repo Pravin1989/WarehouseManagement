@@ -101,4 +101,42 @@ public class Test {
 		}
 		return decryptedData;
 	}
+	
+	public static void fileWrite() {
+
+		String[] list = new String[] { "Pravin", "Amit", "Sujit", "Ankit" };
+		List<Character> list1= new ArrayList<>();
+		String[] list2=null;
+		try {
+			File f = new File("C:/Technical/testout.txt");
+			FileOutputStream fout = null;
+			FileInputStream fin = null;
+			System.out.println("Present : " + f.exists());
+			if (f.exists()) {
+				fin = new FileInputStream(f);
+				int content;
+				
+				while ((content = fin.read()) != -1) {
+					// convert to char and display it
+					list1.add((char) content);
+				}
+				list2 = new String[list1.size()];
+				System.out.println("Read Success..."+list1.toArray(list2));
+				System.out.println("Array..."+list2);
+				fin.close();
+			}else {
+				fout = new FileOutputStream(f);
+				for (String s : list) {
+					fout.write(s.getBytes());
+					fout.write(":".getBytes());
+				}
+				System.out.println("Write Success...");
+				fout.close();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
