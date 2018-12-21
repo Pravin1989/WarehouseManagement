@@ -105,9 +105,7 @@ public class Test {
 	public static void fileWrite() {
 
 		String[] list = new String[] { "Pravin", "Amit", "Sujit", "Ankit" };
-		List<Character> list1= new ArrayList<>();
 		StringBuilder ch = new StringBuilder();
-		StringBuilder list2= null;
 		try {
 			File f = new File("C:/Technical/testout.txt");
 			FileOutputStream fout = null;
