@@ -106,7 +106,8 @@ public class Test {
 
 		String[] list = new String[] { "Pravin", "Amit", "Sujit", "Ankit" };
 		List<Character> list1= new ArrayList<>();
-		String[] list2=null;
+		StringBuilder ch = new StringBuilder();
+		StringBuilder list2= null;
 		try {
 			File f = new File("C:/Technical/testout.txt");
 			FileOutputStream fout = null;
@@ -117,18 +118,16 @@ public class Test {
 				int content;
 				
 				while ((content = fin.read()) != -1) {
-					// convert to char and display it
-					list1.add((char) content);
+				ch.append((char) content);
 				}
-				list2 = new String[list1.size()];
-				System.out.println("Read Success..."+list1.toArray(list2));
-				System.out.println("Array..."+list2);
+				System.out.println(ch.toString().split("\n").length);
+				System.out.println("Chars..."+ch);
 				fin.close();
 			}else {
 				fout = new FileOutputStream(f);
 				for (String s : list) {
 					fout.write(s.getBytes());
-					fout.write(":".getBytes());
+					fout.write("\n".getBytes());
 				}
 				System.out.println("Write Success...");
 				fout.close();
@@ -138,5 +137,4 @@ public class Test {
 			e.printStackTrace();
 		}
 	}
-
 }
