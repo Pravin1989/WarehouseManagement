@@ -151,11 +151,11 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             Log.i(TAG, answer.toString());
                             JSONArray obj = new JSONArray(answer.toString());
                             Log.i(TAG, obj.toString());
-                            String[] comm = new String[obj.length()];
+                            String[] commodities = new String[obj.length()];
                             for (int i = 0; i < obj.length(); i++) {
-                                comm[i] = obj.getJSONObject(i).get("commodityName").toString();
+                                commodities[i] = obj.getJSONObject(i).get("commodityName").toString();
                             }
-                            updateCommodities(comm);
+                            updateCommodities(commodities);
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -170,8 +170,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         }
     }
 
-    public void updateCommodities(String[] list) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+    public void updateCommodities(String[] commoditiesList) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, commoditiesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbCommodity.setAdapter(adapter);
     }

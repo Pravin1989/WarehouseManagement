@@ -8,6 +8,8 @@ import java.net.URL;
 public class HttpUtils {
     private static final String BASE_URL = "http://10.0.2.2:8096/Warehouse";
 
+    //private static final String BASE_URL = "http://LAPTOP-QROH6VUH:8096/Warehouse";
+
     private static final String TAG = "HttpUtil";
 
     public static HttpURLConnection connectionPost, connectionGet;
