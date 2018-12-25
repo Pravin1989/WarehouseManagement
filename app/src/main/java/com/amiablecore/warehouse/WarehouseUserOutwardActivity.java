@@ -1,12 +1,10 @@
 package com.amiablecore.warehouse;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,7 +17,7 @@ import java.util.Calendar;
 
 public class WarehouseUserOutwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight;
+    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight;
     Button btnSave, btnCancel;
     private Spinner cmbLotTypes;
     private int mYear, mMonth, mDay;
@@ -35,6 +33,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     private void initViews() {
         txtOutwardDate = (EditText) findViewById(R.id.txtOutwardDate);
         txtBagWeight = (EditText) findViewById(R.id.txtSingleBagWeight);
+        txtTotalWeight = (EditText) findViewById(R.id.txtTotalWeightOutward);
         txtTotalQuantity = (EditText) findViewById(R.id.txtTotalQuantity);
         btnSave = (Button) findViewById(R.id.btnSaveOutward);
         btnCancel = (Button) findViewById(R.id.btnOutwardCancel);

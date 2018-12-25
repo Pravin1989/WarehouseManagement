@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
+import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONArray;
 
@@ -24,15 +25,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WarehouseUserInwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    private EditText txtLotName, txtInwardDate, txtTotalQuantity, txtBagWeight, txtPhysicalAddress;
+    private EditText txtLotName, txtInwardDate, txtTotalQuantity, txtBagWeight, txtPhysicalAddress, txtTotalWeight;
     private Button btnAdd, btnCancel;
     private Spinner cmbTrader, cmbCommodity, cmbCategory;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Inward";
     private Session session;//global variable
+    Map<String, Integer> commoditiesMap = new HashMap<>();
+    String[] categoriesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +47,13 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         initViews();
         retrieveTraders();
         retrieveCommodities();
-        retrieveCategories();
     }
 
     private void initViews() {
         txtLotName = (EditText) findViewById(R.id.txtLotName);
         txtInwardDate = (EditText) findViewById(R.id.txtInwardDate);
         txtBagWeight = (EditText) findViewById(R.id.txtSingleBagWeight);
+        txtTotalWeight = (EditText) findViewById(R.id.txtTotalWeightInward);
         txtTotalQuantity = (EditText) findViewById(R.id.txtTotalQuantity);
         txtPhysicalAddress = (EditText) findViewById(R.id.txtPhysicalAddress);
         btnAdd = (Button) findViewById(R.id.btnAdd);
@@ -94,6 +99,17 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         Toast.makeText(parent.getContext(),
                 "Selected  : " + parent.getItemAtPosition(pos).toString(),
                 Toast.LENGTH_SHORT).show();
+        Log.i("Commodity  ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_COMMODITY));
+        Log.i("Category ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_CATEGORY));
+        Log.i("Trader ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_TRADER));
+        if(parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_CATEGORY) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY) ||
+                parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_TRADER) ){
+           return;
+        }
+        if (parent.getItemAtPosition(0).toString().equals(StaticConstants.SELECT_COMMODITY)) {
+            retrieveCategories();
+            updateCategories();
+        }
     }
 
     public void openDatePicker() {
@@ -119,6 +135,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
+        Log.i("Nothing  ","Nothing Selected");
     }
 
     public void retrieveCommodities() {
@@ -148,13 +165,18 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            Log.i(TAG, answer.toString());
+                            Log.i("Response :", answer.toString());
                             JSONArray obj = new JSONArray(answer.toString());
-                            Log.i(TAG, obj.toString());
-                            String[] commodities = new String[obj.length()];
+                            Log.i("JSON :", obj.toString());
+                            String[] commodities = new String[obj.length() + 1];
+                            commodities[0] = StaticConstants.SELECT_COMMODITY;
+                            int j = 1;
                             for (int i = 0; i < obj.length(); i++) {
-                                commodities[i] = obj.getJSONObject(i).get("commodityName").toString();
+                                commodities[j] = obj.getJSONObject(i).get("commodityName").toString();
+                                commoditiesMap.put(commodities[j], Integer.parseInt(obj.getJSONObject(i).get("commodityId").toString()));
+                                j++;
                             }
+                            Log.i("Comm Length:", String.valueOf(commodities.length));
                             updateCommodities(commodities);
                         }
                         conn.disconnect();
@@ -182,7 +204,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlAdress = "/category/retrieveCategories/" + session.getFromSession("wh_id");
+                    String urlAdress = "/category/retrieveCategories/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString());
                     try {
                         HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
 
@@ -204,15 +226,17 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            Log.i(TAG, answer.toString());
+                            Log.i("Response :", answer.toString());
                             JSONArray obj = new JSONArray(answer.toString());
-                            Log.i(TAG, obj.toString());
-                            String[] categories = new String[obj.length()];
-
+                            Log.i("JSON : ", obj.toString());
+                            categoriesList = new String[obj.length() + 1];
+                            categoriesList[0] = StaticConstants.SELECT_CATEGORY;
+                            int j = 1;
                             for (int i = 0; i < obj.length(); i++) {
-                                categories[i] = obj.getJSONObject(i).get("categoryName").toString();
+                                categoriesList[j] = obj.getJSONObject(i).get("categoryName").toString();
+                                j++;
                             }
-                            updateCategories(categories);
+                            Log.i("Categories:", String.valueOf(categoriesList.length));
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -227,8 +251,9 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         }
     }
 
-    public void updateCategories(String[] categoryList) {
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryList);
+    public void updateCategories() {
+        Log.i("Categories Length", String.valueOf(categoriesList.length));
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesList);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbCategory.setAdapter(categoryAdapter);
     }
@@ -241,7 +266,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                     String urlAdress = "/trader/retrieveTraders/" + session.getFromSession("wh_id");
                     try {
                         HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
-
                         Log.i("STATUS", String.valueOf(conn.getResponseCode()));
                         if (conn.getResponseCode() == 200) {
                             BufferedReader in = null;
@@ -263,11 +287,12 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             Log.i(TAG, answer.toString());
                             JSONArray obj = new JSONArray(answer.toString());
                             Log.i(TAG, obj.toString());
-                            String[] comm = new String[obj.length()];
+                            String[] traders = new String[obj.length() + 1];
+                            traders[0] = StaticConstants.SELECT_TRADER;
                             for (int i = 0; i < obj.length(); i++) {
-                                comm[i] = obj.getJSONObject(i).get("traderName").toString();
+                                traders[i] = obj.getJSONObject(i).get("traderName").toString();
                             }
-                            updateTraders(comm);
+                            updateTraders(traders);
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -287,5 +312,4 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbTrader.setAdapter(adapter);
     }
-
 }
