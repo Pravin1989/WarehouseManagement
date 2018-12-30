@@ -4,24 +4,33 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.db.DbQueryExecutor;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class WarehouseUserOutwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight;
+    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight, txtSelectedLot;
     Button btnSave, btnCancel;
-    private Spinner cmbLotTypes;
+    //  private Spinner cmbLotTypes;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Outward";
+    SearchView searchView;
+    private ListView listView;
+    private DbQueryExecutor databaseObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +44,53 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         txtBagWeight = (EditText) findViewById(R.id.txtSingleBagWeight);
         txtTotalWeight = (EditText) findViewById(R.id.txtTotalWeightOutward);
         txtTotalQuantity = (EditText) findViewById(R.id.txtTotalQuantity);
+        txtSelectedLot = (EditText) findViewById(R.id.selectedLot);
+        txtSelectedLot.setEditableFactory(Editable.Factory.getInstance());
         btnSave = (Button) findViewById(R.id.btnSaveOutward);
         btnCancel = (Button) findViewById(R.id.btnOutwardCancel);
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
-        addListenerOnSpinnerItemSelection();
+        // addListenerOnSpinnerItemSelection();
+        searchView = (SearchView) findViewById(R.id.searchView);
+        searchView.setQueryHint("Enter Lot Name");
+
+        databaseObject = new DbQueryExecutor(WarehouseUserOutwardActivity.this);
+        listView = (ListView) findViewById(R.id.listView);
+        txtSelectedLot = (EditText) findViewById(R.id.selectedLot);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                List<ItemObject> dictionaryObject = databaseObject.searchLotDetailsInDB(query);
+                LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, dictionaryObject);
+                listView.setAdapter(mLotSearchAdapter);
+                listView.setVisibility(View.VISIBLE);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i("Item Position :", String.valueOf(position));
+                        ItemObject item = (ItemObject) parent.getItemAtPosition(position);
+                        Log.i("Selected Item :", item.getTitle());
+                        closeList(item.getTitle());
+                    }
+                });
+                return true;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    public void closeList(String item) {
+        LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, new ArrayList<ItemObject>());
+        listView.setAdapter(mLotSearchAdapter);
+      // txtSelectedLot.setVisibility(View.VISIBLE);
+        txtSelectedLot.setText(item);
+
     }
 
     @Override
@@ -56,8 +107,8 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     }
 
     public void addListenerOnSpinnerItemSelection() {
-        cmbLotTypes = (Spinner) findViewById(R.id.cmbLots);
-        cmbLotTypes.setOnItemSelectedListener(this);
+        //   cmbLotTypes = (Spinner) findViewById(R.id.cmbLots);
+        //  cmbLotTypes.setOnItemSelectedListener(this);
         txtOutwardDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -67,6 +118,14 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                 }
             }
         });
+    }
+
+    private void pickUpOutwardDetails() {
+        Log.i("Total Weight : ", txtTotalWeight.getText().toString());
+        Log.i("Total Quantity : ", txtTotalQuantity.getText().toString());
+        Log.i("Weight/Bag : ", txtBagWeight.getText().toString());
+        Log.i("Outward Date : ", txtOutwardDate.getText().toString());
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {

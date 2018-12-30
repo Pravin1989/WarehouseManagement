@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table Name
-    public static final String TABLE_NAME = "INWARD_LOT";
+    public static final String TABLE_NAME = "TABLE_INWARD_LOT";
 
     // Table columns
     public static final String _ID = "_id";

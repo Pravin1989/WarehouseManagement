@@ -12,4 +12,6 @@
     <color name="testcolorblue">#152b38</color>
     <color name="pink">#fe104d</color>
     <color name="my_orange">#FFA500</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>
