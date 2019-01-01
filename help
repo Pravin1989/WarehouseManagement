@@ -45,3 +45,5 @@ https://developer.android.com/training/search/setup
 https://developer.android.com/training/search/search
 http://codetheory.in/adding-search-to-android/
 https://inducesmile.com/android/android-how-to-add-search-widget-and-searchview-implementation-in-android-ui/
+// Fix for Itemlist
+https://stackoverflow.com/questions/18387019/listview-inside-scrollview-not-showing-all-items-in-the-in-the-adapter
