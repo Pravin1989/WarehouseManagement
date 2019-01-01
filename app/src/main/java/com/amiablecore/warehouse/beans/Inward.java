@@ -1,17 +1,16 @@
 package com.amiablecore.warehouse.beans;
 
-import java.util.Date;
-
 public class Inward {
     private String inwardId;
-    private Date inwardDate;
+    private String inwardDate;
     private String lotName;
     private String traderId;
-    private String commodityId;
-    private String categoryId;
+    private Integer commodityId;
+    private Integer categoryId;
     private Integer totalQuantity;
-    private Double wightPerBag;
+    private Double weightPerBag;
     private Double totalWeight;
+    private String physicalAddress;
 
     public String getLotName() {
         return lotName;
@@ -25,7 +24,7 @@ public class Inward {
         this.inwardId = inwardId;
     }
 
-    public void setInwardDate(Date inwardDate) {
+    public void setInwardDate(String inwardDate) {
         this.inwardDate = inwardDate;
     }
 
@@ -33,11 +32,11 @@ public class Inward {
         this.traderId = traderId;
     }
 
-    public void setCommodityId(String commodityId) {
+    public void setCommodityId(Integer commodityId) {
         this.commodityId = commodityId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -45,8 +44,8 @@ public class Inward {
         this.totalQuantity = totalQuantity;
     }
 
-    public void setWightPerBag(Double wightPerBag) {
-        this.wightPerBag = wightPerBag;
+    public void setWeightPerBag(Double weightPerBag) {
+        this.weightPerBag = weightPerBag;
     }
 
     public void setTotalWeight(Double totalWeight) {
@@ -61,7 +60,7 @@ public class Inward {
         return inwardId;
     }
 
-    public Date getInwardDate() {
+    public String getInwardDate() {
         return inwardDate;
     }
 
@@ -69,11 +68,11 @@ public class Inward {
         return traderId;
     }
 
-    public String getCommodityId() {
+    public Integer getCommodityId() {
         return commodityId;
     }
 
-    public String getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
@@ -81,8 +80,8 @@ public class Inward {
         return totalQuantity;
     }
 
-    public Double getWightPerBag() {
-        return wightPerBag;
+    public Double getWeightPerBag() {
+        return weightPerBag;
     }
 
     public Double getTotalWeight() {
@@ -93,5 +92,4 @@ public class Inward {
         return physicalAddress;
     }
 
-    private String physicalAddress;
 }

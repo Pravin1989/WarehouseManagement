@@ -23,13 +23,11 @@ public class TraderSearchAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.i("TraderSearchAdapter :", "getCount() "+String.valueOf(listItemStorage.size()));
         return listItemStorage.size();
     }
 
     @Override
     public Object getItem(int position) {
-        Log.i("TraderSearchAdapter :", "getItem() "+String.valueOf(position));
         return listItemStorage.get(position);
     }
 
@@ -42,13 +40,11 @@ public class TraderSearchAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder listViewHolder;
         if (convertView == null) {
-            Log.i("TraderSearchAdapter :", "Null");
             listViewHolder = new ViewHolder();
             convertView = layoutInflater.inflate(R.layout.list_item, parent, false);
             listViewHolder.itemView = (TextView) convertView.findViewById(R.id.list_item_search);
             convertView.setTag(listViewHolder);
         } else {
-            Log.i("TraderSearchAdapter :", "Not Null");
             listViewHolder = (ViewHolder) convertView.getTag();
         }
         listViewHolder.itemView.setText(listItemStorage.get(position).getTraderName());

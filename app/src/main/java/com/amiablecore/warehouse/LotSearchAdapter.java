@@ -1,7 +1,6 @@
 package com.amiablecore.warehouse;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,9 @@ import java.util.List;
 
 public class LotSearchAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
-    private List<ItemObject> listItemStorage;
+    private List<LotDetails> listItemStorage;
 
-    public LotSearchAdapter(Context context, List<ItemObject> customizedListView) {
+    public LotSearchAdapter(Context context, List<LotDetails> customizedListView) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listItemStorage = customizedListView;
     }
@@ -36,7 +35,6 @@ public class LotSearchAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i("LotSearchAdapter :", "getView");
         ViewHolder listViewHolder;
         if (convertView == null) {
             listViewHolder = new ViewHolder();
@@ -46,7 +44,7 @@ public class LotSearchAdapter extends BaseAdapter {
         } else {
             listViewHolder = (ViewHolder) convertView.getTag();
         }
-        listViewHolder.itemView.setText(listItemStorage.get(position).getTitle());
+        listViewHolder.itemView.setText(listItemStorage.get(position).getLotName());
         return convertView;
     }
 

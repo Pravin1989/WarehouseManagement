@@ -25,7 +25,6 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
 
     EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight, txtSelectedLot;
     Button btnSave, btnCancel;
-    //  private Spinner cmbLotTypes;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Outward";
     SearchView searchView;
@@ -37,6 +36,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warehouse_user_outward);
         initViews();
+        addListeners();
     }
 
     private void initViews() {
@@ -50,7 +50,6 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         btnCancel = (Button) findViewById(R.id.btnOutwardCancel);
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
-        // addListenerOnSpinnerItemSelection();
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("Enter Lot Name");
 
@@ -58,20 +57,44 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         listView = (ListView) findViewById(R.id.listView);
         txtSelectedLot = (EditText) findViewById(R.id.selectedLot);
 
+    }
+
+    public void closeList(String item) {
+        LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, new ArrayList<LotDetails>());
+        listView.setAdapter(mLotSearchAdapter);
+        txtSelectedLot.setText(item);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnSaveOutward:
+                pickUpOutwardDetails();
+                Toast.makeText(getApplicationContext(),
+                        "Outward is Done...", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnOutwardCancel:
+                startActivity(new Intent(WarehouseUserOutwardActivity.this, WarehouseUserActivity.class));//Redirect to User Dashboard Page
+                break;
+        }
+    }
+
+    public void addListeners() {
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                List<ItemObject> dictionaryObject = databaseObject.searchLotDetailsInDB(query);
+                List<LotDetails> dictionaryObject = databaseObject.searchLotDetailsInDB(query);
                 LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, dictionaryObject);
                 listView.setAdapter(mLotSearchAdapter);
                 listView.setVisibility(View.VISIBLE);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Log.i("Item Position :", String.valueOf(position));
-                        ItemObject item = (ItemObject) parent.getItemAtPosition(position);
-                        Log.i("Selected Item :", item.getTitle());
-                        closeList(item.getTitle());
+                        LotDetails item = (LotDetails) parent.getItemAtPosition(position);
+                        Log.i("Selected Item :", item.getLotName());
+                        closeList(item.getLotName());
                     }
                 });
                 return true;
@@ -83,32 +106,6 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                 return false;
             }
         });
-    }
-
-    public void closeList(String item) {
-        LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, new ArrayList<ItemObject>());
-        listView.setAdapter(mLotSearchAdapter);
-      // txtSelectedLot.setVisibility(View.VISIBLE);
-        txtSelectedLot.setText(item);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnSaveOutward:
-                Toast.makeText(getApplicationContext(),
-                        "Outward is Done...", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btnOutwardCancel:
-                startActivity(new Intent(WarehouseUserOutwardActivity.this, WarehouseUserActivity.class));//Redirect to User Dashboard Page
-                break;
-        }
-    }
-
-    public void addListenerOnSpinnerItemSelection() {
-        //   cmbLotTypes = (Spinner) findViewById(R.id.cmbLots);
-        //  cmbLotTypes.setOnItemSelectedListener(this);
         txtOutwardDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {

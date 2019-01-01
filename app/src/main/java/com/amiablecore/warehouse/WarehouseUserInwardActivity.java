@@ -75,6 +75,9 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         btnAdd.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         addListenerOnSpinnerItemSelection();
+        searchView = (SearchView) findViewById(R.id.searchView);
+        searchView.setQueryHint("Enter Trader Name");
+
     }
 
     @Override
@@ -94,7 +97,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
 
     private void keepInwardDetailsToDb() {
         Log.i("Lot Name : ", txtLotName.getText().toString());
-        //Log.i("Trader Name : ", cmbTrader.getSelectedItem().toString());
+        Log.i("Trader Name : ", txtSelectedTrader.getText().toString());
         Log.i("Commodity Name : ", cmbCommodity.getSelectedItem().toString());
         Log.i("Category Name : ", cmbCategory.getSelectedItem().toString());
         Log.i("Total Weight : ", txtTotalWeight.getText().toString());
@@ -103,13 +106,19 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         Log.i("Inward Date : ", txtInwardDate.getText().toString());
         Log.i("Physical Address : ", txtPhysicalAddress.getText().toString());
         Inward inward = new Inward();
+        inward.setTraderId(txtSelectedTrader.getText().toString());
         inward.setLotName(txtLotName.getText().toString());
-        // inward.setCommodityId();
+        inward.setCommodityId(commoditiesMap.get(cmbCommodity.getSelectedItem().toString()));
+        inward.setCategoryId(categoriesMap.get(cmbCategory.getSelectedItem().toString()));
+        inward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
+        inward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString()));
+        inward.setWeightPerBag(Double.parseDouble(txtBagWeight.getText().toString()));
+        inward.setInwardDate(txtInwardDate.getText().toString());
+        inward.setPhysicalAddress(txtPhysicalAddress.getText().toString());
+        databaseObject.addLotDetails(inward);
     }
 
     public void addListenerOnSpinnerItemSelection() {
-        //  cmbTrader = (Spinner) findViewById(R.id.cmbTraderNames);
-        //cmbTrader.setOnItemSelectedListener(this);
         cmbCommodity = (Spinner) findViewById(R.id.cmbCommodity);
         cmbCommodity.setOnItemSelectedListener(this);
         cmbCategory = (Spinner) findViewById(R.id.cmbCategory);
@@ -340,16 +349,12 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void updateTraders() {
-        searchView = (SearchView) findViewById(R.id.searchView);
-        searchView.setQueryHint("Enter Trader Name");
-
         databaseObject = new DbQueryExecutor(WarehouseUserInwardActivity.this);
         listView = (ListView) findViewById(R.id.listView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 List<Trader> traders = retrieveTraders(query);
-                Log.i("Result Size :", String.valueOf(traders.size()));
                 TraderSearchAdapter mLotSearchAdapter = new TraderSearchAdapter(WarehouseUserInwardActivity.this, traders);
                 listView.setAdapter(mLotSearchAdapter);
                 listView.setVisibility(View.VISIBLE);
@@ -378,5 +383,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         TraderSearchAdapter mSearchAdapter = new TraderSearchAdapter(WarehouseUserInwardActivity.this, new ArrayList<Trader>());
         listView.setAdapter(mSearchAdapter);
         txtSelectedTrader.setText(item);
+        searchView.setQuery("", false);
+        searchView.clearFocus();
+        //txtLotName.requestFocus();
     }
 }
