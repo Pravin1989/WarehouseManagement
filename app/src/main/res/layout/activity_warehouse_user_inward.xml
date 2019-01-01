@@ -1,174 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context="com.amiablecore.warehouse.WarehouseUserActivity">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentTop="true"
+        android:text="Inward/Lot Register"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
-        <TextView
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        app:hintTextAppearance="@style/HintText">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:elevation="4dp"></android.support.v7.widget.SearchView>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="Inward/Lot Register"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:layout_centerHorizontal="true"
+            android:scrollbars="none" />
+    </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:hintTextAppearance="@style/HintText">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtLotName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Lot Name" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin">
-
-            <Spinner
-                android:id="@+id/cmbTraderNames"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:color="#f21919"
-                android:entries="@array/trader_arrays"
-                android:prompt="@string/trader_prompt" />
-        </android.support.design.widget.TextInputLayout>
-
-        <TextView
-            android:id="@+id/lblTraderDetails"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="Trader Info"
-            android:textAlignment="center"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:visibility="invisible" />
+            android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin">
-
-            <Spinner
-                android:id="@+id/cmbCommodity"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:color="#f21919"
-                android:entries="@array/commodity_arrays"
-                android:prompt="@string/commodity_prompt" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/selectedTrader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:hint="Selected Trader" />
 
-            <Spinner
-                android:id="@+id/cmbCategory"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:color="#f21919"
-                android:entries="@array/category_arrays"
-                android:prompt="@string/category_prompt" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:hintTextAppearance="@style/HintText">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtLotName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Lot Name" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtTotalQuantity"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <Spinner
+                    android:id="@+id/cmbCommodity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:color="#f21919"
+                    android:entries="@array/commodity_arrays"
+                    android:prompt="@string/commodity_prompt" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <Spinner
+                    android:id="@+id/cmbCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:color="#f21919"
+                    android:entries="@array/category_arrays"
+                    android:prompt="@string/category_prompt" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtTotalQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Total Quantity"
+                    android:inputType="number" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtSingleBagWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Weight/Bag"
+                    android:inputType="numberDecimal" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtTotalWeightInward"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Total Weight"
+                    android:inputType="numberDecimal" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtInwardDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Inward Date" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txtPhysicalAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Physical Address" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Total Quantity"
-                android:inputType="number" />
+                android:text="Add" />
 
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:hintTextAppearance="@style/HintText">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtSingleBagWeight"
+            <Button
+                android:id="@+id/btnCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Weight/Bag"
-                android:inputType="numberDecimal" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:hintTextAppearance="@style/HintText">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtTotalWeightInward"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Total Weight"
-                android:inputType="numberDecimal" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:hintTextAppearance="@style/HintText">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtInwardDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Select Inward Date" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            app:hintTextAppearance="@style/HintText">
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/txtPhysicalAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Physical Address" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add" />
-
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cancel" />
-    </LinearLayout>
-</ScrollView>
+                android:text="Cancel" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
