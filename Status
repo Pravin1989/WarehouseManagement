@@ -5,13 +5,13 @@ Data Sync:
         a.	We need to add User Id and WH Admin ID in Inward Table.
         b.	Here first we need to fetch the details from DB and check whether user has already inward lot data with total Weight.
         c.	If Yes then call Data Sync Service to store in master DB. Once it is successful then delete current user inward records from app DB.
-        d.	If no then fetch all data and autofill to Inward Screen and ask user fill total quantity.
+        d.	If no then fetch all data and autofill to Inward Screen and ask user fill total Weight.
         e.	
-    3.	We need to add 
+    3.	
 
 Inward : 
     1. We need to add field validator and check.
-    2. Total Weight field is optional So we can add null 
+    2. Total Weight field is optional So we can add null in DB. 
 
 Outward :
     1. 
