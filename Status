@@ -1,5 +1,5 @@
-Data Sync: 
-     When User sync the data to Server. Below things need to check.
+Data Sync for Inward: 
+     
     1.	Do user has internet connection.
     2.	Does user has filled total Weight in inward section if not then give error.
         a.	We need to add User Id and WH Admin ID in Inward Table.
@@ -13,8 +13,20 @@ Inward :
     1. We need to add field validator and check.
     2. Total Weight field is optional So we can add null in DB. 
 
-Outward :
-    1. 
+Outward: 
+     1.	While doing outward we are checking lot already present.
+     2.	If present then we will check the value of total quantity and total weight of inward should not be more than the values we are doing outward.
+     3.	Need to check Internet Connection.
+     4.	First, we need to check the lot is present in server DB or not.
+          a.	If present in server DB then we will retrieve userId, WhAdmin Id and lot id, lot Name from Server DB and keep in app.
+          b.	While doing outward we need to include userId and WHAdmin Id, lot Details to app DB.
+
+Data Sync for Outward: 
+     
+     1.	Do user has internet connection.
+     2.	Does user has filled total weight in outward section if not then give error.
+          a.	If Yes then call Data Sync Service to store Outward details in master DB
+
 
 Other Work :
      Session need to Expire.
