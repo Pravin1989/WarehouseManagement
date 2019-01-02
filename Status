@@ -25,8 +25,8 @@ Data Sync for Outward:
      
      1.	Do user has internet connection.
      2.	Does user has filled total weight in outward section if not then give error.
-          a.	If Yes then call Data Sync Service to store Outward details in master DB
-
+          a. If Yes then call Data Sync Service to store Outward details in master DB
+          b. If no then don’t allow to call sync and show error. i.e. Must fill outward.
 
 Other Work :
      Session need to Expire.
