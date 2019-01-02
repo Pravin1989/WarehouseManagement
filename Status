@@ -1,0 +1,17 @@
+Data Sync: 
+     When User sync the data to Server. Below things need to check.
+    1.	Do user has internet connection.
+    2.	Does user has filled total Weight in inward section if not then give error.
+        a.	We need to add User Id and WH Admin ID in Inward Table.
+        b.	Here first we need to fetch the details from DB and check whether user has already inward lot data with total Weight.
+        c.	If Yes then call Data Sync Service to store in master DB. Once it is successful then delete current user inward records from app DB.
+        d.	If no then fetch all data and autofill to Inward Screen and ask user fill total quantity.
+        e.	
+    3.	We need to add 
+
+Inward : 
+    1. We need to add field validator and check.
+    2. Total Weight field is optional So we can add null 
+
+Outward :
+    1. 
