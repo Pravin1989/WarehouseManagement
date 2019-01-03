@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
+import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONObject;
 
@@ -56,6 +58,9 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegTrader:
+                if (validateFields()) {
+                    break;
+                }
                 if (addTrader()) {
                     Toast.makeText(getApplicationContext(),
                             "Registered Trader Info...", Toast.LENGTH_SHORT).show();
@@ -128,5 +133,40 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
         return traderCreated;
+    }
+
+    public boolean validateFields() {
+
+        if (FieldsValidator.isEmpty(txtTraderEmail)) {
+            FieldsValidator.setError(txtTraderEmail, StaticConstants.ERROR_ADD_TRADER_EMAIL_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtTraderName)) {
+            FieldsValidator.setError(txtTraderName, StaticConstants.ERROR_ADD_TRADER_NAME_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtContactNo)) {
+            FieldsValidator.setError(txtContactNo, StaticConstants.ERROR_ADD_CONTACT_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtTraderState)) {
+            FieldsValidator.setError(txtTraderState, StaticConstants.ERROR_ADD_TRADER_STATE_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtTraderCity)) {
+            FieldsValidator.setError(txtTraderCity, StaticConstants.ERROR_ADD_TRADER_CITY_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtTraderPinCode)) {
+            FieldsValidator.setError(txtTraderPinCode, StaticConstants.ERROR_ADD_TRADER_PIN_MSG);
+            return true;
+        }
+        FieldsValidator.clearError(txtTraderEmail);
+        FieldsValidator.clearError(txtTraderName);
+        FieldsValidator.clearError(txtContactNo);
+        FieldsValidator.clearError(txtTraderState);
+        FieldsValidator.clearError(txtTraderCity);
+        FieldsValidator.clearError(txtTraderPinCode);
+        return false;
     }
 }

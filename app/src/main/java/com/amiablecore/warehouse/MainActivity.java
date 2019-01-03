@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONObject;
@@ -75,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLogin:
+                if (validateFields()) {
+                    break;
+                }
                 if (verifyUserCredentials()) {
                     Toast.makeText(getApplicationContext(),
                             "Logged In...", Toast.LENGTH_SHORT).show();
@@ -203,5 +207,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             startActivity(new Intent(MainActivity.this, WarehouseUserActivity.class));
         }
+    }
+
+    public boolean validateFields() {
+
+        if (FieldsValidator.isEmpty(txtUserName)) {
+            FieldsValidator.setError(txtUserName, StaticConstants.ERROR_LOGIN_ID_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtPassword)) {
+            FieldsValidator.setError(txtPassword, StaticConstants.ERROR_LOGIN_PASSWORD_MSG);
+            return true;
+        }
+        FieldsValidator.clearError(txtUserName);
+        FieldsValidator.clearError(txtPassword);
+        return false;
     }
 }

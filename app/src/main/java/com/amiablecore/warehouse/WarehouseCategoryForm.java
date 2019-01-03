@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
 import com.amiablecore.warehouse.utils.StaticConstants;
@@ -61,6 +62,15 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAddCategory:
+                if (FieldsValidator.isEmpty(txtCategoryName)) {
+                    FieldsValidator.setError(txtCategoryName, StaticConstants.ERROR_CATEGORY_MSG);
+                    break;
+                } else {
+                    FieldsValidator.clearError(txtCategoryName);
+                }
+                if (FieldsValidator.isItemSelectedInSpinner(cmbCommodity)) {
+                    break;
+                }
                 if (addCategory()) {
                     Toast.makeText(getApplicationContext(),
                             "Category is added...", Toast.LENGTH_SHORT).show();

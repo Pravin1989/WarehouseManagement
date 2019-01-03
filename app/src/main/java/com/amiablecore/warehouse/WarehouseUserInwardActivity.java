@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.amiablecore.warehouse.beans.Inward;
 import com.amiablecore.warehouse.beans.Trader;
 import com.amiablecore.warehouse.db.DbQueryExecutor;
+import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
 import com.amiablecore.warehouse.utils.StaticConstants;
@@ -84,8 +85,9 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAdd:
-                Toast.makeText(getApplicationContext(),
-                        "User is added In DB...", Toast.LENGTH_SHORT).show();
+                if(validateFields()){
+                    break;
+                }
                 keepInwardDetailsToDb();
                 startActivity(new Intent(WarehouseUserInwardActivity.this, WarehouseUserActivity.class));//Redirect to User Dashboard Page
                 break;
@@ -96,6 +98,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     private void keepInwardDetailsToDb() {
+        Toast.makeText(getApplicationContext(),
+                "User is added In DB...", Toast.LENGTH_SHORT).show();
         Log.i("Lot Name : ", txtLotName.getText().toString());
         Log.i("Trader Name : ", txtSelectedTrader.getText().toString());
         Log.i("Commodity Name : ", cmbCommodity.getSelectedItem().toString());
@@ -140,7 +144,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                 Toast.LENGTH_SHORT).show();
         Log.i("Commodity  ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_COMMODITY));
         Log.i("Category ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_CATEGORY));
-        Log.i("Trader ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_TRADER));
         if (parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_CATEGORY) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY) ||
                 parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_TRADER)) {
             return;
@@ -385,6 +388,46 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         txtSelectedTrader.setText(item);
         searchView.setQuery("", false);
         searchView.clearFocus();
-        //txtLotName.requestFocus();
+    }
+
+    public boolean validateFields() {
+
+        if (FieldsValidator.isEmpty(txtSelectedTrader)) {
+            FieldsValidator.setError(txtSelectedTrader, StaticConstants.ERROR_INWARD_SELECT_TRADER_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtLotName)) {
+            FieldsValidator.setError(txtLotName, StaticConstants.ERROR_INWARD_lOT_NAME_MSG);
+            return true;
+        }
+        if (FieldsValidator.isItemSelectedInSpinner(cmbCommodity)) {
+            return true;
+        }
+        if (FieldsValidator.isItemSelectedInSpinner(cmbCategory)) {
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtTotalQuantity)) {
+            FieldsValidator.setError(txtTotalQuantity, StaticConstants.ERROR_TOTAL_QTY_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtBagWeight)) {
+            FieldsValidator.setError(txtBagWeight, StaticConstants.ERROR_BAG_WEIGHT_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtInwardDate)) {
+            FieldsValidator.setError(txtInwardDate, StaticConstants.ERROR_INWARD_DATE_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtPhysicalAddress)) {
+            FieldsValidator.setError(txtPhysicalAddress, StaticConstants.ERROR_INWARD_PHYSICAL_ADDRESS_MSG);
+            return true;
+        }
+        FieldsValidator.clearError(txtSelectedTrader);
+        FieldsValidator.clearError(txtLotName);
+        FieldsValidator.clearError(txtTotalQuantity);
+        FieldsValidator.clearError(txtBagWeight);
+        FieldsValidator.clearError(txtInwardDate);
+        FieldsValidator.clearError(txtPhysicalAddress);
+        return false;
     }
 }

@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.db.DbQueryExecutor;
+import com.amiablecore.warehouse.utils.FieldsValidator;
+import com.amiablecore.warehouse.utils.StaticConstants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,6 +72,9 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSaveOutward:
+                if (validateFields()) {
+                    break;
+                }
                 pickUpOutwardDetails();
                 Toast.makeText(getApplicationContext(),
                         "Outward is Done...", Toast.LENGTH_SHORT).show();
@@ -85,8 +90,8 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                List<LotDetails> dictionaryObject = databaseObject.searchLotDetailsInDB(query);
-                LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, dictionaryObject);
+                List<LotDetails> inwardLotDetails = databaseObject.searchLotDetailsInDB(query);
+                LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, inwardLotDetails);
                 listView.setAdapter(mLotSearchAdapter);
                 listView.setVisibility(View.VISIBLE);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,5 +155,31 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
+    }
+
+    public boolean validateFields() {
+
+        if (FieldsValidator.isEmpty(txtSelectedLot)) {
+            FieldsValidator.setError(txtSelectedLot, StaticConstants.ERROR_SELECT_LOT_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtOutwardDate)) {
+            FieldsValidator.setError(txtOutwardDate, StaticConstants.ERROR_OUTWARD_DATE_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtTotalQuantity)) {
+            FieldsValidator.setError(txtTotalQuantity, StaticConstants.ERROR_TOTAL_QTY_MSG);
+            return true;
+        }
+
+        if (FieldsValidator.isEmpty(txtBagWeight)) {
+            FieldsValidator.setError(txtBagWeight, StaticConstants.ERROR_BAG_WEIGHT_MSG);
+            return true;
+        }
+        FieldsValidator.clearError(txtBagWeight);
+        FieldsValidator.clearError(txtTotalQuantity);
+        FieldsValidator.clearError(txtSelectedLot);
+        FieldsValidator.clearError(txtOutwardDate);
+        return false;
     }
 }

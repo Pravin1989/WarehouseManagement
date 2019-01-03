@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
+import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONObject;
 
@@ -53,7 +55,10 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                if(addUser()){
+                if(validateFields()){
+                    break;
+                }
+                if (addUser()) {
                     Toast.makeText(getApplicationContext(),
                             "User is added ...", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(WarehouseUserForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
@@ -124,5 +129,30 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
             e.printStackTrace();
         }
         return userCreated;
+    }
+
+    public boolean validateFields() {
+
+        if (FieldsValidator.isEmpty(txtName)) {
+            FieldsValidator.setError(txtName, StaticConstants.ERROR_ADD_USER_NAME_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtContactNo)) {
+            FieldsValidator.setError(txtContactNo, StaticConstants.ERROR_ADD_CONTACT_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtLoginId)) {
+            FieldsValidator.setError(txtLoginId, StaticConstants.ERROR_ADD_LOGIN_ID_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtPassword)) {
+            FieldsValidator.setError(txtPassword, StaticConstants.ERROR_ADD_PASSWORD_MSG);
+            return true;
+        }
+        FieldsValidator.clearError(txtName);
+        FieldsValidator.clearError(txtContactNo);
+        FieldsValidator.clearError(txtLoginId);
+        FieldsValidator.clearError(txtPassword);
+        return false;
     }
 }

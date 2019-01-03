@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
+import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONObject;
 
@@ -49,6 +51,12 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAddCommodity:
+                if (FieldsValidator.isEmpty(txtCommodityName)) {
+                    FieldsValidator.setError(txtCommodityName, StaticConstants.ERROR_COMMODITY_MSG);
+                    break;
+                } else {
+                    FieldsValidator.setError(txtCommodityName, null);
+                }
                 if (addCommodity()) {
                     Toast.makeText(getApplicationContext(),
                             "Commodity is added...", Toast.LENGTH_SHORT).show();
