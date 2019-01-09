@@ -11,6 +11,24 @@ public class Inward {
     private Double weightPerBag;
     private Double totalWeight;
     private String physicalAddress;
+    private Integer whAdminId;
+    private Integer whUserId;
+
+    public void setWhAdminId(Integer whAdminId) {
+        this.whAdminId = whAdminId;
+    }
+
+    public void setWhUserId(Integer whUserId) {
+        this.whUserId = whUserId;
+    }
+
+    public Integer getWhAdminId() {
+        return whAdminId;
+    }
+
+    public Integer getWhUserId() {
+        return whUserId;
+    }
 
     public String getLotName() {
         return lotName;

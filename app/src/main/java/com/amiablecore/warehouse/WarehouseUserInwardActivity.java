@@ -119,6 +119,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         inward.setWeightPerBag(Double.parseDouble(txtBagWeight.getText().toString()));
         inward.setInwardDate(txtInwardDate.getText().toString());
         inward.setPhysicalAddress(txtPhysicalAddress.getText().toString());
+        inward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
+        inward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
         databaseObject.addLotDetails(inward);
     }
 

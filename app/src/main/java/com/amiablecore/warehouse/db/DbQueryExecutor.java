@@ -47,6 +47,8 @@ public class DbQueryExecutor extends DbObject {
             contentValue.put("weight_per_bag", inward.getWeightPerBag());
             contentValue.put("inward_date", inward.getInwardDate().toString());
             contentValue.put("physical_address", inward.getPhysicalAddress());
+            contentValue.put("wh_admin_id", inward.getWhAdminId());
+            contentValue.put("wh_user_id", inward.getWhUserId());
             long id = this.getDbConnection().insert(DatabaseHelper.TABLE_NAME, null, contentValue);
             Log.i("Record Id : ", String.valueOf(id));
 
