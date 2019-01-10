@@ -44,8 +44,9 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Inward";
     private Session session;//global variable
-    Map<String, Integer> commoditiesMap = new HashMap<>();
-    Map<String, Integer> categoriesMap = new HashMap<>();
+    Map<String, Integer> commoditiesMap;
+    Map<String, Integer> tradersMap ;
+    Map<String, Integer> categoriesMap;
     String[] categoriesList;
     private DbQueryExecutor databaseObject;
     List<Trader> traderList;
@@ -110,7 +111,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         Log.i("Inward Date : ", txtInwardDate.getText().toString());
         Log.i("Physical Address : ", txtPhysicalAddress.getText().toString());
         Inward inward = new Inward();
-        inward.setTraderId(txtSelectedTrader.getText().toString());
+        inward.setTraderId(tradersMap.get(txtSelectedTrader.getText().toString()));
         inward.setLotName(txtLotName.getText().toString());
         inward.setCommodityId(commoditiesMap.get(cmbCommodity.getSelectedItem().toString()));
         inward.setCategoryId(categoriesMap.get(cmbCategory.getSelectedItem().toString()));
@@ -214,6 +215,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             Log.i("JSON :", obj.toString());
                             String[] commodities = new String[obj.length() + 1];
                             commodities[0] = StaticConstants.SELECT_COMMODITY;
+                            commoditiesMap = new HashMap<>();
                             int j = 1;
                             for (int i = 0; i < obj.length(); i++) {
                                 commodities[j] = obj.getJSONObject(i).get("commodityName").toString();
@@ -274,6 +276,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             JSONArray obj = new JSONArray(answer.toString());
                             categoriesList = new String[obj.length() + 1];
                             categoriesList[0] = StaticConstants.SELECT_CATEGORY;
+                            categoriesMap = new HashMap<>();
                             int j = 1;
                             for (int i = 0; i < obj.length(); i++) {
                                 categoriesList[j] = obj.getJSONObject(i).get("categoryName").toString();
@@ -308,7 +311,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    //String urlAdress = "/trader/retrieveTraders/" + session.getFromSession("wh_id");
                     String urlAdress = "/trader/retrieveTraders/" + searchQuery;
                     try {
                         HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
@@ -333,9 +335,11 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             Log.i(TAG, answer.toString());
                             JSONArray obj = new JSONArray(answer.toString());
                             traderList = new ArrayList<>();
+                            tradersMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
                                 Trader trader = new Trader();
                                 trader.setTraderName(obj.getJSONObject(i).get("traderName").toString());
+                                tradersMap.put(obj.getJSONObject(i).get("traderName").toString(), Integer.parseInt(obj.getJSONObject(i).get("traderId").toString()));
                                 traderList.add(trader);
                             }
                         }

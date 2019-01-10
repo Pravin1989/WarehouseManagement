@@ -35,7 +35,7 @@
         <activity android:name="com.amiablecore.warehouse.WarehouseTraderForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserOutwardActivity" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserInwardActivity" />
-        <activity android:name="com.amiablecore.warehouse.WarehouseUserDataSync" />
+        <activity android:name="com.amiablecore.warehouse.WarehouseDataSyncActivity" />
         <activity
             android:name="com.amiablecore.warehouse.WarehouseUserActivity"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     counter--;
                     attemptText.setVisibility(View.VISIBLE);
                     attemptText.setText("Attempts Left: " + counter);
-                    if (counter == 0) {
-                        btnLogin.setEnabled(false);
-                    }
+//                    if (counter == 0) {
+//                        btnLogin.setEnabled(false);
+//                    }
                 }
                 break;
             case R.id.btnCancel:

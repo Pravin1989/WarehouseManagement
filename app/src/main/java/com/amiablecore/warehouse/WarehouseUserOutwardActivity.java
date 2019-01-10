@@ -15,13 +15,24 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.beans.Inward;
+import com.amiablecore.warehouse.beans.Trader;
 import com.amiablecore.warehouse.db.DbQueryExecutor;
 import com.amiablecore.warehouse.utils.FieldsValidator;
+import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WarehouseUserOutwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -29,9 +40,12 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     Button btnSave, btnCancel;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Outward";
-    SearchView searchView;
+    private SearchView searchView;
     private ListView listView;
     private DbQueryExecutor databaseObject;
+    private String searchQuery;
+    private Map<String, Integer> inwardMap;
+    private List<Inward> inwardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +76,9 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     }
 
     public void closeList(String item) {
-        LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, new ArrayList<LotDetails>());
+        LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, new ArrayList<Inward>());
         listView.setAdapter(mLotSearchAdapter);
         txtSelectedLot.setText(item);
-
     }
 
     @Override
@@ -90,14 +103,14 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                List<LotDetails> inwardLotDetails = databaseObject.searchLotDetailsInDB(query);
-                LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, inwardLotDetails);
+                retrieveInwardList(query);
+                LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, inwardList);
                 listView.setAdapter(mLotSearchAdapter);
                 listView.setVisibility(View.VISIBLE);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        LotDetails item = (LotDetails) parent.getItemAtPosition(position);
+                        Inward item = (Inward) parent.getItemAtPosition(position);
                         Log.i("Selected Item :", item.getLotName());
                         closeList(item.getLotName());
                     }
@@ -181,5 +194,57 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         FieldsValidator.clearError(txtSelectedLot);
         FieldsValidator.clearError(txtOutwardDate);
         return false;
+    }
+
+    public void retrieveInwardList(String query) {
+        searchQuery = query;
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/lots/retrieveLotList/" + searchQuery;
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.i("Response :", answer.toString());
+                            JSONArray obj = new JSONArray(answer.toString());
+                            inwardList = new ArrayList<>();
+                            inwardMap = new HashMap<>();
+                            for (int i = 0; i < obj.length(); i++) {
+                                Inward inward = new Inward();
+                                inward.setLotName(obj.getJSONObject(i).get("lotName").toString());
+                                inwardMap.put(obj.getJSONObject(i).get("lotName").toString(), Integer.parseInt(obj.getJSONObject(i).get("inwardId").toString()));
+                                inwardList.add(inward);
+                            }
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

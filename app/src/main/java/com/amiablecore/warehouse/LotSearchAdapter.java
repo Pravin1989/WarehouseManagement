@@ -7,13 +7,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.amiablecore.warehouse.beans.Inward;
+
 import java.util.List;
 
 public class LotSearchAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
-    private List<LotDetails> listItemStorage;
+    private List<Inward> listItemStorage;
 
-    public LotSearchAdapter(Context context, List<LotDetails> customizedListView) {
+    public LotSearchAdapter(Context context, List<Inward> customizedListView) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         listItemStorage = customizedListView;
     }

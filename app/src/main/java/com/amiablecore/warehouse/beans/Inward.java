@@ -1,10 +1,10 @@
 package com.amiablecore.warehouse.beans;
 
 public class Inward {
-    private String inwardId;
+    private Integer inwardId;
     private String inwardDate;
     private String lotName;
-    private String traderId;
+    private Integer traderId;
     private Integer commodityId;
     private Integer categoryId;
     private Integer totalQuantity;
@@ -13,6 +13,25 @@ public class Inward {
     private String physicalAddress;
     private Integer whAdminId;
     private Integer whUserId;
+
+    public Inward() {
+
+    }
+
+    public Inward(Integer inwardId, String inwardDate, String lotName, Integer traderId, Integer commodityId, Integer categoryId, Integer totalQuantity, Double weightPerBag, Double totalWeight, String physicalAddress, Integer whAdminId, Integer whUserId) {
+        this.inwardId = inwardId;
+        this.inwardDate = inwardDate;
+        this.lotName = lotName;
+        this.traderId = traderId;
+        this.commodityId = commodityId;
+        this.categoryId = categoryId;
+        this.totalQuantity = totalQuantity;
+        this.weightPerBag = weightPerBag;
+        this.totalWeight = totalWeight;
+        this.physicalAddress = physicalAddress;
+        this.whAdminId = whAdminId;
+        this.whUserId = whUserId;
+    }
 
     public void setWhAdminId(Integer whAdminId) {
         this.whAdminId = whAdminId;
@@ -38,7 +57,7 @@ public class Inward {
         this.lotName = lotName;
     }
 
-    public void setInwardId(String inwardId) {
+    public void setInwardId(Integer inwardId) {
         this.inwardId = inwardId;
     }
 
@@ -46,7 +65,7 @@ public class Inward {
         this.inwardDate = inwardDate;
     }
 
-    public void setTraderId(String traderId) {
+    public void setTraderId(Integer traderId) {
         this.traderId = traderId;
     }
 
@@ -74,7 +93,7 @@ public class Inward {
         this.physicalAddress = physicalAddress;
     }
 
-    public String getInwardId() {
+    public Integer getInwardId() {
         return inwardId;
     }
 
@@ -82,7 +101,7 @@ public class Inward {
         return inwardDate;
     }
 
-    public String getTraderId() {
+    public Integer getTraderId() {
         return traderId;
     }
 

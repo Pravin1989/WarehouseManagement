@@ -9,21 +9,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
-
-import org.json.JSONArray;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 
 public class WarehouseUserActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -109,7 +99,7 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
                 startActivity(new Intent(this, WarehouseUserOutwardActivity.class));
                 break;
             case R.id.cardSyncDataId:
-                startActivity(new Intent(this, WarehouseUserDataSync.class));
+                startActivity(new Intent(this, WarehouseDataSyncActivity.class));
                 break;
         }
     }
