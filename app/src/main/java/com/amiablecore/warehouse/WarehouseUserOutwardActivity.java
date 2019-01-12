@@ -16,13 +16,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.beans.Inward;
-import com.amiablecore.warehouse.beans.Trader;
 import com.amiablecore.warehouse.db.DbQueryExecutor;
 import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,8 +44,10 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     private ListView listView;
     private DbQueryExecutor databaseObject;
     private String searchQuery;
+    private Integer inwardId;
     private Map<String, Integer> inwardMap;
     private List<Inward> inwardList;
+    private Inward inward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,8 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         LotSearchAdapter mLotSearchAdapter = new LotSearchAdapter(WarehouseUserOutwardActivity.this, new ArrayList<Inward>());
         listView.setAdapter(mLotSearchAdapter);
         txtSelectedLot.setText(item);
+        retrieveSelectedInward(inwardMap.get(item));
+        autoFillSelectedLotDetails(inward);
     }
 
     @Override
@@ -116,7 +120,6 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                     }
                 });
                 return true;
-
             }
 
             @Override
@@ -246,5 +249,59 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void retrieveSelectedInward(Integer id) {
+        inwardId = id;
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/lots/retrieveLotDetails/" + inwardId.toString();
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.i("Response :", answer.toString());
+                            JSONObject obj = new JSONObject(answer.toString());
+                            inward = new Inward();
+                            inward.setTotalQuantity(Integer.parseInt(obj.get("totalQuantity").toString()));
+                            inward.setWeightPerBag(Double.parseDouble(obj.get("weightPerBag").toString()));
+                            inward.setTotalWeight(Double.parseDouble(obj.get("totalWeight").toString()));
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void autoFillSelectedLotDetails(Inward inward) {
+        txtTotalQuantity.setText(inward.getTotalQuantity().toString());
+        txtBagWeight.setText(inward.getWeightPerBag().toString());
+        txtTotalWeight.setText(inward.getTotalWeight().toString());
     }
 }
