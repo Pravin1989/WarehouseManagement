@@ -15,17 +15,12 @@ import com.amiablecore.warehouse.db.DatabaseHelper;
 import com.amiablecore.warehouse.db.DbQueryExecutor;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
-import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WarehouseDataSyncActivity extends AppCompatActivity implements View.OnClickListener {
@@ -36,6 +31,7 @@ public class WarehouseDataSyncActivity extends AppCompatActivity implements View
     private static final String TAG = "WarehouseDataSync";
     private DbQueryExecutor databaseObject;
     private List<Inward> inwardList;
+    private List<Outward> outwardList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,23 +77,30 @@ public class WarehouseDataSyncActivity extends AppCompatActivity implements View
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        syncDataWithServer();
+        syncInwardDataWithServer();
         return;
     }
 
     public void checkOutwardDetailsPresentInAppDB() {
-        List<Outward> outwardList = new ArrayList<>();
-
+        Log.i(TAG, "checkOutwardDetailsPresentInAppDB()");
+        outwardList = databaseObject.findOutwardDetailsInDB();
+        if (outwardList.size() == 0) {
+            Toast.makeText(getApplicationContext(),
+                    "Outward Details Not Found to Sync : ",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        syncOutwardDataWithServer();
         return;
     }
 
-    public void syncDataWithServer() {
-        Log.i(TAG, "SyncDataWithServer");
+    public void syncInwardDataWithServer() {
+        Log.i(TAG, "SyncInwardDataWithServer");
         try {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlAdress = "/synchronize/inward/" + session.getFromSession("whUser_id");
+                    String urlAdress = "/synchronize/inward/";
                     try {
                         HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
@@ -123,6 +126,39 @@ public class WarehouseDataSyncActivity extends AppCompatActivity implements View
         }
     }
 
+    public void syncOutwardDataWithServer() {
+        Log.i(TAG, "SyncOutwardDataWithServer");
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/synchronize/outward/";
+                    try {
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
+
+                        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                        os.writeBytes(convertIOutwardListToJson().toString());
+                        os.flush();
+                        os.close();
+                        Log.i("Request : ", convertInwardListToJson().toString());
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            databaseObject.deleteTableData(DatabaseHelper.TABLE_OUTWARD);
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public JSONArray convertInwardListToJson() {
         JSONArray jsonArray = new JSONArray();
         try {
@@ -144,6 +180,29 @@ public class WarehouseDataSyncActivity extends AppCompatActivity implements View
             }
         } catch (Exception e) {
             Log.e(TAG, "List to JSON Failed");
+        }
+        return jsonArray;
+    }
+
+    public JSONArray convertIOutwardListToJson() {
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for (Outward inward : outwardList) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("outwardId", inward.getOutwardId());
+                jsonObject.put("inwardId", inward.getInwardId());
+                jsonObject.put("outwardDate", inward.getOutwardDate());
+                jsonObject.put("traderId", inward.getTraderId());
+                jsonObject.put("totalQuantity", inward.getTotalQuantity());
+                jsonObject.put("bagWeight", inward.getBagWeight());
+                jsonObject.put("totalWeight", inward.getTotalWeight());
+                jsonObject.put("whAdminId", inward.getWhAdminId());
+                jsonObject.put("whUserId", inward.getWhUserId());
+                jsonArray.put(jsonObject);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "List to JSON Failed");
+            e.printStackTrace();
         }
         return jsonArray;
     }

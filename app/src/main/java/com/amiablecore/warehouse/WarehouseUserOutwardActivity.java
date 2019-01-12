@@ -16,9 +16,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.beans.Inward;
+import com.amiablecore.warehouse.beans.Outward;
 import com.amiablecore.warehouse.db.DbQueryExecutor;
 import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
+import com.amiablecore.warehouse.utils.Session;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONArray;
@@ -48,10 +50,12 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     private Map<String, Integer> inwardMap;
     private List<Inward> inwardList;
     private Inward inward;
+    private Session session;//global variable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        session = new Session(getApplicationContext());
         setContentView(R.layout.activity_warehouse_user_outward);
         initViews();
         addListeners();
@@ -95,6 +99,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                 pickUpOutwardDetails();
                 Toast.makeText(getApplicationContext(),
                         "Outward is Done...", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(WarehouseUserOutwardActivity.this, WarehouseUserActivity.class));//Redirect to User Dashboard Page
                 break;
             case R.id.btnOutwardCancel:
                 startActivity(new Intent(WarehouseUserOutwardActivity.this, WarehouseUserActivity.class));//Redirect to User Dashboard Page
@@ -143,7 +148,16 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         Log.i("Total Quantity : ", txtTotalQuantity.getText().toString());
         Log.i("Weight/Bag : ", txtBagWeight.getText().toString());
         Log.i("Outward Date : ", txtOutwardDate.getText().toString());
-
+        Outward outward = new Outward();
+        outward.setInwardId(inward.getInwardId());
+        outward.setTraderId(inward.getTraderId());
+        outward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
+        outward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
+        outward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
+        outward.setBagWeight(Double.parseDouble(txtBagWeight.getText().toString()));
+        outward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString()));
+        outward.setOutwardDate(txtOutwardDate.getText().toString());
+        databaseObject.addOutwarddLotDetails(outward);
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -282,6 +296,8 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                             Log.i("Response :", answer.toString());
                             JSONObject obj = new JSONObject(answer.toString());
                             inward = new Inward();
+                            inward.setTraderId(Integer.parseInt(obj.get("traderId").toString()));
+                            inward.setInwardId(Integer.parseInt(obj.get("inwardId").toString()));
                             inward.setTotalQuantity(Integer.parseInt(obj.get("totalQuantity").toString()));
                             inward.setWeightPerBag(Double.parseDouble(obj.get("weightPerBag").toString()));
                             inward.setTotalWeight(Double.parseDouble(obj.get("totalWeight").toString()));

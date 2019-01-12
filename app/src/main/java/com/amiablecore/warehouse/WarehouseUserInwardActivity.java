@@ -122,7 +122,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         inward.setPhysicalAddress(txtPhysicalAddress.getText().toString());
         inward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         inward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
-        databaseObject.addLotDetails(inward);
+        databaseObject.addInwardLotDetails(inward);
     }
 
     public void addListenerOnSpinnerItemSelection() {
