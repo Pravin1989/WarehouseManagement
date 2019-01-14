@@ -8,11 +8,11 @@ Data Sync for Inward:
         d.	If no then fetch all data and autofill to Inward Screen and ask user fill total Weight.	
 
 Inward : 
-    1. We need to add field validator and check.
+    1. We need to add field validator and check. - Done
     2. Total Weight field is optional So we can add null in DB. 
 
 Outward: 
-     1.	While doing outward we are checking lot already present.
+     1.	While doing outward we are checking lot already present. -
      2.	If present then we will check the value of total quantity and total weight of inward should not be more than the values we are doing outward.
      3.	Need to check Internet Connection.
      4.	First, we need to check the lot is present in server DB or not.
