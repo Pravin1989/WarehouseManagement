@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.utils.FieldsValidator;
@@ -14,6 +16,7 @@ import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -21,6 +24,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WarehouseCommodityForm extends AppCompatActivity implements View.OnClickListener {
 
@@ -29,6 +34,8 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
     private Session session;//global variable
     private static final String TAG = "WarehouseCommodityForm";
     static boolean commodityAdded = false;
+    private List<String> commoditiesList;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +49,10 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
         txtCommodityName = (EditText) findViewById(R.id.txtCommodity);
         btnCancelCommodity = findViewById(R.id.btnCancelCommodity);
         btnAddCommodity = findViewById(R.id.btnAddCommodity);
-
+        listView = findViewById(R.id.commodityListView);
         btnAddCommodity.setOnClickListener(this);
         btnCancelCommodity.setOnClickListener(this);
+        retrievedCommodities();
     }
 
     @Override
@@ -123,5 +131,68 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
         return commodityAdded;
+    }
+
+    public void retrievedCommodities() {
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/commodity/retrieve/admin/" + session.getFromSession("wh_id");
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+
+                        Log.i("Status Code :", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.i("Response : ", answer.toString());
+                            JSONArray obj = new JSONArray(answer.toString());
+                            commoditiesList = new ArrayList<>();
+                            for (int i = 0; i < obj.length(); i++) {
+                                commoditiesList.add(obj.getJSONObject(i).get("commodityName").toString());
+                            }
+                            updateCommoditiesList();
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCommoditiesList() {
+        final ArrayAdapter adapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, commoditiesList);
+        listView.setAdapter(adapter);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                Toast.makeText(getApplicationContext(),
+//                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
+//                        .show();
+//            }
+//        });
     }
 }

@@ -9,7 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.utils.FieldsValidator;
@@ -25,7 +27,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WarehouseCategoryForm extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -36,7 +40,11 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
     private Session session;//global variable
     private static final String TAG = "WarehouseCategoryForm: ";
     static boolean categoryAdded = false;
-    Map<String, Integer> commoditiesMap = new HashMap<>();
+    Map<String, Integer> commoditiesMap;
+    List<String> categoriesList;
+    private ListView listView;
+    private Integer commodityId;
+    private TextView lblAvailableCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +59,12 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
         txtCategoryName = (EditText) findViewById(R.id.txtCategory);
         btnCategoryCancel = findViewById(R.id.btnCancelCategory);
         btnSaveCategory = findViewById(R.id.btnAddCategory);
-
+        listView = findViewById(R.id.categoriesListView);
         btnSaveCategory.setOnClickListener(this);
         btnCategoryCancel.setOnClickListener(this);
         cmbCommodity = (Spinner) findViewById(R.id.cmbCategoryComodity);
         cmbCommodity.setOnItemSelectedListener(this);
+        lblAvailableCategories = findViewById(R.id.lblAvailableCategories);
     }
 
     @Override
@@ -87,6 +96,12 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
         Toast.makeText(parent.getContext(),
                 "Selected  : " + parent.getItemAtPosition(pos).toString(),
                 Toast.LENGTH_SHORT).show();
+        lblAvailableCategories.setVisibility(View.INVISIBLE);
+        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY)) {
+            commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString());
+            retrievedCategories();
+            showAvailableCategories();
+        }
     }
 
     @Override
@@ -126,6 +141,7 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                             String[] commoditiesList = new String[obj.length() + 1];
                             commoditiesList[0] = StaticConstants.SELECT_COMMODITY;
                             int j = 1;
+                            commoditiesMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
                                 commoditiesList[j] = obj.getJSONObject(i).get("commodityName").toString();
                                 commoditiesMap.put(commoditiesList[j], Integer.parseInt(obj.getJSONObject(i).get("commodityId").toString()));
@@ -206,5 +222,66 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
         return categoryAdded;
+    }
+
+    public void retrievedCategories() {
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/category/retrieve/admin/" + commodityId;
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+
+                        Log.i("Status Code :", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.i("Response : ", answer.toString());
+                            JSONArray obj = new JSONArray(answer.toString());
+                            categoriesList = new ArrayList<>();
+                            for (int i = 0; i < obj.length(); i++) {
+                                categoriesList.add(obj.getJSONObject(i).get("categoryName").toString());
+                            }
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAvailableCategories() {
+        if (categoriesList.size() != 0) {
+            lblAvailableCategories.setVisibility(View.VISIBLE);
+            final ArrayAdapter adapter = new ArrayAdapter(this,
+                    android.R.layout.simple_list_item_1, categoriesList);
+            listView.setAdapter(adapter);
+        } else {
+            lblAvailableCategories.setVisibility(View.INVISIBLE);
+            final ArrayAdapter adapter = new ArrayAdapter(this,
+                    android.R.layout.simple_list_item_1, new ArrayList());
+            listView.setAdapter(adapter);
+        }
     }
 }
