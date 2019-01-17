@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.amiablecore.warehouse.WarehouseUserOutwardActivity;
 import com.amiablecore.warehouse.beans.Inward;
 import com.amiablecore.warehouse.beans.Outward;
 
@@ -25,6 +26,7 @@ public class DbQueryExecutor extends DbObject {
             contentValue.put("lot_name", inward.getLotName());
             contentValue.put("commodity_id", inward.getCommodityId());
             contentValue.put("category_id", inward.getCategoryId());
+            inward.setTotalWeight(inward.getTotalQuantity() * inward.getWeightPerBag());
             contentValue.put("total_weight", inward.getTotalWeight());
             contentValue.put("total_quantity", inward.getTotalQuantity());
             contentValue.put("weight_per_bag", inward.getWeightPerBag());
@@ -77,17 +79,24 @@ public class DbQueryExecutor extends DbObject {
     public void addOutwarddLotDetails(Outward outward) {
         Outward out = verifyOutwardDetailsInDb(outward);
         if (out.getInwardId() != null) {
-            int totCount = outward.getTotalQuantity() + out.getTotalQuantity();
-            double totWeight = outward.getTotalWeight() + out.getTotalWeight();
-            outward.setTotalQuantity(totCount);
-            outward.setTotalWeight(totWeight);
-            updateOutwardDetails(outward);
+            if (outward.getTotalQuantity().equals(WarehouseUserOutwardActivity.getBackupInward().getTotalQuantity())) {
+                outward.setTotalQuantity(WarehouseUserOutwardActivity.getBackupInward().getTotalQuantity());
+                outward.setTotalWeight(WarehouseUserOutwardActivity.getBackupInward().getTotalWeight());
+                updateOutwardDetails(outward);
+            } else {
+                int totCount = outward.getTotalQuantity() + out.getTotalQuantity();
+                double totWeight = outward.getTotalWeight() + out.getTotalWeight();
+                outward.setTotalQuantity(totCount);
+                outward.setTotalWeight(totWeight);
+                updateOutwardDetails(outward);
+            }
             return;
         }
         try {
             ContentValues contentValue = new ContentValues();
             contentValue.put("inward_id", outward.getInwardId());
             contentValue.put("trader_id", outward.getTraderId());
+            outward.setTotalWeight(outward.getTotalQuantity() * outward.getBagWeight());
             contentValue.put("total_weight", outward.getTotalWeight());
             contentValue.put("total_quantity", outward.getTotalQuantity());
             contentValue.put("weight_per_bag", outward.getBagWeight());
@@ -118,7 +127,6 @@ public class DbQueryExecutor extends DbObject {
             out.setTotalQuantity(totalCurrentQty);
             out.setTotalWeight(totalWeight);
         }
-
         Log.i(TAG, "Fetched Inward ID :" + String.valueOf(out.getInwardId()));
         Log.i(TAG, "VerifyOutwardDetailsInDB");
         return out;
@@ -127,6 +135,7 @@ public class DbQueryExecutor extends DbObject {
     public Integer updateOutwardDetails(Outward outward) {
         ContentValues contentValue = new ContentValues();
         contentValue.put("trader_id", outward.getTraderId());
+        outward.setTotalWeight(outward.getTotalQuantity() * outward.getBagWeight());
         contentValue.put("total_weight", outward.getTotalWeight());
         contentValue.put("total_quantity", outward.getTotalQuantity());
         contentValue.put("weight_per_bag", outward.getBagWeight());
@@ -156,6 +165,32 @@ public class DbQueryExecutor extends DbObject {
                 Integer adminId = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("wh_admin_id")));
                 Integer userId = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("wh_user_id")));
                 String lotName = cursor.getString(cursor.getColumnIndexOrThrow("lot_name"));
+                mItems.add(new Outward(id, traderId, inwardId, adminId, userId, date, totalCurrentQty, bagWeight * totalCurrentQty, bagWeight, lotName));
+            } while (cursor.moveToNext());
+        }
+        Log.i(TAG, String.valueOf(mItems.size()));
+        cursor.close();
+        return mItems;
+    }
+
+    public List<Outward> verifyTotalWeightInOutwardDB() {
+        List<Outward> mItems = new ArrayList<>();
+        String query = "Select * from " + DatabaseHelper.TABLE_OUTWARD + " where total_weight is null";
+        Cursor cursor = this.getDbConnection().rawQuery(query, null);
+        Log.i(TAG, "Looking into Outward DB");
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String date = cursor.getString(cursor.getColumnIndexOrThrow("outward_date"));
+                Integer traderId = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("trader_id")));
+                Integer inwardId = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("inward_id")));
+                Integer totalCurrentQty = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("total_quantity")));
+                Double bagWeight = Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("weight_per_bag")));
+                Double totalWeight = Double.parseDouble(cursor.getString(cursor.getColumnIndexOrThrow("total_weight")));
+                Integer adminId = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("wh_admin_id")));
+                Integer userId = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("wh_user_id")));
+                String lotName = cursor.getString(cursor.getColumnIndexOrThrow("lot_name"));
+                ;
                 mItems.add(new Outward(id, traderId, inwardId, adminId, userId, date, totalCurrentQty, totalWeight, bagWeight, lotName));
             } while (cursor.moveToNext());
         }

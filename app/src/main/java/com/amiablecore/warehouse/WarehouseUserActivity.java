@@ -117,6 +117,7 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
     public void redirectToLoginPage(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_logout:
+                session.clearSession();
                 startActivity(new Intent(this, MainActivity.class));
         }
     }

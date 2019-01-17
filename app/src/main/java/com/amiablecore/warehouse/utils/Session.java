@@ -19,4 +19,10 @@ public class Session {
         String usename = prefs.getString(key, "");
         return usename;
     }
+
+    public void clearSession() {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

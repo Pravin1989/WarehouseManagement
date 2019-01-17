@@ -50,6 +50,12 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     private Map<String, Integer> inwardMap;
     private List<Inward> inwardList;
     private Inward inward;
+
+    public static Inward getBackupInward() {
+        return backupInward;
+    }
+
+    private static Inward backupInward;
     private Session session;//global variable
 
     @Override
@@ -321,5 +327,8 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         txtTotalQuantity.setText(inward.getTotalQuantity().toString());
         txtBagWeight.setText(inward.getWeightPerBag().toString());
         txtTotalWeight.setText(inward.getTotalWeight().toString());
+        backupInward = new Inward();
+        backupInward.setTotalWeight(inward.getTotalWeight());
+        backupInward.setTotalQuantity(inward.getTotalQuantity());
     }
 }

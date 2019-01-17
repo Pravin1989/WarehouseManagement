@@ -125,6 +125,7 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
     public void redirectToLogin(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_logout:
+                session.clearSession();
                 startActivity(new Intent(this, MainActivity.class));
         }
     }
