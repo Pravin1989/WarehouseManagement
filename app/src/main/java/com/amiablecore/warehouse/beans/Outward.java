@@ -12,8 +12,9 @@ public class Outward {
     private String outwardDate;
     private Integer totalQuantity;
     private Double totalWeight;
+    private String lotName;
 
-    public Outward(Integer outwardId, Integer traderId, Integer inwardId, Integer whAdminId, Integer whUserId, String outwardDate, Integer totalQuantity, Double totalWeight, Double bagWeight) {
+    public Outward(Integer outwardId, Integer traderId, Integer inwardId, Integer whAdminId, Integer whUserId, String outwardDate, Integer totalQuantity, Double totalWeight, Double bagWeight, String lotName) {
         this.outwardId = outwardId;
         this.traderId = traderId;
         this.inwardId = inwardId;
@@ -23,8 +24,19 @@ public class Outward {
         this.totalQuantity = totalQuantity;
         this.totalWeight = totalWeight;
         this.bagWeight = bagWeight;
+        this.lotName = lotName;
     }
-    public Outward(){
+
+    public Outward() {
+    }
+
+    public void setLotName(String lotName) {
+        this.lotName = lotName;
+    }
+
+    public String getLotName() {
+
+        return lotName;
     }
 
     private Double bagWeight;

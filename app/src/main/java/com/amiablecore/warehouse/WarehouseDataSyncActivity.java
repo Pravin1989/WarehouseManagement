@@ -32,6 +32,7 @@ public class WarehouseDataSyncActivity extends AppCompatActivity implements View
     private DbQueryExecutor databaseObject;
     private List<Inward> inwardList;
     private List<Outward> outwardList;
+    private List<Outward> outwardCompleteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,9 @@ public class WarehouseDataSyncActivity extends AppCompatActivity implements View
             return;
         }
         syncInwardDataWithServer();
+        Toast.makeText(getApplicationContext(),
+                "Inward Details Sync Done : ",
+                Toast.LENGTH_SHORT).show();
         return;
     }
 
@@ -91,6 +95,9 @@ public class WarehouseDataSyncActivity extends AppCompatActivity implements View
             return;
         }
         syncOutwardDataWithServer();
+        Toast.makeText(getApplicationContext(),
+                "Outward Details Sync Done: ",
+                Toast.LENGTH_SHORT).show();
         return;
     }
 

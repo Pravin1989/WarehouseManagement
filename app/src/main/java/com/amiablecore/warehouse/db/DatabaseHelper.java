@@ -20,14 +20,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "WAREHOUSEAPP.DB";
 
     // database version
-    static final int DB_VERSION = 6;
+    static final int DB_VERSION = 7;
 
     // Creating table query
     private static final String CREATE_INWARD_TABLE = "create table " + TABLE_INWARD + "(" + inwardId
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + "trader_id INTEGER NOT NULL, lot_name TEXT NOT NULL, commodity_id INTEGER NOT NULL, category_id INTEGER NOT NULL, total_weight REAL, total_quantity INTEGER NOT NULL, weight_per_bag REAL NOT NULL, inward_date TEXT NOT NULL, physical_address TEXT NOT NULL, wh_admin_id INTEGER NOT NULL, wh_user_id INTEGER NOT NULL);";
 
     private static final String CREATE_OUTWARD_TABLE = "create table " + TABLE_OUTWARD + "(" + outwardId
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + "inward_id INTEGER NOT NULL, trader_id INTEGER NOT NULL, total_weight REAL, total_quantity INTEGER NOT NULL, weight_per_bag REAL NOT NULL, outward_date TEXT NOT NULL, wh_admin_id INTEGER NOT NULL, wh_user_id INTEGER NOT NULL);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + "inward_id INTEGER NOT NULL,lot_name TEXT NOT NULL, trader_id INTEGER NOT NULL, total_weight REAL, total_quantity INTEGER NOT NULL, weight_per_bag REAL NOT NULL, outward_date TEXT NOT NULL, wh_admin_id INTEGER NOT NULL, wh_user_id INTEGER NOT NULL);";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

@@ -31,3 +31,5 @@ Other Work :
      Need to add security to rest services.
      Store Category and Commodity Details in Cache.
      First Check Cache if not present in cache then read from Server.
+
+     Need to message once Inward Sync Done.

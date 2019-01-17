@@ -151,6 +151,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         Outward outward = new Outward();
         outward.setInwardId(inward.getInwardId());
         outward.setTraderId(inward.getTraderId());
+        outward.setLotName(inward.getLotName());
         outward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         outward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
         outward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
@@ -298,6 +299,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                             inward = new Inward();
                             inward.setTraderId(Integer.parseInt(obj.get("traderId").toString()));
                             inward.setInwardId(Integer.parseInt(obj.get("inwardId").toString()));
+                            inward.setLotName(obj.get("lotName").toString());
                             inward.setTotalQuantity(Integer.parseInt(obj.get("totalQuantity").toString()));
                             inward.setWeightPerBag(Double.parseDouble(obj.get("weightPerBag").toString()));
                             inward.setTotalWeight(Double.parseDouble(obj.get("totalWeight").toString()));
