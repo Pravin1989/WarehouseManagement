@@ -141,6 +141,10 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
             FieldsValidator.setError(txtTraderEmail, StaticConstants.ERROR_ADD_TRADER_EMAIL_MSG);
             return true;
         }
+        if (!FieldsValidator.isValidEmail(txtTraderEmail.getText().toString())) {
+            FieldsValidator.setError(txtTraderEmail, StaticConstants.ERROR_VALID_TRADER_EMAIL_MSG);
+            return true;
+        }
         if (FieldsValidator.isEmpty(txtTraderName)) {
             FieldsValidator.setError(txtTraderName, StaticConstants.ERROR_ADD_TRADER_NAME_MSG);
             return true;

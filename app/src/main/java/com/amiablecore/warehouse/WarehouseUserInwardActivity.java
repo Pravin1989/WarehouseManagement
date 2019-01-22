@@ -25,8 +25,10 @@ import com.amiablecore.warehouse.utils.Session;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -45,7 +47,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     private static final String TAG = "Warehouse Inward";
     private Session session;//global variable
     Map<String, Integer> commoditiesMap;
-    Map<String, Integer> tradersMap ;
+    Map<String, Integer> tradersMap;
     Map<String, Integer> categoriesMap;
     String[] categoriesList;
     private DbQueryExecutor databaseObject;
@@ -53,6 +55,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     SearchView searchView;
     private ListView listView;
     private String searchQuery;
+    private Inward inward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +89,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAdd:
-                if(validateFields()){
+                if (validateFields()) {
                     break;
                 }
                 keepInwardDetailsToDb();
@@ -99,8 +102,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     private void keepInwardDetailsToDb() {
-        Toast.makeText(getApplicationContext(),
-                "User is added In DB...", Toast.LENGTH_SHORT).show();
         Log.i("Lot Name : ", txtLotName.getText().toString());
         Log.i("Trader Name : ", txtSelectedTrader.getText().toString());
         Log.i("Commodity Name : ", cmbCommodity.getSelectedItem().toString());
@@ -110,19 +111,75 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         Log.i("Weight/Bag : ", txtBagWeight.getText().toString());
         Log.i("Inward Date : ", txtInwardDate.getText().toString());
         Log.i("Physical Address : ", txtPhysicalAddress.getText().toString());
-        Inward inward = new Inward();
+        inward = new Inward();
         inward.setTraderId(tradersMap.get(txtSelectedTrader.getText().toString()));
         inward.setLotName(txtLotName.getText().toString());
         inward.setCommodityId(commoditiesMap.get(cmbCommodity.getSelectedItem().toString()));
         inward.setCategoryId(categoriesMap.get(cmbCategory.getSelectedItem().toString()));
-        inward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
+        if (txtTotalWeight.getText().toString().length() != 0)
+            inward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
         inward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString()));
         inward.setWeightPerBag(Double.parseDouble(txtBagWeight.getText().toString()));
         inward.setInwardDate(txtInwardDate.getText().toString());
         inward.setPhysicalAddress(txtPhysicalAddress.getText().toString());
         inward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         inward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
-        databaseObject.addInwardLotDetails(inward);
+        storeInwardDataToDB();
+    }
+
+    public void storeInwardDataToDB() {
+        Log.i(TAG, "StoreInwardDetailsWithDB");
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/lot/inward/";
+                    try {
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
+
+                        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                        os.writeBytes(convertInwardToJson().toString());
+                        os.flush();
+                        os.close();
+                        Log.i("Request : ", convertInwardToJson().toString());
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 201) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Inward Completed : ",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject convertInwardToJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("inwardId", inward.getInwardId());
+            jsonObject.put("inwardDate", inward.getInwardDate());
+            jsonObject.put("lotName", inward.getLotName());
+            jsonObject.put("traderId", inward.getTraderId());
+            jsonObject.put("commodityId", inward.getCommodityId());
+            jsonObject.put("categoryId", inward.getCategoryId());
+            jsonObject.put("totalQuantity", inward.getTotalQuantity());
+            jsonObject.put("weightPerBag", inward.getWeightPerBag());
+            jsonObject.put("totalWeight", inward.getTotalWeight());
+            jsonObject.put("physicalAddress", inward.getPhysicalAddress());
+            jsonObject.put("whAdminId", inward.getWhAdminId());
+            jsonObject.put("whUserId", inward.getWhUserId());
+        } catch (Exception e) {
+            Log.e(TAG, "List to JSON Failed");
+        }
+        return jsonObject;
     }
 
     public void addListenerOnSpinnerItemSelection() {

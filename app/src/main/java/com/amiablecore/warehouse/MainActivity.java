@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.utils.FieldsValidator;
+import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONObject;
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } else {
                         userType = StaticConstants.WH_USER;
                     }
-                    String urlAdress = StaticConstants.BASE_URL + "/login/" + userType;
+                    String urlAdress = HttpUtils.BASE_URL + "/login/" + userType;
                     try {
                         URL url = new URL(urlAdress);
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
