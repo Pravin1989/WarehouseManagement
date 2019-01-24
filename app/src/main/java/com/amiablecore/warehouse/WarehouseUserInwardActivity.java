@@ -50,7 +50,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     Map<String, Integer> tradersMap;
     Map<String, Integer> categoriesMap;
     String[] categoriesList;
-    private DbQueryExecutor databaseObject;
     List<Trader> traderList;
     SearchView searchView;
     private ListView listView;
@@ -128,7 +127,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void storeInwardDataToDB() {
-        Log.i(TAG, "StoreInwardDetailsWithDB");
+        Log.i(TAG, "StoreInwardDetailsToDB");
         try {
             Thread thread = new Thread(new Runnable() {
                 @Override
@@ -415,7 +414,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void updateTraders() {
-        databaseObject = new DbQueryExecutor(WarehouseUserInwardActivity.this);
         listView = (ListView) findViewById(R.id.listView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

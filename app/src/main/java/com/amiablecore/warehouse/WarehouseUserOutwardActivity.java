@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.amiablecore.warehouse.beans.Inward;
 import com.amiablecore.warehouse.beans.Outward;
-import com.amiablecore.warehouse.db.DbQueryExecutor;
 import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
@@ -27,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -44,12 +44,12 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     private static final String TAG = "Warehouse Outward";
     private SearchView searchView;
     private ListView listView;
-    private DbQueryExecutor databaseObject;
     private String searchQuery;
     private Integer inwardId;
     private Map<String, Integer> inwardMap;
     private List<Inward> inwardList;
     private Inward inward;
+    private Outward outward;
 
     public static Inward getBackupInward() {
         return backupInward;
@@ -81,7 +81,6 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("Enter Lot Name");
 
-        databaseObject = new DbQueryExecutor(WarehouseUserOutwardActivity.this);
         listView = (ListView) findViewById(R.id.listView);
         txtSelectedLot = (EditText) findViewById(R.id.selectedLot);
 
@@ -154,17 +153,70 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         Log.i("Total Quantity : ", txtTotalQuantity.getText().toString());
         Log.i("Weight/Bag : ", txtBagWeight.getText().toString());
         Log.i("Outward Date : ", txtOutwardDate.getText().toString());
-        Outward outward = new Outward();
+        outward = new Outward();
         outward.setInwardId(inward.getInwardId());
         outward.setTraderId(inward.getTraderId());
-        outward.setLotName(inward.getLotName());
         outward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         outward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
-        outward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
+        if (txtTotalWeight.getText().toString().length() != 0)
+            outward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
         outward.setBagWeight(Double.parseDouble(txtBagWeight.getText().toString()));
         outward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString()));
         outward.setOutwardDate(txtOutwardDate.getText().toString());
-        databaseObject.addOutwarddLotDetails(outward);
+        storeOutwardDataToDB();
+    }
+
+    public void storeOutwardDataToDB() {
+        Log.i(TAG, "StoreOutwardDetailsToDB");
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/lot/outward/";
+                    try {
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
+
+                        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                        os.writeBytes(convertOutwardToJson().toString());
+                        os.flush();
+                        os.close();
+                        Log.i("Request : ", convertOutwardToJson().toString());
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 201) {
+                            Toast.makeText(getApplicationContext(),
+                                    "Outward Completed : ",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject convertOutwardToJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("outwardId", outward.getOutwardId());
+            jsonObject.put("inwardId", outward.getInwardId());
+            jsonObject.put("outwardDate", outward.getOutwardDate());
+            jsonObject.put("traderId", outward.getTraderId());
+            jsonObject.put("totalQuantity", outward.getTotalQuantity());
+            jsonObject.put("bagWeight", outward.getBagWeight());
+            jsonObject.put("totalWeight", outward.getTotalWeight());
+            jsonObject.put("whAdminId", outward.getWhAdminId());
+            jsonObject.put("whUserId", outward.getWhUserId());
+        } catch (Exception e) {
+            Log.e(TAG, "List to JSON Failed");
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
