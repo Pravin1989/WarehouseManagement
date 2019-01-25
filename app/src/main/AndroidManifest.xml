@@ -9,6 +9,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -27,15 +28,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.amiablecore.warehouse.WarehouseAdminActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.amiablecore.warehouse.WarehouseAdminActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseCommodityForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseCategoryForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseTraderForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserOutwardActivity" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserInwardActivity" />
-        <activity android:name="com.amiablecore.warehouse.WarehouseDataSyncActivity" />
+        <activity android:name="com.amiablecore.warehouse.WarehouseInCompleteActivity" />
+        <activity android:name="com.amiablecore.warehouse.WarehouseInCompleteInwardActivity" />
+        <activity android:name="com.amiablecore.warehouse.WarehouseInCompleteOutwardActivity" />
         <activity
             android:name="com.amiablecore.warehouse.WarehouseUserActivity"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -34,14 +34,14 @@ import java.util.Map;
 
 public class WarehouseCategoryForm extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText txtCategoryName;
-    Button btnSaveCategory, btnCategoryCancel;
+    private EditText txtCategoryName;
+    private Button btnSaveCategory, btnCategoryCancel;
     private Spinner cmbCommodity;
     private Session session;//global variable
     private static final String TAG = "WarehouseCategoryForm: ";
     static boolean categoryAdded = false;
-    Map<String, Integer> commoditiesMap;
-    List<String> categoriesList;
+    private Map<String, Integer> commoditiesMap;
+    private List<String> categoriesList;
     private ListView listView;
     private Integer commodityId;
     private TextView lblAvailableCategories;

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context="com.amiablecore.warehouse.WarehouseUserActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/wa"
         android:layout_width="match_parent"
@@ -19,7 +17,6 @@
         android:scrollbars="vertical"
         tools:context="com.amiablecore.warehouse.WarehouseUserActivity">
 
-        <!-- This is starting of Old-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +25,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardInwardSyncId"
+                android:id="@+id/cardInwardInCompleteId"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp"
@@ -52,7 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Sync Inward"
+                        android:text="Inward"
                         android:textStyle="bold" />
 
                     <View
@@ -66,14 +63,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Sync Inward Data with Server"
+                        android:text="Complete Inward Details"
                         android:textColor="@android:color/darker_gray" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardOutwardSyncId"
+                android:id="@+id/cardOutwardInCompleteId"
                 android:layout_width="160dp"
                 android:layout_height="190dp"
                 android:layout_margin="10dp"
@@ -97,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Sync Outward"
+                        android:text="Outward"
                         android:textStyle="bold" />
 
                     <View
@@ -111,13 +108,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Sync Outward with Server"
+                        android:text="Complete Outward Details"
                         android:textColor="@android:color/darker_gray" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
             <Button
-                android:id="@+id/btnSyncCancel"
+                android:id="@+id/btnInCompleteCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cancel" />

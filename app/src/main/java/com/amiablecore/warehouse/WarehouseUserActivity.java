@@ -17,7 +17,7 @@ import com.amiablecore.warehouse.utils.Session;
 
 public class WarehouseUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CardView cardInward, cardOutward, cardSyncData;
+    private CardView cardInward, cardOutward, cardcardInCompleteTask;
     private DrawerLayout mDrawerLayout;
     private Session session;//global variable
     private static final String TAG = "WarehouseUserActivity";
@@ -36,10 +36,10 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
     private void initViews() {
         cardInward = (CardView) findViewById(R.id.cardInwardId);
         cardOutward = (CardView) findViewById(R.id.cardOutwardId);
-        cardSyncData = (CardView) findViewById(R.id.cardSyncDataId);
+        cardcardInCompleteTask = (CardView) findViewById(R.id.cardInCompleteTaskId);
         cardInward.setOnClickListener(this);
         cardOutward.setOnClickListener(this);
-        cardSyncData.setOnClickListener(this);
+        cardcardInCompleteTask.setOnClickListener(this);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
@@ -98,8 +98,8 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
             case R.id.cardOutwardId:
                 startActivity(new Intent(this, WarehouseUserOutwardActivity.class));
                 break;
-            case R.id.cardSyncDataId:
-                startActivity(new Intent(this, WarehouseDataSyncActivity.class));
+            case R.id.cardInCompleteTaskId:
+                startActivity(new Intent(this, WarehouseInCompleteActivity.class));
                 break;
         }
     }

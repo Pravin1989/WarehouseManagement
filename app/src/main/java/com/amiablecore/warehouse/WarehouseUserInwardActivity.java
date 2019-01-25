@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.amiablecore.warehouse.beans.Inward;
 import com.amiablecore.warehouse.beans.Trader;
-import com.amiablecore.warehouse.db.DbQueryExecutor;
 import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
@@ -46,15 +45,16 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Inward";
     private Session session;//global variable
-    Map<String, Integer> commoditiesMap;
-    Map<String, Integer> tradersMap;
-    Map<String, Integer> categoriesMap;
-    String[] categoriesList;
-    List<Trader> traderList;
-    SearchView searchView;
+    private Map<String, Integer> commoditiesMap;
+    private Map<String, Integer> tradersMap;
+    private Map<String, Integer> categoriesMap;
+    private String[] categoriesList;
+    private List<Trader> traderList;
+    private SearchView searchView;
     private ListView listView;
     private String searchQuery;
     private Inward inward;
+    private boolean inwardDone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +123,11 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         inward.setPhysicalAddress(txtPhysicalAddress.getText().toString());
         inward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         inward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
+        inwardDone = false;
         storeInwardDataToDB();
+        if (inwardDone) {
+            showInwardConfirmMessage();
+        }
     }
 
     public void storeInwardDataToDB() {
@@ -143,9 +147,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                         Log.i("Request : ", convertInwardToJson().toString());
                         Log.i("STATUS", String.valueOf(conn.getResponseCode()));
                         if (conn.getResponseCode() == 201) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Inward Completed : ",
-                                    Toast.LENGTH_SHORT).show();
+                            inwardDone = true;
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -158,6 +160,12 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showInwardConfirmMessage() {
+        Toast.makeText(getApplicationContext(),
+                "Inward Completed : ",
+                Toast.LENGTH_SHORT).show();
     }
 
     public JSONObject convertInwardToJson() {

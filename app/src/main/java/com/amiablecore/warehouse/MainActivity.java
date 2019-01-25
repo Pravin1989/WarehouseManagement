@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean userPresent;
 
     private TextView attemptText;
-    int counter = 3;
-    boolean itemChanged = false;
-    String itemValue;
+    private int counter = 3;
+    private boolean itemChanged = false;
+    private String itemValue;
+    private boolean adminSubscriptionExpired;
 
     public static String getUserType() {
         return userType;
@@ -80,7 +81,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (validateFields()) {
                     break;
                 }
+                adminSubscriptionExpired = false;
                 if (verifyUserCredentials()) {
+                    if (adminSubscriptionExpired) {
+                        showSubscriptionExpiredMessage();
+                        return;
+                    }
+                    redirectToDashboard();
                     Toast.makeText(getApplicationContext(),
                             "Logged In...", Toast.LENGTH_SHORT).show();
                 } else {
@@ -181,11 +188,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Log.i("Warehouse ID : ", obj.get("whId").toString());
                             if (userPresent && StaticConstants.WH_ADMIN.equals(userType)) {
                                 whAdminId = obj.get("whId").toString();
-                                redirectToDashboard();
+                                adminSubscriptionExpired = (boolean) obj.get("adminSubscriptionExpired");
                             } else if (userPresent && StaticConstants.WH_USER.equals(userType)) {
                                 whAdminId = obj.get("whId").toString();
                                 whUserId = obj.get("userId").toString();
-                                redirectToDashboard();
+                                adminSubscriptionExpired = (boolean) obj.get("adminSubscriptionExpired");
                             }
                         }
                         conn.disconnect();
@@ -200,6 +207,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         return userPresent;
+    }
+
+    public void showSubscriptionExpiredMessage() {
+        Toast.makeText(getApplicationContext(),
+                "Admin Subscription Expired ",
+                Toast.LENGTH_SHORT).show();
     }
 
     private void redirectToDashboard() {

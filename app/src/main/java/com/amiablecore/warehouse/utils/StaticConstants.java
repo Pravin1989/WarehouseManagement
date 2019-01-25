@@ -5,12 +5,16 @@ public class StaticConstants {
     public final static String WH_USER = "WH_USER";
     public final static String SELECT_COMMODITY = "Select Commodity....";
     public final static String SELECT_CATEGORY = "Select Category....";
+    public final static String SELECT_INWARD = "Select Inward Lot";
+    public final static String SELECT_OUTWARD = "Select Outward Lot";
     public final static String SELECT_TRADER = "Select Trader....";
     public final static String ERROR_COMMODITY_MSG = "Please add Commodity Name";
     public final static String ERROR_CATEGORY_MSG = "Please add Category Name";
     public final static String ERROR_COMMODITY_MSG_SELECT = "Please Select Commodity";
+    public final static String ERROR_IN_COMPLETE_MSG_SELECT = "Please Select Lot";
     public final static String ERROR_CATEGORY_MSG_SELECT = "Please Select Category";
     public final static String ERROR_BAG_WEIGHT_MSG = "Please Add Bag Weight";
+    public final static String ERROR_TOTAL_WEIGHT_MSG = "Please Add Total Weight";
     public final static String ERROR_TOTAL_QTY_MSG = "Please Add Total Quantity";
     public final static String ERROR_SELECT_LOT_MSG = "Please Search and Select Lot";
     public final static String ERROR_OUTWARD_DATE_MSG = "Please Select Outward Date";

@@ -50,6 +50,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     private List<Inward> inwardList;
     private Inward inward;
     private Outward outward;
+    private boolean outwardDone;
 
     public static Inward getBackupInward() {
         return backupInward;
@@ -156,6 +157,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         outward = new Outward();
         outward.setInwardId(inward.getInwardId());
         outward.setTraderId(inward.getTraderId());
+        outward.setLotName(inward.getLotName());
         outward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         outward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
         if (txtTotalWeight.getText().toString().length() != 0)
@@ -163,7 +165,11 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         outward.setBagWeight(Double.parseDouble(txtBagWeight.getText().toString()));
         outward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString()));
         outward.setOutwardDate(txtOutwardDate.getText().toString());
+        outwardDone = false;
         storeOutwardDataToDB();
+        if (outwardDone) {
+            showOutwardConfirmMessage();
+        }
     }
 
     public void storeOutwardDataToDB() {
@@ -183,9 +189,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                         Log.i("Request : ", convertOutwardToJson().toString());
                         Log.i("STATUS", String.valueOf(conn.getResponseCode()));
                         if (conn.getResponseCode() == 201) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Outward Completed : ",
-                                    Toast.LENGTH_SHORT).show();
+                            outwardDone = true;
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -198,6 +202,12 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showOutwardConfirmMessage() {
+        Toast.makeText(getApplicationContext(),
+                "Outward Completed : ",
+                Toast.LENGTH_SHORT).show();
     }
 
     public JSONObject convertOutwardToJson() {

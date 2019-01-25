@@ -7,6 +7,8 @@
     <string name="lot_prompt">Choose Lot</string>
     <string name="trader_prompt">Choose Trader</string>
     <string name="commodity_prompt">Choose Commodity</string>
+    <string name="inward_prompt">Choose Lot</string>
+    <string name="outward_prompt">Choose Lot</string>
     <string name="category_prompt">Choose Category</string>
     <string name="logout">Logout</string>
     <string name="slideshow">Slideshow</string>
@@ -30,6 +32,14 @@
         <item>Commodity 1</item>
         <item>Commodity 2</item>
         <item>Commodity 3</item>
+    </string-array>
+    <string-array name="inward_arrays">
+        <item>Inward 1</item>
+        <item>Inward 2</item>
+    </string-array>
+    <string-array name="outward_arrays">
+        <item>Outward 1</item>
+        <item>Outward 2</item>
     </string-array>
     <string-array name="category_arrays">
         <item>Category 1</item>
