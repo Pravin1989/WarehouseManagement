@@ -222,6 +222,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
             jsonObject.put("totalWeight", outward.getTotalWeight());
             jsonObject.put("whAdminId", outward.getWhAdminId());
             jsonObject.put("whUserId", outward.getWhUserId());
+            jsonObject.put("lotName", outward.getLotName());
         } catch (Exception e) {
             Log.e(TAG, "List to JSON Failed");
             e.printStackTrace();

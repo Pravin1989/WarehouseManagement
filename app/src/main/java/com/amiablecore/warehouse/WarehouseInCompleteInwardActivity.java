@@ -35,6 +35,8 @@ public class WarehouseInCompleteInwardActivity extends AppCompatActivity impleme
     private Map<String, Integer> inwardLotMap;
     private Integer inwardId;
     private static final String TAG = "WHInCompleteInward";
+    private boolean inwardUpdated;
+    private Double totalWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,18 @@ public class WarehouseInCompleteInwardActivity extends AppCompatActivity impleme
                 }
                 if (FieldsValidator.isItemSelectedInSpinner(cmbInward)) {
                     break;
+                }
+                if (inwardLotMap.size() == 0) {
+                    Toast.makeText(getApplicationContext(),
+                            "There is no incomplete lot",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                inwardUpdated = false;
+                totalWeight = Double.parseDouble(txtTotalWeightInward.getText().toString());
+                updateInCompleteInwardLot();
+                if (inwardUpdated) {
+                    startActivity(new Intent(this, WarehouseInCompleteActivity.class));
                 }
                 break;
             case R.id.btnCancelInwardUpdate:
@@ -141,6 +155,32 @@ public class WarehouseInCompleteInwardActivity extends AppCompatActivity impleme
                 Toast.LENGTH_SHORT).show();
         if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_INWARD)) {
             inwardId = inwardLotMap.get(parent.getItemAtPosition(pos).toString());
+        }
+    }
+
+    public void updateInCompleteInwardLot() {
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/lot/inward/update/" + inwardId + "/weight/" + totalWeight;
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            Log.i(TAG, "Total Weight in Inward Updated");
+                            inwardUpdated = true;
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

@@ -12,14 +12,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.beans.Outward;
 import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
 import com.amiablecore.warehouse.utils.StaticConstants;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -33,7 +36,10 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
     private Spinner cmbOutward;
     private Session session;//global variable
     private Map<String, Integer> outwardLotMap;
-    private Integer outwardId;
+    private Map<String, Outward> outwardListMap;
+    private Outward outward;
+    private boolean outwardUpdated;
+
     private static final String TAG = "WHInCompleteOutward";
 
     @Override
@@ -69,6 +75,15 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
                 if (FieldsValidator.isItemSelectedInSpinner(cmbOutward)) {
                     break;
                 }
+                outwardUpdated = false;
+                outward.setTotalWeight(Double.parseDouble(txtTotalWeightOutward.getText().toString()));
+                updateOutwardDataToDB();
+                if (outwardUpdated) {
+                    Toast.makeText(getApplicationContext(),
+                            "Outward and Inward Updated: ",
+                            Toast.LENGTH_SHORT).show();
+                }
+                startActivity(new Intent(this, WarehouseInCompleteActivity.class));
                 break;
             case R.id.btnCancelOutward:
                 Log.i(TAG, "btnCancelOutward ");
@@ -106,14 +121,20 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
                             }
                             Log.i(TAG, answer.toString());
                             JSONArray obj = new JSONArray(answer.toString());
-                            Log.i(TAG, obj.toString());
                             String[] outwardLotList = new String[obj.length() + 1];
                             outwardLotList[0] = StaticConstants.SELECT_OUTWARD;
                             int j = 1;
                             outwardLotMap = new HashMap<>();
+                            outwardListMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
-                                outwardLotList[j] = obj.getJSONObject(i).get("lotName").toString();
+                                String lotName = obj.getJSONObject(i).get("lotName").toString();
+                                Integer inwardId = Integer.parseInt(obj.getJSONObject(i).get("inwardId").toString());
+                                Integer outwardId = Integer.parseInt(obj.getJSONObject(i).get("outwardId").toString());
+                                Integer totalQuantity = Integer.parseInt(obj.getJSONObject(i).get("totalQuantity").toString());
+                                Double totalWeight = Double.parseDouble(obj.getJSONObject(i).get("totalWeight").toString());
+                                outwardLotList[j] = lotName;
                                 outwardLotMap.put(outwardLotList[j], Integer.parseInt(obj.getJSONObject(i).get("outwardId").toString()));
+                                outwardListMap.put(obj.getJSONObject(i).get("lotName").toString(), new Outward(outwardId, inwardId, totalQuantity, totalWeight, lotName));
                                 j++;
                             }
                             updateOutwardList(outwardLotList);
@@ -142,7 +163,54 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
                 "Selected  : " + parent.getItemAtPosition(pos).toString(),
                 Toast.LENGTH_SHORT).show();
         if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_OUTWARD)) {
-            outwardId = outwardLotMap.get(parent.getItemAtPosition(pos).toString());
+            outward = outwardListMap.get(parent.getItemAtPosition(pos).toString());
+        }
+    }
+
+    public JSONObject convertOutwardToJson(Outward outward) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("outwardId", outward.getOutwardId());
+            jsonObject.put("inwardId", outward.getInwardId());
+            jsonObject.put("totalQuantity", outward.getTotalQuantity());
+            jsonObject.put("totalWeight", outward.getTotalWeight());
+            jsonObject.put("lotName", outward.getLotName());
+        } catch (Exception e) {
+            Log.e(TAG, "List to JSON Failed");
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public void updateOutwardDataToDB() {
+        Log.i(TAG, "StoreOutwardDetailsToDB");
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/lot/outward/update/";
+                    try {
+                        HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
+
+                        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                        os.writeBytes(convertOutwardToJson(outward).toString());
+                        os.flush();
+                        os.close();
+                        Log.i("Request : ", convertOutwardToJson(outward).toString());
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            outwardUpdated = true;
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

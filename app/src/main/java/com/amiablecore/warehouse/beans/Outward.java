@@ -27,6 +27,14 @@ public class Outward {
         this.lotName = lotName;
     }
 
+    public Outward(Integer outwardId, Integer inwardId, Integer totalQuantity, Double totalWeight, String lotName) {
+        this.outwardId = outwardId;
+        this.inwardId = inwardId;
+        this.totalQuantity = totalQuantity;
+        this.totalWeight = totalWeight;
+        this.lotName = lotName;
+    }
+
     public Outward() {
     }
 

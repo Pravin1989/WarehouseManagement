@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amiablecore.warehouse.beans.Trader;
 import com.amiablecore.warehouse.utils.FieldsValidator;
 import com.amiablecore.warehouse.utils.HttpUtils;
 import com.amiablecore.warehouse.utils.Session;
@@ -29,7 +30,6 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
     private Session session;//global variable
     private static final String TAG = "WarehouseTraderForm : ";
     static boolean traderCreated = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,8 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
                     Toast.makeText(getApplicationContext(),
                             "Registered Trader Info...", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(WarehouseTraderForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                } else {
+                    showTraderPresentMessage();
                 }
                 break;
             case R.id.btnTraderCancel:
@@ -121,6 +123,10 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
                             traderCreated = true;
                             JSONObject obj = new JSONObject(answer.toString());
                         }
+
+                        if (conn.getResponseCode() == 200) {
+                            traderCreated = false;
+                        }
                         conn.disconnect();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -133,6 +139,12 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
         return traderCreated;
+    }
+
+    public void showTraderPresentMessage() {
+        Toast.makeText(getApplicationContext(),
+                "Trader Already Present",
+                Toast.LENGTH_SHORT).show();
     }
 
     public boolean validateFields() {
