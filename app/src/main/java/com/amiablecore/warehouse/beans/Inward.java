@@ -13,6 +13,7 @@ public class Inward {
     private String physicalAddress;
     private Integer whAdminId;
     private Integer whUserId;
+    private String unit;
 
     public Inward() {
 
@@ -31,6 +32,14 @@ public class Inward {
         this.physicalAddress = physicalAddress;
         this.whAdminId = whAdminId;
         this.whUserId = whUserId;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public void setWhAdminId(Integer whAdminId) {

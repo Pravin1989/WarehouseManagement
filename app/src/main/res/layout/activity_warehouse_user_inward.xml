@@ -107,6 +107,20 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <Spinner
+                    android:id="@+id/cmbUnits"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:color="#f21919"
+                    android:entries="@array/category_arrays"
+                    android:prompt="@string/category_prompt" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 app:hintTextAppearance="@style/HintText">
 

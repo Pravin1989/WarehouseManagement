@@ -68,6 +68,20 @@
                 app:hintTextAppearance="@style/HintText">
 
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Selected Unit" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:hintTextAppearance="@style/HintText">
+
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/txtTotalQuantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

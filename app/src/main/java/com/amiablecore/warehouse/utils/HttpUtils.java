@@ -7,7 +7,8 @@ import java.net.URL;
 
 public class HttpUtils {
     public static final String BASE_URL = "http://10.0.2.2:8096/Warehouse";
-    //public static final String BASE_URL = "http://192.168.43.156:8096/Warehouse";
+    //public static final String BASE_URL = "http://192.168.43.156:8096/Warehouse";//My Laptop IP
+    // public static final String BASE_URL = "http://192.168.43.218:8096/Warehouse";//DJ Laptop IP
     private static final String TAG = "HttpUtil";
 
     public static HttpURLConnection connectionPost, connectionGet;

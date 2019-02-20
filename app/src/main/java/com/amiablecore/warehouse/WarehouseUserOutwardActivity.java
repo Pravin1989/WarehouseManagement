@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class WarehouseUserOutwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight, txtSelectedLot;
+    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight, txtSelectedLot, txtUnit;
     Button btnSave, btnCancel;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Outward";
@@ -74,6 +74,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         txtTotalWeight = (EditText) findViewById(R.id.txtTotalWeightOutward);
         txtTotalQuantity = (EditText) findViewById(R.id.txtTotalQuantity);
         txtSelectedLot = (EditText) findViewById(R.id.selectedLot);
+        txtUnit = (EditText) findViewById(R.id.unit);
         txtSelectedLot.setEditableFactory(Editable.Factory.getInstance());
         btnSave = (Button) findViewById(R.id.btnSaveOutward);
         btnCancel = (Button) findViewById(R.id.btnOutwardCancel);
@@ -158,6 +159,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         outward.setInwardId(inward.getInwardId());
         outward.setTraderId(inward.getTraderId());
         outward.setLotName(inward.getLotName());
+        outward.setUnit(inward.getUnit());
         outward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         outward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
         if (txtTotalWeight.getText().toString().length() != 0)
@@ -223,6 +225,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
             jsonObject.put("whAdminId", outward.getWhAdminId());
             jsonObject.put("whUserId", outward.getWhUserId());
             jsonObject.put("lotName", outward.getLotName());
+            jsonObject.put("unit", outward.getUnit());
         } catch (Exception e) {
             Log.e(TAG, "List to JSON Failed");
             e.printStackTrace();
@@ -261,6 +264,10 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
 
         if (FieldsValidator.isEmpty(txtSelectedLot)) {
             FieldsValidator.setError(txtSelectedLot, StaticConstants.ERROR_SELECT_LOT_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtUnit)) {
+            FieldsValidator.setError(txtUnit, StaticConstants.ERROR_UNIT_MSG_SELECT);
             return true;
         }
         if (FieldsValidator.isEmpty(txtOutwardDate)) {
@@ -372,6 +379,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                             inward.setTotalQuantity(Integer.parseInt(obj.get("totalQuantity").toString()));
                             inward.setWeightPerBag(Double.parseDouble(obj.get("weightPerBag").toString()));
                             inward.setTotalWeight(Double.parseDouble(obj.get("totalWeight").toString()));
+                            inward.setUnit(obj.get("unit").toString());
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -390,6 +398,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         txtTotalQuantity.setText(inward.getTotalQuantity().toString());
         txtBagWeight.setText(inward.getWeightPerBag().toString());
         txtTotalWeight.setText(inward.getTotalWeight().toString());
+        txtUnit.setText(inward.getUnit().toString());
         backupInward = new Inward();
         backupInward.setTotalWeight(inward.getTotalWeight());
         backupInward.setTotalQuantity(inward.getTotalQuantity());

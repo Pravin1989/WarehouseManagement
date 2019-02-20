@@ -118,7 +118,17 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
         switch (menuItem.getItemId()) {
             case R.id.nav_logout:
                 session.clearSession();
+                clearSession();
                 startActivity(new Intent(this, MainActivity.class));
         }
+    }
+
+    public void clearSession() {
+        Intent i = getApplicationContext().getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //i.addCategory(Intent.CATEGORY_HOME);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(i);
     }
 }

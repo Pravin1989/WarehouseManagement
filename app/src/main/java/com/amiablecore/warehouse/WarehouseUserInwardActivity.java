@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
 
     private EditText txtLotName, txtInwardDate, txtTotalQuantity, txtBagWeight, txtPhysicalAddress, txtTotalWeight, txtSelectedTrader;
     private Button btnAdd, btnCancel;
-    private Spinner cmbTrader, cmbCommodity, cmbCategory;
+    private Spinner cmbUnits, cmbCommodity, cmbCategory;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Inward";
     private Session session;//global variable
@@ -55,6 +56,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     private String searchQuery;
     private Inward inward;
     private boolean inwardDone;
+    private List<String> unitList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +125,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         inward.setPhysicalAddress(txtPhysicalAddress.getText().toString());
         inward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         inward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
+        inward.setUnit(cmbUnits.getSelectedItem().toString());
         inwardDone = false;
         storeInwardDataToDB();
         if (inwardDone) {
@@ -183,6 +186,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             jsonObject.put("physicalAddress", inward.getPhysicalAddress());
             jsonObject.put("whAdminId", inward.getWhAdminId());
             jsonObject.put("whUserId", inward.getWhUserId());
+            jsonObject.put("unit", inward.getUnit());
+
         } catch (Exception e) {
             Log.e(TAG, "List to JSON Failed");
         }
@@ -194,6 +199,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         cmbCommodity.setOnItemSelectedListener(this);
         cmbCategory = (Spinner) findViewById(R.id.cmbCategory);
         cmbCategory.setOnItemSelectedListener(this);
+        cmbUnits = (Spinner) findViewById(R.id.cmbUnits);
+        cmbUnits.setOnItemSelectedListener(this);
         txtInwardDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -212,12 +219,14 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         Log.i("Commodity  ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_COMMODITY));
         Log.i("Category ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_CATEGORY));
         if (parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_CATEGORY) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY) ||
-                parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_TRADER)) {
+                parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_TRADER) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_UNIT)) {
             return;
         }
         if (parent.getItemAtPosition(0).toString().equals(StaticConstants.SELECT_COMMODITY)) {
             retrieveCategories();
             updateCategories();
+            retrieveUnits();
+            updateUnits();
         }
     }
 
@@ -369,6 +378,57 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         cmbCategory.setAdapter(categoryAdapter);
     }
 
+    public void retrieveUnits() {
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/retrieve/units/";
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String response = answer.toString().substring(1, answer.toString().length() - 1);
+                            Log.i("Response :", response);
+                            unitList = new ArrayList<>(Arrays.asList(response.replaceAll("[]]", "").replaceAll("\"", "").split(",")));
+                            unitList.add(0, StaticConstants.SELECT_UNIT);
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUnits() {
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitList);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cmbUnits.setAdapter(categoryAdapter);
+    }
+
     public List<Trader> retrieveTraders(String query) {
         searchQuery = query;
         try {
@@ -473,6 +533,9 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             return true;
         }
         if (FieldsValidator.isItemSelectedInSpinner(cmbCategory)) {
+            return true;
+        }
+        if (FieldsValidator.isItemSelectedInSpinner(cmbUnits)) {
             return true;
         }
         if (FieldsValidator.isEmpty(txtTotalQuantity)) {

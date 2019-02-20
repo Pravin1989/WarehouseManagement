@@ -13,6 +13,7 @@ public class Outward {
     private Integer totalQuantity;
     private Double totalWeight;
     private String lotName;
+    private String unit;
 
     public Outward(Integer outwardId, Integer traderId, Integer inwardId, Integer whAdminId, Integer whUserId, String outwardDate, Integer totalQuantity, Double totalWeight, Double bagWeight, String lotName) {
         this.outwardId = outwardId;
@@ -36,6 +37,14 @@ public class Outward {
     }
 
     public Outward() {
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public void setLotName(String lotName) {
