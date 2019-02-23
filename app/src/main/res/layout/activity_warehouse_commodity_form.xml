@@ -43,6 +43,7 @@
         android:text="Cancel" />
 
     <TextView
+        android:id="@+id/lblAvailableCommodities"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Available Commodities"

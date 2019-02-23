@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amiablecore.warehouse.utils.FieldsValidator;
@@ -36,6 +37,7 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
     static boolean commodityAdded = false;
     private List<String> commoditiesList;
     private ListView listView;
+    private TextView lblAvailableCommodities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
         listView = findViewById(R.id.commodityListView);
         btnAddCommodity.setOnClickListener(this);
         btnCancelCommodity.setOnClickListener(this);
+        lblAvailableCommodities = findViewById(R.id.lblAvailableCommodities);
         retrievedCommodities();
     }
 
@@ -185,6 +188,11 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
         final ArrayAdapter adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, commoditiesList);
         listView.setAdapter(adapter);
+        if (commoditiesList.size() != 0) {
+            lblAvailableCommodities.setVisibility(View.VISIBLE);
+        } else {
+            lblAvailableCommodities.setVisibility(View.INVISIBLE);
+        }
 //        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view,

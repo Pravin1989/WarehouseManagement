@@ -81,7 +81,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         searchView = (SearchView) findViewById(R.id.searchView);
-        searchView.setQueryHint("Enter Lot Name");
+        searchView.setQueryHint("Enter Lot Number");
 
         listView = (ListView) findViewById(R.id.listView);
         txtSelectedLot = (EditText) findViewById(R.id.selectedLot);
@@ -234,9 +234,7 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(parent.getContext(),
-                "Selected Lot : " + parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_SHORT).show();
+        Log.i("Selected Lot ", parent.getItemAtPosition(pos).toString());
     }
 
     @Override

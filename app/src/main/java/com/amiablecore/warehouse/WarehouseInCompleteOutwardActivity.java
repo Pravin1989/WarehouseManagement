@@ -80,7 +80,7 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
                 updateOutwardDataToDB();
                 if (outwardUpdated) {
                     Toast.makeText(getApplicationContext(),
-                            "Outward and Inward Updated: ",
+                            "Outward Updated: ",
                             Toast.LENGTH_SHORT).show();
                 }
                 startActivity(new Intent(this, WarehouseInCompleteActivity.class));
@@ -159,9 +159,6 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(parent.getContext(),
-                "Selected  : " + parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_SHORT).show();
         if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_OUTWARD)) {
             outward = outwardListMap.get(parent.getItemAtPosition(pos).toString());
         }

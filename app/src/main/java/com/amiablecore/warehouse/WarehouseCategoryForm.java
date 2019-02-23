@@ -93,9 +93,7 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(parent.getContext(),
-                "Selected  : " + parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_SHORT).show();
+        Log.i("Selected  : ", parent.getItemAtPosition(pos).toString());
         lblAvailableCategories.setVisibility(View.INVISIBLE);
         if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY)) {
             commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString());

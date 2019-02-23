@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         return;
                     }
                     redirectToDashboard();
-                    Toast.makeText(getApplicationContext(),
-                            "Logged In...", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "Logged In...");
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
                     txtUserName.setVisibility(View.VISIBLE);
@@ -112,9 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(parent.getContext(),
-                "OnItemSelectedListener : " + parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_SHORT).show();
         Log.i(TAG, cmbUserTypes.getPrompt().toString());
         this.itemChanged = true;
         this.itemValue = parent.getItemAtPosition(pos).toString();

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Warehouse Management</string>
+    <string name="app_name">UIMS</string>
     <string name="admin_label">This is Warehouse Admin Page</string>
     <string name="open_camera">OPEN CAMERA</string>
     <string name="send_email">SEND EMAIL</string>

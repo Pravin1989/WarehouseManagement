@@ -93,9 +93,6 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getApplicationContext(),
-                "OnCartSelected : " + v.getId(),
-                Toast.LENGTH_SHORT).show();
         switch (v.getId()) {
             case R.id.cardWHUserId:
                 startActivity(new Intent(this, WarehouseUserForm.class));

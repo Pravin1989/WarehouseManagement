@@ -150,9 +150,6 @@ public class WarehouseInCompleteInwardActivity extends AppCompatActivity impleme
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(parent.getContext(),
-                "Selected  : " + parent.getItemAtPosition(pos).toString(),
-                Toast.LENGTH_SHORT).show();
         if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_INWARD)) {
             inwardId = inwardLotMap.get(parent.getItemAtPosition(pos).toString());
         }
