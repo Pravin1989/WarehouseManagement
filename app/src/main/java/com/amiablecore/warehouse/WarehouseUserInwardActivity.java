@@ -40,9 +40,9 @@ import java.util.Map;
 
 public class WarehouseUserInwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    private EditText txtLotName, txtInwardDate, txtTotalQuantity, txtBagWeight, txtPhysicalAddress, txtTotalWeight, txtSelectedTrader;
+    private EditText txtLotName, txtInwardDate, txtTotalQuantity, txtBagWeight, txtPhysicalAddress, txtTotalWeight, txtSelectedTrader, txtVehicleNo;
     private Button btnAdd, btnCancel;
-    private Spinner cmbUnits, cmbCommodity, cmbCategory;
+    private Spinner cmbUnits, cmbCommodity, cmbCategory, cmbGrade;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Inward";
     private Session session;//global variable
@@ -57,6 +57,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     private Inward inward;
     private boolean inwardDone;
     private List<String> unitList;
+    private List<String> gradeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         txtTotalWeight = (EditText) findViewById(R.id.txtTotalWeightInward);
         txtTotalQuantity = (EditText) findViewById(R.id.txtTotalQuantity);
         txtPhysicalAddress = (EditText) findViewById(R.id.txtPhysicalAddress);
+        txtVehicleNo = (EditText) findViewById(R.id.txtVehicleNo);
         txtSelectedTrader = (EditText) findViewById(R.id.selectedTrader);
         btnAdd = (Button) findViewById(R.id.btnAdd);
         btnCancel = (Button) findViewById(R.id.btnCancel);
@@ -126,6 +128,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         inward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         inward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
         inward.setUnit(cmbUnits.getSelectedItem().toString());
+        inward.setGrade(cmbGrade.getSelectedItem().toString());
+        inward.setVehicleNo(txtVehicleNo.getText().toString());
         inwardDone = false;
         storeInwardDataToDB();
         if (inwardDone) {
@@ -187,6 +191,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             jsonObject.put("whAdminId", inward.getWhAdminId());
             jsonObject.put("whUserId", inward.getWhUserId());
             jsonObject.put("unit", inward.getUnit());
+            jsonObject.put("grade", inward.getGrade());
+            jsonObject.put("vehicleNo", inward.getVehicleNo());
 
         } catch (Exception e) {
             Log.e(TAG, "List to JSON Failed");
@@ -201,6 +207,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         cmbCategory.setOnItemSelectedListener(this);
         cmbUnits = (Spinner) findViewById(R.id.cmbUnits);
         cmbUnits.setOnItemSelectedListener(this);
+        cmbGrade = (Spinner) findViewById(R.id.cmbGrades);
+        cmbGrade.setOnItemSelectedListener(this);
         txtInwardDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -224,6 +232,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             updateCategories();
             retrieveUnits();
             updateUnits();
+            retrieveGrades();
+            updateGrades();
         }
     }
 
@@ -421,9 +431,61 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void updateUnits() {
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitList);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        cmbUnits.setAdapter(categoryAdapter);
+        ArrayAdapter<String> unitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitList);
+        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cmbUnits.setAdapter(unitAdapter);
+    }
+
+
+    public void retrieveGrades() {
+        try {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String urlAdress = "/retrieve/grades/";
+                    try {
+                        HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
+
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        if (conn.getResponseCode() == 200) {
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String response = answer.toString().substring(1, answer.toString().length() - 1);
+                            Log.i("Response :", response);
+                            gradeList = new ArrayList<>(Arrays.asList(response.replaceAll("[]]", "").replaceAll("\"", "").split(",")));
+                            gradeList.add(0, StaticConstants.SELECT_GRADE);
+                        }
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateGrades() {
+        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gradeList);
+        gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cmbGrade.setAdapter(gradeAdapter);
     }
 
     public List<Trader> retrieveTraders(String query) {
@@ -535,6 +597,9 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         if (FieldsValidator.isItemSelectedInSpinner(cmbUnits)) {
             return true;
         }
+        if (FieldsValidator.isItemSelectedInSpinner(cmbGrade)) {
+            return true;
+        }
         if (FieldsValidator.isEmpty(txtTotalQuantity)) {
             FieldsValidator.setError(txtTotalQuantity, StaticConstants.ERROR_TOTAL_QTY_MSG);
             return true;
@@ -551,12 +616,17 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             FieldsValidator.setError(txtPhysicalAddress, StaticConstants.ERROR_INWARD_PHYSICAL_ADDRESS_MSG);
             return true;
         }
+        if (FieldsValidator.isEmpty(txtVehicleNo)) {
+            FieldsValidator.setError(txtVehicleNo, StaticConstants.ERROR_INWARD_VEHICLE_NO_MSG);
+            return true;
+        }
         FieldsValidator.clearError(txtSelectedTrader);
         FieldsValidator.clearError(txtLotName);
         FieldsValidator.clearError(txtTotalQuantity);
         FieldsValidator.clearError(txtBagWeight);
         FieldsValidator.clearError(txtInwardDate);
         FieldsValidator.clearError(txtPhysicalAddress);
+        FieldsValidator.clearError(txtVehicleNo);
         return false;
     }
 }

@@ -18,7 +18,7 @@ import com.amiablecore.warehouse.utils.Session;
 
 public class WarehouseAdminActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CardView cardWarehouseUser, cardTrader, cardCommodity, cardCategory;
+    private CardView cardWarehouseUser, cardTrader, cardCommodity, cardCategory, cardGrade;
     private DrawerLayout mDrawerLayout;
     private static final String TAG = "Warehouse Admin : ";
     private Session session;//global variable
@@ -41,11 +41,12 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
         cardTrader = (CardView) findViewById(R.id.cardTraderId);
         cardCommodity = (CardView) findViewById(R.id.cardCommodityId);
         cardCategory = (CardView) findViewById(R.id.cardCategoryId);
+        cardGrade = (CardView) findViewById(R.id.cardGradeId);
         cardWarehouseUser.setOnClickListener(this);
         cardTrader.setOnClickListener(this);
         cardCommodity.setOnClickListener(this);
         cardCategory.setOnClickListener(this);
-
+        cardGrade.setOnClickListener(this);
         mDrawerLayout = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -105,6 +106,9 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.cardCategoryId:
                 startActivity(new Intent(this, WarehouseCategoryForm.class));
+                break;
+            case R.id.cardGradeId:
+                startActivity(new Intent(this, WarehouseGradeForm.class));
                 break;
         }
     }

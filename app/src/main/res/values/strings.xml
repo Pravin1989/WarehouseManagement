@@ -10,6 +10,8 @@
     <string name="inward_prompt">Choose Lot</string>
     <string name="outward_prompt">Choose Lot</string>
     <string name="category_prompt">Choose Category</string>
+    <string name="grades_prompt">Choose Grade</string>
+    <string name="units_prompt">Choose Unit</string>
     <string name="logout">Logout</string>
     <string name="slideshow">Slideshow</string>
     <string name="gallery">Gallery</string>
@@ -45,5 +47,14 @@
         <item>Category 1</item>
         <item>Category 2</item>
         <item>Category 3</item>
+    </string-array>
+
+    <string-array name="grades_arrays">
+        <item>Grade 1</item>
+        <item>Grade 2</item>
+    </string-array>
+    <string-array name="units_arrays">
+        <item>Unit 1</item>
+        <item>Unit 2</item>
     </string-array>
 </resources>

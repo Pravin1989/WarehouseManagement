@@ -14,6 +14,8 @@ public class Inward {
     private Integer whAdminId;
     private Integer whUserId;
     private String unit;
+    private String grade;
+    private String vehicleNo;
 
     public Inward() {
 
@@ -32,6 +34,22 @@ public class Inward {
         this.physicalAddress = physicalAddress;
         this.whAdminId = whAdminId;
         this.whUserId = whUserId;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public void setVehicleNo(String vehicleNo) {
+        this.vehicleNo = vehicleNo;
+    }
+
+    public String getVehicleNo() {
+        return vehicleNo;
     }
 
     public String getUnit() {

@@ -5,14 +5,17 @@ public class StaticConstants {
     public final static String WH_USER = "WH_USER";
     public final static String SELECT_COMMODITY = "Select Commodity....";
     public final static String SELECT_UNIT = "Select Unit....";
+    public final static String SELECT_GRADE = "Select Grade....";
     public final static String SELECT_CATEGORY = "Select Category....";
     public final static String SELECT_INWARD = "Select Inward Lot";
     public final static String SELECT_OUTWARD = "Select Outward Lot";
     public final static String SELECT_TRADER = "Select Trader....";
     public final static String ERROR_COMMODITY_MSG = "Please add Commodity Name";
     public final static String ERROR_CATEGORY_MSG = "Please add Category Name";
+    public final static String ERROR_GRADE_MSG = "Please add Grade Name";
     public final static String ERROR_COMMODITY_MSG_SELECT = "Please Select Commodity";
     public final static String ERROR_UNIT_MSG_SELECT = "Please Select Unit";
+    public final static String ERROR_GRADE_MSG_SELECT = "Please Select Grade";
     public final static String ERROR_IN_COMPLETE_MSG_SELECT = "Please Select Lot";
     public final static String ERROR_CATEGORY_MSG_SELECT = "Please Select Category";
     public final static String ERROR_BAG_WEIGHT_MSG = "Please Add Bag Weight";
@@ -25,6 +28,7 @@ public class StaticConstants {
     public final static String ERROR_INWARD_lOT_NAME_MSG = "Please Add Name";
     public final static String ERROR_INWARD_DATE_MSG = "Please Select Inward Date";
     public final static String ERROR_INWARD_PHYSICAL_ADDRESS_MSG = "Please Add Physical Address";
+    public final static String ERROR_INWARD_VEHICLE_NO_MSG = "Please Add Vehicle No";
 
     public final static String ERROR_ADD_USER_NAME_MSG = "Please Add User Name";
     public final static String ERROR_ADD_LOGIN_ID_MSG = "Please Add Login Id";

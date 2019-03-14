@@ -62,6 +62,9 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
                     Toast.makeText(getApplicationContext(),
                             "User is added ...", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(WarehouseUserForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "User is already Present ...", Toast.LENGTH_LONG).show();
                 }
 
                 break;
@@ -114,8 +117,12 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
                                 e.printStackTrace();
                             }
                             Log.i("Response : ", answer.toString());
-                            userCreated = true;
                             JSONObject obj = new JSONObject(answer.toString());
+                            if(Boolean.parseBoolean(obj.get("alreadyPresent").toString())){
+                                userCreated = false;
+                            }else{
+                                userCreated = true;
+                            }
                         }
                         conn.disconnect();
                     } catch (Exception e) {

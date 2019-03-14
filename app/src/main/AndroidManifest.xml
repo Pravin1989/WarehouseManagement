@@ -34,6 +34,7 @@
         <activity android:name="com.amiablecore.warehouse.WarehouseUserForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseCommodityForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseCategoryForm" />
+        <activity android:name="com.amiablecore.warehouse.WarehouseGradeForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseTraderForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserOutwardActivity" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserInwardActivity" />

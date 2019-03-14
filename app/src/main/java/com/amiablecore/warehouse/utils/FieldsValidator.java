@@ -53,6 +53,11 @@ public class FieldsValidator {
             errorText.setTextColor(Color.RED);
             errorText.setText(StaticConstants.ERROR_UNIT_MSG_SELECT);
             return true;
+        } else if (spinner.getSelectedItem().toString().equals(StaticConstants.SELECT_GRADE)) {
+            errorText.setError(" ");
+            errorText.setTextColor(Color.RED);
+            errorText.setText(StaticConstants.ERROR_GRADE_MSG_SELECT);
+            return true;
         }
         clearErrorToSpinner(spinner);
         return false;

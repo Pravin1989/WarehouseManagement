@@ -14,6 +14,8 @@ public class Outward {
     private Double totalWeight;
     private String lotName;
     private String unit;
+    private String grade;
+    private String vehicleNo;
 
     public Outward(Integer outwardId, Integer traderId, Integer inwardId, Integer whAdminId, Integer whUserId, String outwardDate, Integer totalQuantity, Double totalWeight, Double bagWeight, String lotName) {
         this.outwardId = outwardId;
@@ -34,6 +36,22 @@ public class Outward {
         this.totalQuantity = totalQuantity;
         this.totalWeight = totalWeight;
         this.lotName = lotName;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public void setVehicleNo(String vehicleNo) {
+        this.vehicleNo = vehicleNo;
+    }
+
+    public String getVehicleNo() {
+        return vehicleNo;
     }
 
     public Outward() {
