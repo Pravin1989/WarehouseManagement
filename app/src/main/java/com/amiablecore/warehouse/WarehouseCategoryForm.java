@@ -83,11 +83,11 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                 if (addCategory()) {
                     Toast.makeText(getApplicationContext(),
                             "Category is added...", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                    startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 }
                 break;
             case R.id.btnCancelCategory:
-                startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 break;
         }
     }
@@ -95,7 +95,7 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         Log.i("Selected  : ", parent.getItemAtPosition(pos).toString());
         lblAvailableCategories.setVisibility(View.INVISIBLE);
-        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY)) {
+        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_ITEM)) {
             commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString());
             retrievedCategories();
             showAvailableCategories();
@@ -137,7 +137,7 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                             JSONArray obj = new JSONArray(answer.toString());
                             Log.i(TAG, obj.toString());
                             String[] commoditiesList = new String[obj.length() + 1];
-                            commoditiesList[0] = StaticConstants.SELECT_COMMODITY;
+                            commoditiesList[0] = StaticConstants.SELECT_ITEM;
                             int j = 1;
                             commoditiesMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {

@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class WarehouseUserOutwardActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight, txtSelectedLot, txtUnit;
+    EditText txtOutwardDate, txtTotalQuantity, txtBagWeight, txtTotalWeight, txtSelectedLot, txtUnit, txtGrade, txtPhysicalAddress, txtCommodity, txtCategory, txtVehicleNo;
     Button btnSave, btnCancel;
     private int mYear, mMonth, mDay;
     private static final String TAG = "Warehouse Outward";
@@ -75,6 +75,11 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         txtTotalQuantity = (EditText) findViewById(R.id.txtTotalQuantity);
         txtSelectedLot = (EditText) findViewById(R.id.selectedLot);
         txtUnit = (EditText) findViewById(R.id.unit);
+        txtGrade = (EditText) findViewById(R.id.grade);
+        txtPhysicalAddress = (EditText) findViewById(R.id.physicalAddress);
+        txtVehicleNo = (EditText) findViewById(R.id.vehicleNo);
+        txtCommodity = (EditText) findViewById(R.id.commodityName);
+        txtCategory = (EditText) findViewById(R.id.categoryName);
         txtSelectedLot.setEditableFactory(Editable.Factory.getInstance());
         btnSave = (Button) findViewById(R.id.btnSaveOutward);
         btnCancel = (Button) findViewById(R.id.btnOutwardCancel);
@@ -167,6 +172,8 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         outward.setBagWeight(Double.parseDouble(txtBagWeight.getText().toString()));
         outward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString()));
         outward.setOutwardDate(txtOutwardDate.getText().toString());
+        outward.setGrade(txtGrade.getText().toString());
+        outward.setVehicleNo(txtVehicleNo.getText().toString());
         outwardDone = false;
         storeOutwardDataToDB();
         if (outwardDone) {
@@ -226,6 +233,9 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
             jsonObject.put("whUserId", outward.getWhUserId());
             jsonObject.put("lotName", outward.getLotName());
             jsonObject.put("unit", outward.getUnit());
+            jsonObject.put("vehicleNo", outward.getVehicleNo());
+            jsonObject.put("grade", outward.getGrade());
+
         } catch (Exception e) {
             Log.e(TAG, "List to JSON Failed");
             e.printStackTrace();
@@ -378,6 +388,13 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                             inward.setWeightPerBag(Double.parseDouble(obj.get("weightPerBag").toString()));
                             inward.setTotalWeight(Double.parseDouble(obj.get("totalWeight").toString()));
                             inward.setUnit(obj.get("unit").toString());
+                            inward.setGrade(obj.get("grade").toString());
+                            inward.setVehicleNo(obj.get("vehicleNo").toString());
+                            inward.setPhysicalAddress(obj.get("physicalAddress").toString());
+                            inward.setCommodityId(Integer.parseInt(obj.get("commodityId").toString()));
+                            inward.setCommodityName(obj.get("commodityName").toString());
+                            inward.setCategoryId(Integer.parseInt(obj.get("categoryId").toString()));
+                            inward.setCategoryName(obj.get("categoryName").toString());
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -397,6 +414,11 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
         txtBagWeight.setText(inward.getWeightPerBag().toString());
         txtTotalWeight.setText(inward.getTotalWeight().toString());
         txtUnit.setText(inward.getUnit().toString());
+        txtGrade.setText(inward.getGrade());
+        txtVehicleNo.setText(inward.getVehicleNo());
+        txtPhysicalAddress.setText(inward.getPhysicalAddress());
+        txtCommodity.setText(inward.getCommodityName().toString());
+        txtCategory.setText(inward.getCategoryName().toString());
         backupInward = new Inward();
         backupInward.setTotalWeight(inward.getTotalWeight());
         backupInward.setTotalQuantity(inward.getTotalQuantity());

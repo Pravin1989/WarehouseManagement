@@ -63,19 +63,19 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.btnAddCommodity:
                 if (FieldsValidator.isEmpty(txtCommodityName)) {
-                    FieldsValidator.setError(txtCommodityName, StaticConstants.ERROR_COMMODITY_MSG);
+                    FieldsValidator.setError(txtCommodityName, StaticConstants.ERROR_ITEM_MSG);
                     break;
                 } else {
                     FieldsValidator.setError(txtCommodityName, null);
                 }
                 if (addCommodity()) {
                     Toast.makeText(getApplicationContext(),
-                            "Commodity is added...", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                            "Item is added...", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 }
                 break;
             case R.id.btnCancelCommodity:
-                startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 break;
         }
     }

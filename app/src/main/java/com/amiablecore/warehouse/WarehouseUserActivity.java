@@ -88,9 +88,6 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getApplicationContext(),
-                "OnCartSelected : " + v.getId(),
-                Toast.LENGTH_SHORT).show();
         switch (v.getId()) {
             case R.id.cardInwardId:
                 startActivity(new Intent(this, WarehouseUserInwardActivity.class));

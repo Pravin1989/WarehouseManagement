@@ -3,17 +3,17 @@ package com.amiablecore.warehouse.utils;
 public class StaticConstants {
     public final static String WH_ADMIN = "WH_ADMIN";
     public final static String WH_USER = "WH_USER";
-    public final static String SELECT_COMMODITY = "Select Commodity....";
+    public final static String SELECT_ITEM = "Select Item....";
     public final static String SELECT_UNIT = "Select Unit....";
     public final static String SELECT_GRADE = "Select Grade....";
     public final static String SELECT_CATEGORY = "Select Category....";
     public final static String SELECT_INWARD = "Select Inward Lot";
     public final static String SELECT_OUTWARD = "Select Outward Lot";
     public final static String SELECT_TRADER = "Select Trader....";
-    public final static String ERROR_COMMODITY_MSG = "Please add Commodity Name";
+    public final static String ERROR_ITEM_MSG = "Please add Item Name";
     public final static String ERROR_CATEGORY_MSG = "Please add Category Name";
     public final static String ERROR_GRADE_MSG = "Please add Grade Name";
-    public final static String ERROR_COMMODITY_MSG_SELECT = "Please Select Commodity";
+    public final static String ERROR_ITEM_MSG_SELECT = "Please Select Item";
     public final static String ERROR_UNIT_MSG_SELECT = "Please Select Unit";
     public final static String ERROR_GRADE_MSG_SELECT = "Please Select Grade";
     public final static String ERROR_IN_COMPLETE_MSG_SELECT = "Please Select Lot";
@@ -41,6 +41,7 @@ public class StaticConstants {
     public final static String ERROR_ADD_TRADER_STATE_MSG = "Please Add Trader State";
     public final static String ERROR_ADD_TRADER_CITY_MSG = "Please Add Trader City";
     public final static String ERROR_ADD_TRADER_PIN_MSG = "Please Add Trader Pin Code";
+    public final static String ERROR_ADD_TRADER_ADDRESS = "Please Add Trader Address";
 
     public final static String ERROR_LOGIN_ID_MSG = "Please Add Login Name";
     public final static String ERROR_LOGIN_PASSWORD_MSG = "Please Add Login Password";

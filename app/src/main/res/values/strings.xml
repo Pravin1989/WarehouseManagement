@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">UIMS</string>
+    <string name="app_name">EZEE WMS</string>
     <string name="admin_label">This is Warehouse Admin Page</string>
     <string name="open_camera">OPEN CAMERA</string>
     <string name="send_email">SEND EMAIL</string>
     <string name="user_prompt">Choose User Type</string>
     <string name="lot_prompt">Choose Lot</string>
     <string name="trader_prompt">Choose Trader</string>
-    <string name="commodity_prompt">Choose Commodity</string>
+    <string name="commodity_prompt">Choose Item</string>
     <string name="inward_prompt">Choose Lot</string>
     <string name="outward_prompt">Choose Lot</string>
     <string name="category_prompt">Choose Category</string>
@@ -31,9 +31,8 @@
         <item>Trader 3</item>
     </string-array>
     <string-array name="commodity_arrays">
-        <item>Commodity 1</item>
-        <item>Commodity 2</item>
-        <item>Commodity 3</item>
+        <item>Item 1</item>
+        <item>Item 2</item>
     </string-array>
     <string-array name="inward_arrays">
         <item>Inward 1</item>

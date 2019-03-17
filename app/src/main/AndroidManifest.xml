@@ -17,9 +17,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
         <activity android:name="com.amiablecore.warehouse.MainActivity">
@@ -32,6 +32,7 @@
             android:name="com.amiablecore.warehouse.WarehouseAdminActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.amiablecore.warehouse.WarehouseUserForm" />
+        <activity android:name="com.amiablecore.warehouse.WarehouseAdminItemActivity" />
         <activity android:name="com.amiablecore.warehouse.WarehouseCommodityForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseCategoryForm" />
         <activity android:name="com.amiablecore.warehouse.WarehouseGradeForm" />

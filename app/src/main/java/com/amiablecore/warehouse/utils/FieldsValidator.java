@@ -38,10 +38,10 @@ public class FieldsValidator {
             errorText.setTextColor(Color.RED);
             errorText.setText(StaticConstants.ERROR_CATEGORY_MSG_SELECT);
             return true;
-        } else if (spinner.getSelectedItem().toString().equals(StaticConstants.SELECT_COMMODITY)) {
+        } else if (spinner.getSelectedItem().toString().equals(StaticConstants.SELECT_ITEM)) {
             errorText.setError(" ");
             errorText.setTextColor(Color.RED);
-            errorText.setText(StaticConstants.ERROR_COMMODITY_MSG_SELECT);
+            errorText.setText(StaticConstants.ERROR_ITEM_MSG_SELECT);
             return true;
         } else if (spinner.getSelectedItem().toString().equals(StaticConstants.SELECT_INWARD) || spinner.getSelectedItem().toString().equals(StaticConstants.SELECT_OUTWARD)) {
             errorText.setError(" ");

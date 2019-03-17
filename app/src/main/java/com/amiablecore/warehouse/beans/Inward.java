@@ -17,6 +17,26 @@ public class Inward {
     private String grade;
     private String vehicleNo;
 
+    public void setCommodityName(String commodityName) {
+        this.commodityName = commodityName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    private String commodityName;
+
+    public String getCommodityName() {
+        return commodityName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    private String categoryName;
+
     public Inward() {
 
     }

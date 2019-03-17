@@ -84,7 +84,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         btnCancel.setOnClickListener(this);
         addListenerOnSpinnerItemSelection();
         searchView = (SearchView) findViewById(R.id.searchView);
-        searchView.setQueryHint("Enter Trader Name");
+        searchView.setQueryHint("Enter Trader Name/ID");
 
     }
 
@@ -221,13 +221,13 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Log.i("Commodity  ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_COMMODITY));
+        Log.i("Commodity  ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_ITEM));
         Log.i("Category ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_CATEGORY));
-        if (parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_CATEGORY) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY) ||
+        if (parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_CATEGORY) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_ITEM) ||
                 parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_TRADER) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_UNIT)) {
             return;
         }
-        if (parent.getItemAtPosition(0).toString().equals(StaticConstants.SELECT_COMMODITY)) {
+        if (parent.getItemAtPosition(0).toString().equals(StaticConstants.SELECT_ITEM)) {
             retrieveCategories();
             updateCategories();
             retrieveUnits();
@@ -294,7 +294,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             JSONArray obj = new JSONArray(answer.toString());
                             Log.i("JSON :", obj.toString());
                             String[] commodities = new String[obj.length() + 1];
-                            commodities[0] = StaticConstants.SELECT_COMMODITY;
+                            commodities[0] = StaticConstants.SELECT_ITEM;
                             commoditiesMap = new HashMap<>();
                             int j = 1;
                             for (int i = 0; i < obj.length(); i++) {

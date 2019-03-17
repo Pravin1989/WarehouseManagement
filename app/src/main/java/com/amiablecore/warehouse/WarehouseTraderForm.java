@@ -25,7 +25,7 @@ import java.net.HttpURLConnection;
 
 public class WarehouseTraderForm extends AppCompatActivity implements View.OnClickListener {
 
-    EditText txtTraderName, txtContactNo, txtTraderEmail, txtTraderCity, txtTraderState, txtTraderPinCode;
+    EditText txtTraderName, txtContactNo, txtTraderEmail, txtTraderCity, txtTraderState, txtTraderPinCode, txtTraderAddress;
     Button btnRegisterTrader, btnTraderCancel;
     private Session session;//global variable
     private static final String TAG = "WarehouseTraderForm : ";
@@ -46,6 +46,7 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
         txtTraderPinCode = (EditText) findViewById(R.id.txtPinCode);
         txtTraderName = (EditText) findViewById(R.id.txtTraderName);
         txtContactNo = (EditText) findViewById(R.id.txtTraderContactNo);
+        txtTraderAddress = (EditText) findViewById(R.id.traderAddress);
         btnTraderCancel = findViewById(R.id.btnTraderCancel);
         btnRegisterTrader = findViewById(R.id.btnRegTrader);
 
@@ -93,6 +94,7 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
                         payload.put("traderState", txtTraderState.getText().toString());
                         payload.put("traderPinCode", txtTraderPinCode.getText().toString());
                         payload.put("whAdminId", session.getFromSession("wh_id"));
+                        payload.put("traderAddress", txtTraderAddress.getText().toString());
 
                         Log.i("JSON", payload.toString());
                         DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -175,6 +177,10 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
         }
         if (FieldsValidator.isEmpty(txtTraderPinCode)) {
             FieldsValidator.setError(txtTraderPinCode, StaticConstants.ERROR_ADD_TRADER_PIN_MSG);
+            return true;
+        }
+        if (FieldsValidator.isEmpty(txtTraderAddress)) {
+            FieldsValidator.setError(txtTraderAddress, StaticConstants.ERROR_ADD_TRADER_ADDRESS);
             return true;
         }
         FieldsValidator.clearError(txtTraderEmail);

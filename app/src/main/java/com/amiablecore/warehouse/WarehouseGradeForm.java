@@ -83,11 +83,11 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
                 if (addGrade()) {
                     Toast.makeText(getApplicationContext(),
                             "Grade is added...", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WarehouseGradeForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                    startActivity(new Intent(WarehouseGradeForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 }
                 break;
             case R.id.btnCancelGrade:
-                startActivity(new Intent(WarehouseGradeForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
+                startActivity(new Intent(WarehouseGradeForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 break;
         }
     }
@@ -95,7 +95,7 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         Log.i("Selected  : ", parent.getItemAtPosition(pos).toString());
         lblAvailableGrades.setVisibility(View.INVISIBLE);
-        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_COMMODITY)) {
+        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_ITEM)) {
             commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString());
             retrievedGrades();
             showAvailableGrades();
@@ -137,7 +137,7 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
                             JSONArray obj = new JSONArray(answer.toString());
                             Log.i(TAG, obj.toString());
                             String[] commoditiesList = new String[obj.length() + 1];
-                            commoditiesList[0] = StaticConstants.SELECT_COMMODITY;
+                            commoditiesList[0] = StaticConstants.SELECT_ITEM;
                             int j = 1;
                             commoditiesMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
