@@ -83,8 +83,11 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                 if (addCategory()) {
                     Toast.makeText(getApplicationContext(),
                             "Category is added...", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Category is already present...", Toast.LENGTH_SHORT).show();
                 }
+                startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 break;
             case R.id.btnCancelCategory:
                 startActivity(new Intent(WarehouseCategoryForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
@@ -95,8 +98,8 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         Log.i("Selected  : ", parent.getItemAtPosition(pos).toString());
         lblAvailableCategories.setVisibility(View.INVISIBLE);
-        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_ITEM)) {
-            commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString());
+        if (!parent.getItemAtPosition(pos).toString().trim().equals(StaticConstants.SELECT_ITEM)) {
+            commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString().trim());
             retrievedCategories();
             showAvailableCategories();
         }
@@ -141,8 +144,8 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                             int j = 1;
                             commoditiesMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
-                                commoditiesList[j] = obj.getJSONObject(i).get("commodityName").toString();
-                                commoditiesMap.put(commoditiesList[j], Integer.parseInt(obj.getJSONObject(i).get("commodityId").toString()));
+                                commoditiesList[j] = obj.getJSONObject(i).get("commodityName").toString().trim();
+                                commoditiesMap.put(commoditiesList[j], Integer.parseInt(obj.getJSONObject(i).get("commodityId").toString().trim()));
                                 j++;
                             }
                             updateCommodities(commoditiesList);
@@ -171,12 +174,12 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlAdress = "/category/add/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString());
+                    String urlAdress = "/category/add/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString().trim());
                     try {
                         HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
-                        payload.put("categoryName", txtCategoryName.getText().toString());
+                        payload.put("categoryName", txtCategoryName.getText().toString().trim());
                         payload.put("whAdminId", session.getFromSession("wh_id"));
 
                         Log.i("JSON", payload.toString());
@@ -205,8 +208,12 @@ public class WarehouseCategoryForm extends AppCompatActivity implements View.OnC
                                 e.printStackTrace();
                             }
                             Log.i(TAG, answer.toString());
-                            categoryAdded = true;
                             JSONObject obj = new JSONObject(answer.toString());
+                            if (Boolean.parseBoolean(obj.get("alreadyPresent").toString())) {
+                                categoryAdded = false;
+                            } else {
+                                categoryAdded = true;
+                            }
                         }
                         conn.disconnect();
                     } catch (Exception e) {

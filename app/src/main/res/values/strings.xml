@@ -13,6 +13,7 @@
     <string name="grades_prompt">Choose Grade</string>
     <string name="units_prompt">Choose Unit</string>
     <string name="logout">Logout</string>
+    <string name="removeItem">Remove Item</string>
     <string name="slideshow">Slideshow</string>
     <string name="gallery">Gallery</string>
     <string name="imports">Import</string>

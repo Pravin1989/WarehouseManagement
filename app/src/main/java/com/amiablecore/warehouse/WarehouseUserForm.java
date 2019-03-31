@@ -55,14 +55,14 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                if(validateFields()){
+                if (validateFields()) {
                     break;
                 }
                 if (addUser()) {
                     Toast.makeText(getApplicationContext(),
                             "User is added ...", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(WarehouseUserForm.this, WarehouseAdminActivity.class));//Redirect to Admin Dashboard Page
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(),
                             "User is already Present ...", Toast.LENGTH_LONG).show();
                 }
@@ -85,10 +85,10 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
                         HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
-                        payload.put("name", txtName.getText().toString());
-                        payload.put("loginId", txtLoginId.getText().toString());
-                        payload.put("password", txtPassword.getText().toString());
-                        payload.put("contactNo", txtContactNo.getText().toString());
+                        payload.put("name", txtName.getText().toString().trim());
+                        payload.put("loginId", txtLoginId.getText().toString().trim());
+                        payload.put("password", txtPassword.getText().toString().trim());
+                        payload.put("contactNo", txtContactNo.getText().toString().trim());
                         payload.put("whAdminId", session.getFromSession("wh_id"));
 
                         Log.i("JSON", payload.toString());
@@ -118,9 +118,9 @@ public class WarehouseUserForm extends AppCompatActivity implements View.OnClick
                             }
                             Log.i("Response : ", answer.toString());
                             JSONObject obj = new JSONObject(answer.toString());
-                            if(Boolean.parseBoolean(obj.get("alreadyPresent").toString())){
+                            if (Boolean.parseBoolean(obj.get("alreadyPresent").toString())) {
                                 userCreated = false;
-                            }else{
+                            } else {
                                 userCreated = true;
                             }
                         }

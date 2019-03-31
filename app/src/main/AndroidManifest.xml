@@ -17,11 +17,13 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light">
+        android:theme="@style/Theme.AppCompat.DayNight">
         <activity android:name="com.amiablecore.warehouse.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,6 +44,7 @@
         <activity android:name="com.amiablecore.warehouse.WarehouseInCompleteActivity" />
         <activity android:name="com.amiablecore.warehouse.WarehouseInCompleteInwardActivity" />
         <activity android:name="com.amiablecore.warehouse.WarehouseInCompleteOutwardActivity" />
+        <activity android:name="com.amiablecore.warehouse.WarehouseAdminRemoveItemActivity" />
         <activity
             android:name="com.amiablecore.warehouse.WarehouseUserActivity"
             android:theme="@style/AppTheme.NoActionBar" />

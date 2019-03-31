@@ -87,14 +87,14 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
                         HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
-                        payload.put("traderName", txtTraderName.getText().toString());
-                        payload.put("emailId", txtTraderEmail.getText().toString());
-                        payload.put("city", txtTraderCity.getText().toString());
-                        payload.put("contactNo", txtContactNo.getText().toString());
-                        payload.put("traderState", txtTraderState.getText().toString());
-                        payload.put("traderPinCode", txtTraderPinCode.getText().toString());
+                        payload.put("traderName", txtTraderName.getText().toString().trim());
+                        payload.put("emailId", txtTraderEmail.getText().toString().trim());
+                        payload.put("city", txtTraderCity.getText().toString().trim());
+                        payload.put("contactNo", txtContactNo.getText().toString().trim());
+                        payload.put("traderState", txtTraderState.getText().toString().trim());
+                        payload.put("traderPinCode", txtTraderPinCode.getText().toString().trim());
                         payload.put("whAdminId", session.getFromSession("wh_id"));
-                        payload.put("traderAddress", txtTraderAddress.getText().toString());
+                        payload.put("traderAddress", txtTraderAddress.getText().toString().trim());
 
                         Log.i("JSON", payload.toString());
                         DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -155,7 +155,7 @@ public class WarehouseTraderForm extends AppCompatActivity implements View.OnCli
             FieldsValidator.setError(txtTraderEmail, StaticConstants.ERROR_ADD_TRADER_EMAIL_MSG);
             return true;
         }
-        if (!FieldsValidator.isValidEmail(txtTraderEmail.getText().toString())) {
+        if (!FieldsValidator.isValidEmail(txtTraderEmail.getText().toString().trim())) {
             FieldsValidator.setError(txtTraderEmail, StaticConstants.ERROR_VALID_TRADER_EMAIL_MSG);
             return true;
         }

@@ -61,16 +61,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUserName = (EditText) findViewById(R.id.txtUserName);
         txtPassword = (EditText) findViewById(R.id.txtUserPassword);
-        btnCancel = (Button) findViewById(R.id.btnCancel);
-        attemptText = (TextView) findViewById(R.id.textView2);
+       // btnCancel = (Button) findViewById(R.id.btnCancel);
+        //attemptText = (TextView) findViewById(R.id.textView2);
         initViews();
     }
 
     private void initViews() {
         btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
-        btnCancel = findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(this);
+  //      btnCancel = findViewById(R.id.btnCancel);
+//        btnCancel.setOnClickListener(this);
         addListenerOnSpinnerItemSelection();
     }
 
@@ -94,19 +94,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     txtUserName.setVisibility(View.VISIBLE);
                     txtPassword.setBackgroundColor(Color.RED);
                     counter--;
-                    attemptText.setVisibility(View.VISIBLE);
-                    attemptText.setText("Attempts Left: " + counter);
+               //     attemptText.setVisibility(View.VISIBLE);
+                 //   attemptText.setText("Attempts Left: " + counter);
 //                    if (counter == 0) {
 //                        btnLogin.setEnabled(false);
 //                    }
                 }
                 break;
-            case R.id.btnCancel:
-                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-                homeIntent.addCategory(Intent.CATEGORY_HOME);
-                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(homeIntent);
-                break;
+//            case R.id.btnCancel:
+//                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+//                homeIntent.addCategory(Intent.CATEGORY_HOME);
+//                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(homeIntent);
+//                break;
         }
     }
 
@@ -130,8 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String loginId = txtUserName.getText().toString();
-                    String password = txtPassword.getText().toString();
+                    String loginId = txtUserName.getText().toString().trim();
+                    String password = txtPassword.getText().toString().trim();
 
                     if (cmbUserTypes.getSelectedItem().toString().equals("Admin")) {
                         userType = StaticConstants.WH_ADMIN;
@@ -194,6 +194,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         conn.disconnect();
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),
+                                "Unable to Connect to Server",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             });

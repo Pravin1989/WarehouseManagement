@@ -12,7 +12,7 @@ public class HttpUtils {
     public static final String BASE_URL = "http://192.169.219.23:8096/Warehouse";//Sandip Server
     private static final String TAG = "HttpUtil";
 
-    public static HttpURLConnection connectionPost, connectionGet;
+    public static HttpURLConnection connectionPost, connectionGet, connectionDelete;
 
     public static HttpURLConnection getPostConnection(String urlAdress) {
 
@@ -44,6 +44,24 @@ public class HttpUtils {
             e.printStackTrace();
         }
         return connectionGet;
+    }
+
+    public static HttpURLConnection getDeleteConnection(String urlAdress) {
+
+        try {
+            URL url = new URL(getAbsoluteUrl(urlAdress));
+            Log.i(TAG + " DELETE ", String.valueOf(urlAdress));
+            connectionDelete = (HttpURLConnection) url.openConnection();
+            connectionDelete.setRequestMethod("DELETE");
+            connectionDelete.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            connectionDelete.setRequestProperty("Accept", "application/json");
+            connectionDelete.setDoOutput(true);
+            connectionDelete.setDoInput(true);
+            connectionDelete.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return connectionDelete;
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

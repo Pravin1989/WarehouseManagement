@@ -119,6 +119,9 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
                 session.clearSession();
                 clearSession();
                 startActivity(new Intent(this, MainActivity.class));
+                break;
+            case R.id.nav_removeItem:
+                startActivity(new Intent(this, WarehouseAdminRemoveItemActivity.class));
         }
     }
 

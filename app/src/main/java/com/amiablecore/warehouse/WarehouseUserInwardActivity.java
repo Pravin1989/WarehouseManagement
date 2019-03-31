@@ -105,31 +105,22 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     private void keepInwardDetailsToDb() {
-        Log.i("Lot Name : ", txtLotName.getText().toString());
-        Log.i("Trader Name : ", txtSelectedTrader.getText().toString());
-        Log.i("Commodity Name : ", cmbCommodity.getSelectedItem().toString());
-        Log.i("Category Name : ", cmbCategory.getSelectedItem().toString());
-        Log.i("Total Weight : ", txtTotalWeight.getText().toString());
-        Log.i("Total Quantity : ", txtTotalQuantity.getText().toString());
-        Log.i("Weight/Bag : ", txtBagWeight.getText().toString());
-        Log.i("Inward Date : ", txtInwardDate.getText().toString());
-        Log.i("Physical Address : ", txtPhysicalAddress.getText().toString());
         inward = new Inward();
-        inward.setTraderId(tradersMap.get(txtSelectedTrader.getText().toString()));
-        inward.setLotName(txtLotName.getText().toString());
-        inward.setCommodityId(commoditiesMap.get(cmbCommodity.getSelectedItem().toString()));
-        inward.setCategoryId(categoriesMap.get(cmbCategory.getSelectedItem().toString()));
-        if (txtTotalWeight.getText().toString().length() != 0)
-            inward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString()));
-        inward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString()));
-        inward.setWeightPerBag(Double.parseDouble(txtBagWeight.getText().toString()));
-        inward.setInwardDate(txtInwardDate.getText().toString());
-        inward.setPhysicalAddress(txtPhysicalAddress.getText().toString());
+        inward.setTraderId(tradersMap.get(txtSelectedTrader.getText().toString().trim()));
+        inward.setLotName(txtLotName.getText().toString().trim());
+        inward.setCommodityId(commoditiesMap.get(cmbCommodity.getSelectedItem().toString().trim()));
+        inward.setCategoryId(categoriesMap.get(cmbCategory.getSelectedItem().toString().trim()));
+        if (txtTotalWeight.getText().toString().trim().length() != 0)
+            inward.setTotalWeight(Double.parseDouble(txtTotalWeight.getText().toString().trim()));
+        inward.setTotalQuantity(Integer.parseInt(txtTotalQuantity.getText().toString().trim()));
+        inward.setWeightPerBag(Double.parseDouble(txtBagWeight.getText().toString().trim()));
+        inward.setInwardDate(txtInwardDate.getText().toString().trim());
+        inward.setPhysicalAddress(txtPhysicalAddress.getText().toString().trim());
         inward.setWhAdminId(Integer.parseInt(session.getFromSession("wh_id")));
         inward.setWhUserId(Integer.parseInt(session.getFromSession("whUser_id")));
-        inward.setUnit(cmbUnits.getSelectedItem().toString());
-        inward.setGrade(cmbGrade.getSelectedItem().toString());
-        inward.setVehicleNo(txtVehicleNo.getText().toString());
+        inward.setUnit(cmbUnits.getSelectedItem().toString().trim());
+        inward.setGrade(cmbGrade.getSelectedItem().toString().trim());
+        inward.setVehicleNo(txtVehicleNo.getText().toString().trim());
         inwardDone = false;
         storeInwardDataToDB();
         if (inwardDone) {
@@ -223,8 +214,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         Log.i("Commodity  ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_ITEM));
         Log.i("Category ", String.valueOf(parent.getItemAtPosition(0).toString() == StaticConstants.SELECT_CATEGORY));
-        if (parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_CATEGORY) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_ITEM) ||
-                parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_TRADER) || parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_UNIT)) {
+        if (parent.getItemAtPosition(pos).toString().trim().equals(StaticConstants.SELECT_CATEGORY) || parent.getItemAtPosition(pos).toString().trim().equals(StaticConstants.SELECT_ITEM) ||
+                parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_TRADER) || parent.getItemAtPosition(pos).toString().trim().equals(StaticConstants.SELECT_UNIT)) {
             return;
         }
         if (parent.getItemAtPosition(0).toString().equals(StaticConstants.SELECT_ITEM)) {
@@ -298,8 +289,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             commoditiesMap = new HashMap<>();
                             int j = 1;
                             for (int i = 0; i < obj.length(); i++) {
-                                commodities[j] = obj.getJSONObject(i).get("commodityName").toString();
-                                commoditiesMap.put(commodities[j], Integer.parseInt(obj.getJSONObject(i).get("commodityId").toString()));
+                                commodities[j] = obj.getJSONObject(i).get("commodityName").toString().trim();
+                                commoditiesMap.put(commodities[j], Integer.parseInt(obj.getJSONObject(i).get("commodityId").toString().trim()));
                                 j++;
                             }
                             Log.i("Comm Length:", String.valueOf(commodities.length));
@@ -330,7 +321,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlAdress = "/category/retrieveCategories/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString());
+                    String urlAdress = "/category/retrieveCategories/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString().trim());
                     try {
                         HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
 
@@ -442,7 +433,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlAdress = "/retrieve/grades/";
+                    String urlAdress = "/retrieve/grades/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString().trim());
                     try {
                         HttpURLConnection conn = HttpUtils.getGetConnection(urlAdress);
 
@@ -521,8 +512,8 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                             tradersMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
                                 Trader trader = new Trader();
-                                trader.setTraderName(obj.getJSONObject(i).get("traderName").toString());
-                                tradersMap.put(obj.getJSONObject(i).get("traderName").toString(), Integer.parseInt(obj.getJSONObject(i).get("traderId").toString()));
+                                trader.setTraderName(obj.getJSONObject(i).get("traderName").toString().trim());
+                                tradersMap.put(obj.getJSONObject(i).get("traderName").toString().trim(), Integer.parseInt(obj.getJSONObject(i).get("traderId").toString().trim()));
                                 traderList.add(trader);
                             }
                         }

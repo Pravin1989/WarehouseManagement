@@ -77,7 +77,7 @@ public class WarehouseInCompleteInwardActivity extends AppCompatActivity impleme
                     break;
                 }
                 inwardUpdated = false;
-                totalWeight = Double.parseDouble(txtTotalWeightInward.getText().toString());
+                totalWeight = Double.parseDouble(txtTotalWeightInward.getText().toString().trim());
                 updateInCompleteInwardLot();
                 if (inwardUpdated) {
                     startActivity(new Intent(this, WarehouseInCompleteActivity.class));
@@ -124,7 +124,7 @@ public class WarehouseInCompleteInwardActivity extends AppCompatActivity impleme
                             int j = 1;
                             inwardLotMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
-                                outwardLotList[j] = obj.getJSONObject(i).get("lotName").toString();
+                                outwardLotList[j] = obj.getJSONObject(i).get("lotName").toString().trim();
                                 inwardLotMap.put(outwardLotList[j], Integer.parseInt(obj.getJSONObject(i).get("inwardId").toString()));
                                 j++;
                             }
@@ -151,7 +151,7 @@ public class WarehouseInCompleteInwardActivity extends AppCompatActivity impleme
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_INWARD)) {
-            inwardId = inwardLotMap.get(parent.getItemAtPosition(pos).toString());
+            inwardId = inwardLotMap.get(parent.getItemAtPosition(pos).toString().trim());
         }
     }
 

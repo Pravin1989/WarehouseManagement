@@ -71,8 +71,11 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
                 if (addCommodity()) {
                     Toast.makeText(getApplicationContext(),
                             "Item is added...", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Item is already present...", Toast.LENGTH_SHORT).show();
                 }
+                startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 break;
             case R.id.btnCancelCommodity:
                 startActivity(new Intent(WarehouseCommodityForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
@@ -90,7 +93,7 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
                         HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
-                        payload.put("commodityName", txtCommodityName.getText().toString());
+                        payload.put("commodityName", txtCommodityName.getText().toString().trim());
                         payload.put("whAdminId", session.getFromSession("wh_id"));
 
                         Log.i("JSON", payload.toString());
@@ -118,9 +121,13 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            Log.i("Response : ", answer.toString());
-                            commodityAdded = true;
+                            Log.i("Response Add : ", answer.toString());
                             JSONObject obj = new JSONObject(answer.toString());
+                            if (Boolean.parseBoolean(obj.get("alreadyPresent").toString())) {
+                                commodityAdded = false;
+                            } else {
+                                commodityAdded = true;
+                            }
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -193,14 +200,5 @@ public class WarehouseCommodityForm extends AppCompatActivity implements View.On
         } else {
             lblAvailableCommodities.setVisibility(View.INVISIBLE);
         }
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int position, long id) {
-//                Toast.makeText(getApplicationContext(),
-//                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
-//                        .show();
-//            }
-//        });
     }
 }

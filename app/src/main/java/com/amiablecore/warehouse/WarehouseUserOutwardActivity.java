@@ -332,8 +332,8 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                             inwardMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
                                 Inward inward = new Inward();
-                                inward.setLotName(obj.getJSONObject(i).get("lotName").toString());
-                                inwardMap.put(obj.getJSONObject(i).get("lotName").toString(), Integer.parseInt(obj.getJSONObject(i).get("inwardId").toString()));
+                                inward.setLotName(obj.getJSONObject(i).get("lotName").toString().trim());
+                                inwardMap.put(obj.getJSONObject(i).get("lotName").toString().trim(), Integer.parseInt(obj.getJSONObject(i).get("inwardId").toString()));
                                 inwardList.add(inward);
                             }
                         }
@@ -381,20 +381,20 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
                             Log.i("Response :", answer.toString());
                             JSONObject obj = new JSONObject(answer.toString());
                             inward = new Inward();
-                            inward.setTraderId(Integer.parseInt(obj.get("traderId").toString()));
-                            inward.setInwardId(Integer.parseInt(obj.get("inwardId").toString()));
-                            inward.setLotName(obj.get("lotName").toString());
-                            inward.setTotalQuantity(Integer.parseInt(obj.get("totalQuantity").toString()));
-                            inward.setWeightPerBag(Double.parseDouble(obj.get("weightPerBag").toString()));
-                            inward.setTotalWeight(Double.parseDouble(obj.get("totalWeight").toString()));
-                            inward.setUnit(obj.get("unit").toString());
-                            inward.setGrade(obj.get("grade").toString());
-                            inward.setVehicleNo(obj.get("vehicleNo").toString());
-                            inward.setPhysicalAddress(obj.get("physicalAddress").toString());
-                            inward.setCommodityId(Integer.parseInt(obj.get("commodityId").toString()));
-                            inward.setCommodityName(obj.get("commodityName").toString());
-                            inward.setCategoryId(Integer.parseInt(obj.get("categoryId").toString()));
-                            inward.setCategoryName(obj.get("categoryName").toString());
+                            inward.setTraderId(Integer.parseInt(obj.get("traderId").toString().trim()));
+                            inward.setInwardId(Integer.parseInt(obj.get("inwardId").toString().trim()));
+                            inward.setLotName(obj.get("lotName").toString().trim());
+                            inward.setTotalQuantity(Integer.parseInt(obj.get("totalQuantity").toString().trim()));
+                            inward.setWeightPerBag(Double.parseDouble(obj.get("weightPerBag").toString().trim()));
+                            inward.setTotalWeight(Double.parseDouble(obj.get("totalWeight").toString().trim()));
+                            inward.setUnit(obj.get("unit").toString().trim());
+                            inward.setGrade(obj.get("grade").toString().trim());
+                            inward.setVehicleNo(obj.get("vehicleNo").toString().trim());
+                            inward.setPhysicalAddress(obj.get("physicalAddress").toString().trim());
+                            inward.setCommodityId(Integer.parseInt(obj.get("commodityId").toString().trim()));
+                            inward.setCommodityName(obj.get("commodityName").toString().trim());
+                            inward.setCategoryId(Integer.parseInt(obj.get("categoryId").toString().trim()));
+                            inward.setCategoryName(obj.get("categoryName").toString().trim());
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -410,15 +410,15 @@ public class WarehouseUserOutwardActivity extends AppCompatActivity implements V
     }
 
     public void autoFillSelectedLotDetails(Inward inward) {
-        txtTotalQuantity.setText(inward.getTotalQuantity().toString());
-        txtBagWeight.setText(inward.getWeightPerBag().toString());
-        txtTotalWeight.setText(inward.getTotalWeight().toString());
-        txtUnit.setText(inward.getUnit().toString());
+        txtTotalQuantity.setText(inward.getTotalQuantity().toString().trim());
+        txtBagWeight.setText(inward.getWeightPerBag().toString().trim());
+        txtTotalWeight.setText(inward.getTotalWeight().toString().trim());
+        txtUnit.setText(inward.getUnit().toString().trim());
         txtGrade.setText(inward.getGrade());
         txtVehicleNo.setText(inward.getVehicleNo());
         txtPhysicalAddress.setText(inward.getPhysicalAddress());
-        txtCommodity.setText(inward.getCommodityName().toString());
-        txtCategory.setText(inward.getCategoryName().toString());
+        txtCommodity.setText(inward.getCommodityName().toString().trim());
+        txtCategory.setText(inward.getCategoryName().toString().trim());
         backupInward = new Inward();
         backupInward.setTotalWeight(inward.getTotalWeight());
         backupInward.setTotalQuantity(inward.getTotalQuantity());

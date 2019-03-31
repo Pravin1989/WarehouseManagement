@@ -83,8 +83,11 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
                 if (addGrade()) {
                     Toast.makeText(getApplicationContext(),
                             "Grade is added...", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(WarehouseGradeForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Grade is already present...", Toast.LENGTH_SHORT).show();
                 }
+                startActivity(new Intent(WarehouseGradeForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
                 break;
             case R.id.btnCancelGrade:
                 startActivity(new Intent(WarehouseGradeForm.this, WarehouseAdminItemActivity.class));//Redirect to Admin Dashboard Page
@@ -96,7 +99,7 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
         Log.i("Selected  : ", parent.getItemAtPosition(pos).toString());
         lblAvailableGrades.setVisibility(View.INVISIBLE);
         if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_ITEM)) {
-            commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString());
+            commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString().trim());
             retrievedGrades();
             showAvailableGrades();
         }
@@ -171,12 +174,12 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String urlAdress = "/grade/add/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString());
+                    String urlAdress = "/grade/add/" + commoditiesMap.get(cmbCommodity.getSelectedItem().toString().trim());
                     try {
                         HttpURLConnection conn = HttpUtils.getPostConnection(urlAdress);
 
                         JSONObject payload = new JSONObject();
-                        payload.put("gradeName", txtGradeName.getText().toString());
+                        payload.put("gradeName", txtGradeName.getText().toString().trim());
                         payload.put("whAdminId", session.getFromSession("wh_id"));
 
                         Log.i("JSON", payload.toString());
@@ -207,6 +210,11 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
                             Log.i(TAG, answer.toString());
                             gradeAdded = true;
                             JSONObject obj = new JSONObject(answer.toString());
+                            if (Boolean.parseBoolean(obj.get("alreadyPresent").toString())) {
+                                gradeAdded = false;
+                            } else {
+                                gradeAdded = true;
+                            }
                         }
                         conn.disconnect();
                     } catch (Exception e) {

@@ -76,7 +76,7 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
                     break;
                 }
                 outwardUpdated = false;
-                outward.setTotalWeight(Double.parseDouble(txtTotalWeightOutward.getText().toString()));
+                outward.setTotalWeight(Double.parseDouble(txtTotalWeightOutward.getText().toString().trim()));
                 updateOutwardDataToDB();
                 if (outwardUpdated) {
                     Toast.makeText(getApplicationContext(),
@@ -127,14 +127,14 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
                             outwardLotMap = new HashMap<>();
                             outwardListMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {
-                                String lotName = obj.getJSONObject(i).get("lotName").toString();
-                                Integer inwardId = Integer.parseInt(obj.getJSONObject(i).get("inwardId").toString());
-                                Integer outwardId = Integer.parseInt(obj.getJSONObject(i).get("outwardId").toString());
-                                Integer totalQuantity = Integer.parseInt(obj.getJSONObject(i).get("totalQuantity").toString());
-                                Double totalWeight = Double.parseDouble(obj.getJSONObject(i).get("totalWeight").toString());
+                                String lotName = obj.getJSONObject(i).get("lotName").toString().trim();
+                                Integer inwardId = Integer.parseInt(obj.getJSONObject(i).get("inwardId").toString().trim());
+                                Integer outwardId = Integer.parseInt(obj.getJSONObject(i).get("outwardId").toString().trim());
+                                Integer totalQuantity = Integer.parseInt(obj.getJSONObject(i).get("totalQuantity").toString().trim());
+                                Double totalWeight = Double.parseDouble(obj.getJSONObject(i).get("totalWeight").toString().trim());
                                 outwardLotList[j] = lotName;
-                                outwardLotMap.put(outwardLotList[j], Integer.parseInt(obj.getJSONObject(i).get("outwardId").toString()));
-                                outwardListMap.put(obj.getJSONObject(i).get("lotName").toString(), new Outward(outwardId, inwardId, totalQuantity, totalWeight, lotName));
+                                outwardLotMap.put(outwardLotList[j], Integer.parseInt(obj.getJSONObject(i).get("outwardId").toString().trim()));
+                                outwardListMap.put(obj.getJSONObject(i).get("lotName").toString().trim(), new Outward(outwardId, inwardId, totalQuantity, totalWeight, lotName));
                                 j++;
                             }
                             updateOutwardList(outwardLotList);
