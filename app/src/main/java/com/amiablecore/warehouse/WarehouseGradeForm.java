@@ -98,7 +98,7 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         Log.i("Selected  : ", parent.getItemAtPosition(pos).toString());
         lblAvailableGrades.setVisibility(View.INVISIBLE);
-        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_ITEM)) {
+        if (!parent.getItemAtPosition(pos).toString().equals(StaticConstants.SELECT_GRADE)) {
             commodityId = commoditiesMap.get(parent.getItemAtPosition(pos).toString().trim());
             retrievedGrades();
             showAvailableGrades();
@@ -140,7 +140,7 @@ public class WarehouseGradeForm extends AppCompatActivity implements View.OnClic
                             JSONArray obj = new JSONArray(answer.toString());
                             Log.i(TAG, obj.toString());
                             String[] commoditiesList = new String[obj.length() + 1];
-                            commoditiesList[0] = StaticConstants.SELECT_ITEM;
+                            commoditiesList[0] = StaticConstants.SELECT_GRADE;
                             int j = 1;
                             commoditiesMap = new HashMap<>();
                             for (int i = 0; i < obj.length(); i++) {

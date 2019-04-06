@@ -2,6 +2,7 @@ package com.amiablecore.warehouse;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,7 +23,7 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
     private DrawerLayout mDrawerLayout;
     private static final String TAG = "Warehouse Admin : ";
     private Session session;//global variable
-
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,6 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
     public void redirectToLogin(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_logout:
-                session.clearSession();
                 clearSession();
                 startActivity(new Intent(this, MainActivity.class));
                 break;
@@ -126,12 +126,33 @@ public class WarehouseAdminActivity extends AppCompatActivity implements View.On
     }
 
     public void clearSession() {
+        session.clearSession();
         Intent i = getApplicationContext().getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
+        i.addCategory(Intent.CATEGORY_HOME);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //i.addCategory(Intent.CATEGORY_HOME);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            clearSession();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
 }

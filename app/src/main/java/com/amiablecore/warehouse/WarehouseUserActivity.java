@@ -2,6 +2,7 @@ package com.amiablecore.warehouse;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,6 +22,7 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
     private DrawerLayout mDrawerLayout;
     private Session session;//global variable
     private static final String TAG = "WarehouseUserActivity";
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,18 +116,38 @@ public class WarehouseUserActivity extends AppCompatActivity implements View.OnC
     public void redirectToLoginPage(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.nav_logout:
-                session.clearSession();
                 clearSession();
                 startActivity(new Intent(this, MainActivity.class));
         }
     }
 
     public void clearSession() {
+        session.clearSession();
         Intent i = getApplicationContext().getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
+        i.addCategory(Intent.CATEGORY_HOME);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        //i.addCategory(Intent.CATEGORY_HOME);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            clearSession();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 }

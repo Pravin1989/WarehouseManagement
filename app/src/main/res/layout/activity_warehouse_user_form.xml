@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/background"
     tools:context="com.amiablecore.warehouse.WarehouseAdminActivity">
 
     <LinearLayout
@@ -47,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Contact No"
                 android:inputType="number"
-                android:maxLength="10"/>
+                android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -81,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:maxLength="8"/>
+                android:maxLength="8" />
 
         </android.support.design.widget.TextInputLayout>
 
