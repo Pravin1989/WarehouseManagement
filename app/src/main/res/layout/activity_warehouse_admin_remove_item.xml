@@ -1,88 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/background"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     tools:context="com.amiablecore.warehouse.WarehouseAdminActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/lightBlue"
-        android:text="Remove Item/Category/Grade"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:entries="@array/commodity_arrays">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@color/deeppurple"
+            android:text="Remove Item/Category/Grade"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/cmbItemRemove"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:color="#f21919"
-            android:prompt="@string/commodity_prompt" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:entries="@array/commodity_arrays">
 
-    <Button
-        android:id="@+id/btnRemoveItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="Remove Item" />
+            <Spinner
+                android:id="@+id/cmbItemRemove"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:color="#f21919"
+                android:prompt="@string/commodity_prompt" />
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:entries="@array/commodity_arrays">
+        <Button
+            android:id="@+id/btnRemoveItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Remove Item" />
 
-        <Spinner
-            android:id="@+id/cmbCategoryRemove"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:color="#f21919"
-            android:prompt="@string/commodity_prompt" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:entries="@array/commodity_arrays">
 
-    <Button
-        android:id="@+id/btnRemoveCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="Remove Category" />
+            <Spinner
+                android:id="@+id/cmbCategoryRemove"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:color="#f21919"
+                android:prompt="@string/commodity_prompt" />
+        </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:entries="@array/commodity_arrays">
+        <Button
+            android:id="@+id/btnRemoveCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Remove Category" />
 
-        <Spinner
-            android:id="@+id/cmbGradeRemove"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:color="#f21919"
-            android:prompt="@string/commodity_prompt" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:entries="@array/commodity_arrays">
 
-    <Button
-        android:id="@+id/btnRemoveGrade"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Remove Grade" />
+            <Spinner
+                android:id="@+id/cmbGradeRemove"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:color="#f21919"
+                android:prompt="@string/commodity_prompt" />
+        </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnCancelRemoveItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancel" />
+        <Button
+            android:id="@+id/btnRemoveGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Remove Grade" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnCancelRemoveItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Cancel" />
+
+    </LinearLayout>
+</ScrollView>

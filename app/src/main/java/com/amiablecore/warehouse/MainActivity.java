@@ -2,11 +2,16 @@ package com.amiablecore.warehouse;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,11 +30,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private Button btnLogin, btnCancel;
     private Spinner cmbUserTypes;
+    TextView companyLink;
     private EditText txtUserName, txtPassword;
     private static final String TAG = "Warehouse Main";
     private boolean userPresent;
@@ -61,17 +70,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUserName = (EditText) findViewById(R.id.txtUserName);
         txtPassword = (EditText) findViewById(R.id.txtUserPassword);
-       // btnCancel = (Button) findViewById(R.id.btnCancel);
-        //attemptText = (TextView) findViewById(R.id.textView2);
+        btnCancel = (Button) findViewById(R.id.btnCancel);
+        attemptText = (TextView) findViewById(R.id.textView2);
+        companyLink = (TextView) findViewById(R.id.lblCompanyLink);
         initViews();
     }
 
     private void initViews() {
         btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
-  //      btnCancel = findViewById(R.id.btnCancel);
-//        btnCancel.setOnClickListener(this);
+        btnCancel = findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(this);
         addListenerOnSpinnerItemSelection();
+        String text = "<a href='http://www.google.com'> Google </a>";
+        //companyLink.setMovementMethod(LinkMovementMethod.getInstance());
+        //companyLink.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT));
     }
 
     @Override
@@ -93,20 +106,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT).show();
                     txtUserName.setVisibility(View.VISIBLE);
                     txtPassword.setBackgroundColor(Color.RED);
-                    counter--;
-               //     attemptText.setVisibility(View.VISIBLE);
-                 //   attemptText.setText("Attempts Left: " + counter);
+                    //counter--;
+                    //attemptText.setVisibility(View.VISIBLE);
+                    // attemptText.setText("Attempts Left: " + counter);
 //                    if (counter == 0) {
 //                        btnLogin.setEnabled(false);
 //                    }
                 }
                 break;
-//            case R.id.btnCancel:
-//                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-//                homeIntent.addCategory(Intent.CATEGORY_HOME);
-//                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(homeIntent);
-//                break;
+            case R.id.btnCancel:
+                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                homeIntent.addCategory(Intent.CATEGORY_HOME);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(homeIntent);
+                break;
         }
     }
 
@@ -123,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void addListenerOnSpinnerItemSelection() {
         cmbUserTypes = (Spinner) findViewById(R.id.cmbUserTypes);
         cmbUserTypes.setOnItemSelectedListener(this);
+        List<String> list = new ArrayList<>(Arrays.asList("Admin", "Warehouse User"));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cmbUserTypes.setAdapter(adapter);
     }
 
     private boolean verifyUserCredentials() {

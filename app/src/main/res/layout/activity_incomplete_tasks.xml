@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     tools:context="com.amiablecore.warehouse.WarehouseUserActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,7 +11,6 @@
         android:id="@+id/wa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fcfcfc"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="10dp"
@@ -118,7 +118,10 @@
                 android:id="@+id/btnInCompleteCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/my_button_bg"
+                android:text="Back" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

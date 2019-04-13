@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFC107</color>
-    <color name="colorPrimaryDark">#FFA000</color>
+    <color name="colorPrimary">#070110</color>
+    <color name="colorPrimaryDark">#f1ac3c</color>
     <color name="backgroundcolor">#fcfcfc</color>
     <color name="lightgray">#ededed</color>
-    <color name="deeppurple">#7c4dff</color>
+    <color name="deeppurple">#c44dff</color>
     <color name="yello">#ffb300</color>
     <color name="green">#00bfa5</color>
     <color name="colorAccent">#FF4081</color>
     <color name="darkblue">#23283a</color>
     <color name="testcolorblue">#152b38</color>
     <color name="pink">#fe104d</color>
-    <color name="my_orange">#FFA500</color>
+    <color name="my_orange">#031417</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="lightBlue">#ADD8E6</color>
-    <color name="indigo">#4B0082</color>
+    <color name="blue">#204ca4</color>
 </resources>

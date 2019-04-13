@@ -173,7 +173,7 @@ public class WarehouseAdminRemoveItemActivity extends AppCompatActivity implemen
     }
 
     public void updateItems(String[] list) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbItems.setAdapter(adapter);
     }
@@ -293,7 +293,7 @@ public class WarehouseAdminRemoveItemActivity extends AppCompatActivity implemen
     }
 
     public void updateCategories(String[] list) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbCategory.setAdapter(adapter);
     }
@@ -413,7 +413,7 @@ public class WarehouseAdminRemoveItemActivity extends AppCompatActivity implemen
     }
 
     public void updateGrades(String[] list) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbGrade.setAdapter(adapter);
     }

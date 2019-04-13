@@ -55,7 +55,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     private ListView listView;
     private String searchQuery;
     private Inward inward;
-    private boolean inwardDone;
+    private boolean inwardDone = false;
     private List<String> unitList;
     private List<String> gradeList;
 
@@ -85,7 +85,6 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         addListenerOnSpinnerItemSelection();
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("Enter Trader Name/ID");
-
     }
 
     @Override
@@ -121,9 +120,11 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
         inward.setUnit(cmbUnits.getSelectedItem().toString().trim());
         inward.setGrade(cmbGrade.getSelectedItem().toString().trim());
         inward.setVehicleNo(txtVehicleNo.getText().toString().trim());
-        inwardDone = false;
         storeInwardDataToDB();
         if (inwardDone) {
+            Toast.makeText(getApplicationContext(),
+                    "Lot Number is already Present...", Toast.LENGTH_SHORT).show();
+        } else {
             showInwardConfirmMessage();
         }
     }
@@ -145,7 +146,25 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
                         Log.i("Request : ", convertInwardToJson().toString());
                         Log.i("STATUS", String.valueOf(conn.getResponseCode()));
                         if (conn.getResponseCode() == 201) {
-                            inwardDone = true;
+                            BufferedReader in = null;
+                            StringBuilder answer = new StringBuilder(100000);
+                            try {
+                                in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String inputLine;
+                            try {
+                                while ((inputLine = in.readLine()) != null) {
+                                    answer.append(inputLine);
+                                    answer.append("\n");
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.i("Response Inward : ", answer.toString());
+                            JSONObject obj = new JSONObject(answer.toString());
+                            inwardDone = Boolean.parseBoolean(obj.get("lotAlreadyPresent").toString());
                         }
                         conn.disconnect();
                     } catch (Exception e) {
@@ -310,7 +329,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void updateCommodities(String[] commoditiesList) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, commoditiesList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, commoditiesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbCommodity.setAdapter(adapter);
     }
@@ -371,7 +390,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
 
     public void updateCategories() {
         Log.i("Categories Length", String.valueOf(categoriesList.length));
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoriesList);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, categoriesList);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbCategory.setAdapter(categoryAdapter);
     }
@@ -422,7 +441,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void updateUnits() {
-        ArrayAdapter<String> unitAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, unitList);
+        ArrayAdapter<String> unitAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, unitList);
         unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbUnits.setAdapter(unitAdapter);
     }
@@ -474,7 +493,7 @@ public class WarehouseUserInwardActivity extends AppCompatActivity implements Vi
     }
 
     public void updateGrades() {
-        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gradeList);
+        ArrayAdapter<String> gradeAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, gradeList);
         gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbGrade.setAdapter(gradeAdapter);
     }

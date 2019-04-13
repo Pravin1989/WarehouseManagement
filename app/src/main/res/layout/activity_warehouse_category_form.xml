@@ -1,78 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/background"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     tools:context="com.amiablecore.warehouse.WarehouseAdminActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/lightBlue"
-        android:text="Add Category"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:entries="@array/commodity_arrays">
-
-        <Spinner
-            android:id="@+id/cmbCategoryComodity"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:color="#f21919"
-            android:prompt="@string/commodity_prompt" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        app:hintTextAppearance="@style/HintText">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/txtCategory"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Category Name" />
+            android:layout_alignParentTop="true"
+            android:background="@color/deeppurple"
+            android:text="Add Category"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
-    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:entries="@array/commodity_arrays">
 
-    <Button
-        android:id="@+id/btnAddCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add" />
+            <Spinner
+                android:id="@+id/cmbCategoryComodity"
+                style="@style/spinner_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:color="#f21919"
+                android:prompt="@string/commodity_prompt" />
+        </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnCancelCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancel" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
 
-    <TextView
-        android:id="@+id/lblAvailableCategories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="Available Categories"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtCategory"
+                style="@style/InputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category Name"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:singleLine="true" />
 
-    <ListView
-        android:id="@+id/categoriesListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:scrollbars="vertical" />
-</LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnAddCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Add" />
+
+        <Button
+            android:id="@+id/btnCancelCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Cancel" />
+
+        <TextView
+            android:id="@+id/lblAvailableCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Available Categories"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/categoriesListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+</ScrollView>

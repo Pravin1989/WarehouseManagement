@@ -2,7 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.amiablecore.warehouse">
 
-
+    <supports-screens>
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"
+    </supports-screens>
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -22,7 +29,7 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.DayNight">
+        android:theme="@style/Theme.AppCompat.Light">
         <activity android:name="com.amiablecore.warehouse.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,8 +68,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-
     </application>
 
 </manifest>

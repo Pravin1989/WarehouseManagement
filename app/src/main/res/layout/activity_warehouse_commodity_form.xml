@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/background"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
     tools:context="com.amiablecore.warehouse.WarehouseAdminActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/lightBlue"
-        android:text="Add Item"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        app:hintTextAppearance="@style/HintText">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/txtCommodity"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Item Name" />
+            android:layout_alignParentTop="true"
+            android:background="@color/deeppurple"
+            android:text="Add Item"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
-    </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            app:hintTextAppearance="@style/HintText">
 
-    <Button
-        android:id="@+id/btnAddCommodity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txtCommodity"
+                style="@style/InputText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Item Name"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:singleLine="true" />
 
-    <Button
-        android:id="@+id/btnCancelCommodity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancel" />
+        </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:id="@+id/lblAvailableCommodities"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="Available Items"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnAddCommodity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Add" />
 
-    <ListView
-        android:id="@+id/commodityListView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:scrollbars="vertical" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btnCancelCommodity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/my_button_bg"
+            android:text="Cancel" />
 
+        <TextView
+            android:id="@+id/lblAvailableCommodities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Available Items"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/commodityListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+</ScrollView>

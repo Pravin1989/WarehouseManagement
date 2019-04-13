@@ -153,7 +153,7 @@ public class WarehouseInCompleteOutwardActivity extends AppCompatActivity implem
     }
 
     public void updateOutwardList(String[] list) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item_text, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbOutward.setAdapter(adapter);
     }

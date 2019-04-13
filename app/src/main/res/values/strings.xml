@@ -17,44 +17,29 @@
     <string name="slideshow">Slideshow</string>
     <string name="gallery">Gallery</string>
     <string name="imports">Import</string>
-    <string-array name="user_arrays">
-        <item>Admin</item>
-        <item>Warehouse User</item>
-    </string-array>
     <string-array name="lot_arrays">
-        <item>Lot 1</item>
-        <item>Lot 2</item>
-        <item>Lot 3</item>
+        <item>Choose Lot</item>
     </string-array>
     <string-array name="trader_arrays">
-        <item>Trader 1</item>
-        <item>Trader 2</item>
-        <item>Trader 3</item>
+        <item>Choose Trader</item>
     </string-array>
     <string-array name="commodity_arrays">
-        <item>Item 1</item>
-        <item>Item 2</item>
+        <item>Choose Item</item>
     </string-array>
     <string-array name="inward_arrays">
         <item>Inward 1</item>
-        <item>Inward 2</item>
     </string-array>
     <string-array name="outward_arrays">
         <item>Outward 1</item>
-        <item>Outward 2</item>
     </string-array>
     <string-array name="category_arrays">
-        <item>Category 1</item>
-        <item>Category 2</item>
-        <item>Category 3</item>
+        <item>Select Category....</item>
     </string-array>
 
     <string-array name="grades_arrays">
-        <item>Grade 1</item>
-        <item>Grade 2</item>
+        <item>Select Grade....</item>
     </string-array>
     <string-array name="units_arrays">
-        <item>Unit 1</item>
-        <item>Unit 2</item>
+        <item>Select Unit....</item>
     </string-array>
 </resources>

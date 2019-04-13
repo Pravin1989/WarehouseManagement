@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg1"
     android:orientation="vertical"
-    android:background="@drawable/background"
     tools:context="com.amiablecore.warehouse.WarehouseUserActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/lightBlue"
+        android:background="@color/deeppurple"
         android:text="Outward"
         android:textAlignment="center"
         android:textSize="30dp"
@@ -57,9 +57,13 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/selectedLot"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Selected Lot" />
+                    android:hint="Selected Lot"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -71,9 +75,30 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/unit"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Selected Unit" />
+                    android:hint="Selected Unit"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:id="@+id/lblTotalAvlQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:textAlignment="viewStart"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -85,10 +110,14 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/txtTotalQuantity"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Total Quantity"
-                    android:inputType="number" />
+                    android:hint="Total Quantity to Outward"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -100,9 +129,13 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/txtOutwardDate"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Select Outward Date" />
+                    android:hint="Select Outward Date"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -114,10 +147,14 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/txtSingleBagWeight"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Weight/Bag"
-                    android:inputType="numberDecimal" />
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -129,10 +166,14 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/txtTotalWeightOutward"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Total Weight"
-                    android:inputType="numberDecimal" />
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -144,9 +185,13 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/commodityName"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Item" />
+                    android:hint="Item"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -158,9 +203,13 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/categoryName"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Category" />
+                    android:hint="Category"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -172,9 +221,13 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/grade"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Grade" />
+                    android:hint="Grade"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -186,23 +239,13 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/physicalAddress"
+                    style="@style/InputText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Physical Adddress" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_horizontal_margin"
-                app:hintTextAppearance="@style/HintText">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/vehicleNo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Vehicle No" />
+                    android:hint="Physical Adddress"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -210,12 +253,19 @@
                 android:id="@+id/btnSaveOutward"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/my_button_bg"
                 android:text="Save" />
 
             <Button
                 android:id="@+id/btnOutwardCancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/my_button_bg"
                 android:text="Cancel" />
         </LinearLayout>
     </ScrollView>
